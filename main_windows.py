@@ -2,7 +2,7 @@ import sys
 from PyQt5 import QtCore ,QtWidgets ,QtGui 
 from PyQt5.QtWidgets import QMainWindow ,QLabel ,QGridLayout ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QShortcut ,QSizePolicy ,QFileDialog
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtGui import QKeySequence ,QPixmap 
+from PyQt5.QtGui import QKeySequence ,QPixmap
 
 #import ddstable
 #from ddstable import ddstable
@@ -12,7 +12,7 @@ from PIL_picture_program import make_pic_4hand
 
 import re
 
-from bridge_lib import pbn_to_dict
+from porter_bridges import pbn_to_dict
 
 class BridgeWindow(QMainWindow):
     def __init__(self):

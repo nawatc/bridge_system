@@ -1,10 +1,18 @@
 @echo off
+echo.
 
 pip install PyQt5
-pip install ddstable
+echo.
+
+pip install ddstable & echo.
+echo.
 
 
+
+
+echo.
 echo -------- Finish Installing --------
+echo.
 
 pause 
 rem >nul
