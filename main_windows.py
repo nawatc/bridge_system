@@ -1,6 +1,6 @@
 import sys
-from PyQt5 import QtCore ,QtWidgets ,QtGui 
-from PyQt5.QtWidgets import QMainWindow ,QLabel ,QGridLayout ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QShortcut ,QSizePolicy ,QFileDialog
+from PyQt5 import QtWidgets ,QtGui #, QtCore
+from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QShortcut #,QSizePolicy ,QFileDialog ,QGridLayout 
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QKeySequence ,QPixmap
 
@@ -12,7 +12,7 @@ from PIL_picture_program import make_pic_4hand
 
 import re
 
-from porter_bridges import pbn_to_dict
+from porter_bridges.porter_bridges import pbn_to_dict
 
 class BridgeWindow(QMainWindow):
     def __init__(self):
@@ -138,9 +138,8 @@ class MyTableWidget(QWidget):
         self.tab2_text4 = QLabel("Desk Code")
         self.tab2_text5 = QLabel("Sol.")
 
-
         # loading image
-        self.pixmap = QPixmap('result.png')
+        self.pixmap = QPixmap('picture_resource/result_default.png')
 
         # creating label and adding image to label
         self.label_pic = QLabel(self)
@@ -245,36 +244,20 @@ class MyTableWidget(QWidget):
 
 
         #print(all_2)
-
         self.tab2_text5.setText(all_2)
 
 
         # make pic
-
         input_text = self.line_input_desk.text()
-
-        
         input_text = pbn_to_dict(input_text)
-        #print(input_text)
+        make_pic_4hand(input_text)      # create pic of 4 hand of desk
 
-        make_pic_4hand(input_text)
-
-        self.pixmap = QPixmap('result.png')
-        #self.label_pic = QLabel(self)
-        self.label_pic.setPixmap(self.pixmap)
-        #self.browse()
         # loading image
-        """self.pixmap = QPixmap('result_1.png')
-        self.label_pic = QLabel(self)
-        self.label_pic.setPixmap(self.pixmap)"""
+        self.pixmap = QPixmap('picture_resource/result.png')
+        self.label_pic.setPixmap(self.pixmap)
 
 
-    def browse(self):
-        filePath = QtGui.QFileDialog.getOpenFileName(self, 'a file','*.png')
-        fileHandle = open(filePath, 'r')
-        pixmap = QPixmap(filePath)
-        self.label_pic.setPixmap(pixmap)
-        print("Whoa awesome")
+    
 
     def exit():
         sys.exit( app.exec_() )
@@ -309,3 +292,6 @@ if __name__ == "__main__":
 
 
     sys.exit( app.exec_() )
+
+
+    
