@@ -1,34 +1,17 @@
 import argparse
 
+def listad():
+    print("asdasd")
 
+parser = argparse.ArgumentParser(description='Example list of options', add_help=True)
+parser.add_argument('-d', '--delete', dest='command', action='store_const', const='delete', help='Delete ID')
+parser.add_argument('-s', '--search', dest='command', action='store_const', const='search', help='Search ID')
+parser.add_argument('-l', '--list'  , dest='command', action='store_const', const='list', help='List all ID')
+args = parser.parse_args()
 
-class FooAction(argparse.Action):
-    def __init__(self, option_strings, dest, nargs=None, **kwargs):
-        if nargs is not None:
-            raise ValueError("nargs not allowed")
-        super().__init__(option_strings, dest, **kwargs)
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        print('%r %r %r' % (namespace, values, option_string))
-        setattr(namespace, self.dest, values)
-        print("hasdsa")
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--foo', action=FooAction)
-parser.add_argument('bar', action=FooAction)
-
-
-
-
-
-#args = parser.parse_args('1 --foo 2'.split())
-#args = parser.parse_args('bar')
-#args
-
-
-
-
-
-
-
-
+if      args.command == 'delete':
+    print('Run delete')
+elif    args.command == 'search':
+    print('Run search')
+else:
+    print('Run list')

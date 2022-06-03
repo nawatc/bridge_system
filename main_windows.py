@@ -10,7 +10,7 @@ import ddstable_standalone
 
 from PIL_picture_program import make_pic_4hand
 
-import re
+#import re
 
 from porter_bridges.porter_bridges import pbn_to_dict
 
@@ -83,10 +83,7 @@ class MyTableWidget(QWidget):
         # Create Label
 
         #self.tab1_text1 = QLabel("Desk Code : N:Space.Heart.Diamond.Club E:Space.Heart.Diamond.Club S:Space.Heart.Diamond.Club W:Space.Heart.Diamond.Club")
-        """self.tab1_text1 = QLabel('Desk Code : N:<font color="blue">♠</font>.<font color="red">♥</font>.<font color="orange">♦</font>.<font color="green">♣</font> ' +
-        'E:<font color="blue">♠</font>.<font color="red">♥</font>.<font color="orange">♦</font>.<font color="green">♣</font> ' +
-        'S:<font color="blue">♠</font>.<font color="red">♥</font>.<font color="orange">♦</font>.<font color="green">♣</font> ' +
-        'W:<font color="blue">♠</font>.<font color="red">♥</font>.<font color="orange">♦</font>.<font color="green">♣</font> ')"""
+        
 
         #self.tab1_text2 = QLabel("Example Input : N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63")    # Default Text
         self.tab1_text2 = QLabel('Example Input : N:<font color="blue">QJT5432</font>.<font color="red">T</font>.<font color="orange">6</font>.<font color="green">QJ82</font>' +
