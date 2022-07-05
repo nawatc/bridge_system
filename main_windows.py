@@ -1,18 +1,22 @@
 import sys
-from PyQt5 import QtWidgets ,QtGui #, QtCore
-from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QShortcut #,QSizePolicy ,QFileDialog ,QGridLayout 
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtGui import QKeySequence ,QPixmap
+from PyQt5 import QtWidgets ,QtGui #,QtCore
+from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QShortcut #,QTextEdit  #,QSizePolicy ,QFileDialog ,QGridLayout 
+from PyQt5.QtCore    import pyqtSlot
+from PyQt5.QtGui     import QKeySequence ,QPixmap ,QColor
 
-#import ddstable
-#from ddstable import ddstable
-import ddstable_standalone
+
+import ddstable_standalone as ddstable_standalone
+
 
 from PIL_picture_program import make_pic_4hand
 
-#import re
 
-from porter_bridges.porter_bridges import pbn_to_dict
+from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn ,text_to_pbn_check
+from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
+
+
+
+
 
 class BridgeWindow(QMainWindow):
     def __init__(self):
@@ -83,24 +87,89 @@ class MyTableWidget(QWidget):
         # Create Label
 
         #self.tab1_text1 = QLabel("Desk Code : N:Space.Heart.Diamond.Club E:Space.Heart.Diamond.Club S:Space.Heart.Diamond.Club W:Space.Heart.Diamond.Club")
-        
-
         #self.tab1_text2 = QLabel("Example Input : N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63")    # Default Text
         self.tab1_text2 = QLabel('Example Input : N:<font color="blue">QJT5432</font>.<font color="red">T</font>.<font color="orange">6</font>.<font color="green">QJ82</font>' +
                                                 ' E:<font color="blue"></font>.<font color="red">J97543</font>.<font color="orange">K7532</font>.<font color="green">94</font>' +
                                                 ' S:<font color="blue">87</font>.<font color="red">A62</font>.<font color="orange">QJT4</font>.<font color="green">AT75</font>' +
                                                 ' W:<font color="blue">AK96</font>.<font color="red">KQ8</font>.<font color="orange">A98</font>.<font color="green">K63</font>')
-
+        """ """
         self.line_input_desk = QLineEdit()
         #self.line_input_desk.setFixedWidth(750)
         self.line_input_desk.setMaximumWidth(750)                   # Set Width
         self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63") # Set Default Text
+        #N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75
         self.line_input_desk.setStyleSheet('font-size: 14pt;')      # Set stylesheet for LineEdit
+        
+        """
+        # for color textedit
+        self.line_input_desk = QTextEdit()
+        # Disable Scroll Bar
+        self.line_input_desk.horizontalScrollBar().setStyleSheet("QScrollBar {height:0px;}")
+        self.line_input_desk.verticalScrollBar().setStyleSheet("QScrollBar {width:0px;}")
+        # Set
+        self.line_input_desk.setMaximumHeight(29)
+        self.line_input_desk.setMaximumWidth(750)                   # Set Width
+        """
 
+        #self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63") # Set Default Text
+        """
+        redText = '<span style=\"color:#ff0000;\" >'
+        redText += "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 "
+        redText += "</span>"
+        #self.line_input_desk.append(redText)
+
+        blackText = '<span style=\"color:#000000;\" >'
+        blackText += "S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63"
+        blackText += "</span>"
+        self.line_input_desk.append(redText + blackText)
+        
+        """
+
+        """
+        blackColor = QColor(0, 0, 0)
+
+        blueColor   = QColor(0, 0, 255)
+        redColor    = QColor(255, 0, 0)
+        orangeColor = QColor(255, 165, 0)
+        greenColor  = QColor(0, 255, 0)
+
+        self.line_input_desk.setTextColor(blackColor)
+        self.line_input_desk.insertPlainText("N:")
+        self.line_input_desk.setTextColor(blueColor)
+        self.line_input_desk.insertPlainText("QJT5432")
+        self.line_input_desk.setTextColor(blackColor)
+        self.line_input_desk.insertPlainText(".")
+        self.line_input_desk.setTextColor(redColor)
+        self.line_input_desk.insertPlainText("T")
+        self.line_input_desk.setTextColor(blackColor)
+        self.line_input_desk.insertPlainText(".6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63")
+
+
+        """
+
+
+
+
+
+
+
+        self.line_input_desk.setStyleSheet('font-size: 14pt;')      # Set stylesheet for LineEdit
+        
+
+
+
+
+        
         self.line_input_desk_generate = QPushButton("Generate")
         self.line_input_desk_generate.clicked.connect(self.clicked_generate)
         self.line_input_desk_generate.setAutoDefault(1)             # Make button to click with Enter key
         self.line_input_desk_generate.setStyleSheet('font-size: 14pt;')
+
+        self.line_input_desk_generate_random = QPushButton("Random Generate")
+        #self.line_input_desk_generate_random.clicked.connect(self.clicked_generate_random)
+        self.line_input_desk_generate_random.setAutoDefault(1)             # Make button to click with Enter key
+        self.line_input_desk_generate_random.setStyleSheet('font-size: 14pt;')
+
 
         # Create Layout and Add label
     
@@ -113,6 +182,7 @@ class MyTableWidget(QWidget):
         self.tab1.layout_tab1_H = QHBoxLayout()
         self.tab1.layout_tab1_H.addWidget(self.line_input_desk)
         self.tab1.layout_tab1_H.addWidget(self.line_input_desk_generate)
+        self.tab1.layout_tab1_H.addWidget(self.line_input_desk_generate_random)
 
         self.tab1.layout_tab1_V.addLayout(self.tab1.layout_tab1_H)
     
@@ -201,27 +271,27 @@ class MyTableWidget(QWidget):
 
     @pyqtSlot()
     def clicked_generate(self):
-
-        # Get line_input_desk string
-
-        #print(self.line_input_desk.text())
-
+        
         # Switch to 2nd Tab
         self.tabs.setCurrentIndex(1)
 
+        # Set text in Tab 2
         self.tab2_text4.setText(self.line_input_desk.text())
-
-        # to PBN
-        text_PBN = self.line_input_desk.text()
         
-        text_PBN = text_PBN.replace("E:", "")
+        # to PBN
+        text_PBN = self.line_input_desk.text()      # get text
+        #print(self.line_input_desk.toPlainText()) #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! get text from qtextedit
+
+        text_PBN = text_to_pbn(text_PBN)            # set text to right position
+
+        text_PBN = text_PBN.replace("E:", "")       # del E S W for 
         text_PBN = text_PBN.replace("S:", "")
         text_PBN = text_PBN.replace("W:", "")
 
-        b = text_PBN.encode()
+        text_PBN_encode = text_PBN.encode()
         
-        all = ddstable_standalone.get_ddstable(b)
-        #print(all)
+        all = ddstable_standalone.get_ddstable(text_PBN_encode)
+        print(all)
 
 
         all_2 = ""

@@ -1,13 +1,7 @@
-import argparse
+import re
 
-p=argparse.ArgumentParser()
-p.add_argument('--cmd1', action='store_const', const=lambda:'cmd1', dest='cmd')
-p.add_argument('--cmd2', action='store_const', const=lambda:'cmd2', dest='cmd')
 
-args = p.parse_args(['--cmd1'])
-# Out[21]: Namespace(cmd=<function <lambda> at 0x9abf994>)
+txt = "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63"
+x = re.match("N:([AKQJT98765432]+)\.\S\.", txt)
 
-p.parse_args(['--cmd2']).cmd()
-# Out[19]: 'cmd2'
-p.parse_args(['--cmd1']).cmd()
-# Out[20]: 'cmd1'
+print(x.group())
