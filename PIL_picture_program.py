@@ -96,7 +96,13 @@ def make_pic_4hand(input_dict_desk) :
         # Else Set as Input
         dict_desk = input_dict_desk
 
+    # Change Blank Suit ("") to "      -      "
+    for i in ["North","East","South","West"]:
+        for j in ["S","H","D","C"]:
+            if dict_desk[i][j] == "":
+                dict_desk[i][j] = " --- "
 
+    
     ############ Load picture ############
 
     #pic_4hand = Image.open('picture_resource/pic_4hand_default.png')

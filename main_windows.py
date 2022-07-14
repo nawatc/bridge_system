@@ -81,7 +81,7 @@ class MyTableWidget(QWidget):
 
         #########################################################################################################################################################################################
 
-        # Create first tab
+        # Create First tab
 
 
         # Create Label
@@ -162,27 +162,32 @@ class MyTableWidget(QWidget):
         
         self.line_input_desk_generate = QPushButton("Generate")
         self.line_input_desk_generate.clicked.connect(self.clicked_generate)
-        self.line_input_desk_generate.setAutoDefault(1)             # Make button to click with Enter key
+        self.line_input_desk_generate.setAutoDefault(1)                     # Make button to click with Enter key
         self.line_input_desk_generate.setStyleSheet('font-size: 14pt;')
 
         self.line_input_desk_generate_random = QPushButton("Random Generate")
         #self.line_input_desk_generate_random.clicked.connect(self.clicked_generate_random)
-        self.line_input_desk_generate_random.setAutoDefault(1)             # Make button to click with Enter key
+        self.line_input_desk_generate_random.setAutoDefault(1)              # Make button to click with Enter key
         self.line_input_desk_generate_random.setStyleSheet('font-size: 14pt;')
 
+        
+        self.line_input_clear = QPushButton("Clear Input")
+        self.line_input_clear.clicked.connect(self.clicked_input_clear)
+        self.line_input_clear.setAutoDefault(1)                             # Make button to click with Enter key
+        self.line_input_clear.setStyleSheet('font-size: 14pt;')
 
         # Create Layout and Add label
-    
+        
         self.tab1.layout_tab1_V = QVBoxLayout(self)
         #self.tab1.layout_tab1_V.addWidget(self.tab1_text1)
         self.tab1.layout_tab1_V.addWidget(self.tab1_text2)
 
-        
 
         self.tab1.layout_tab1_H = QHBoxLayout()
         self.tab1.layout_tab1_H.addWidget(self.line_input_desk)
         self.tab1.layout_tab1_H.addWidget(self.line_input_desk_generate)
         self.tab1.layout_tab1_H.addWidget(self.line_input_desk_generate_random)
+        self.tab1.layout_tab1_H.addWidget(self.line_input_clear)
 
         self.tab1.layout_tab1_V.addLayout(self.tab1.layout_tab1_H)
     
@@ -205,7 +210,7 @@ class MyTableWidget(QWidget):
         self.tab2_text4 = QLabel("Desk Code")
         self.tab2_text5 = QLabel("Sol.")
 
-        # loading image
+        # Loading image
         make_pic_4hand({})
         self.pixmap = QPixmap('picture_resource/result.png')
         os.remove("picture_resource/result.png")
@@ -286,10 +291,6 @@ class MyTableWidget(QWidget):
 
         text_PBN = text_to_pbn(text_PBN)            # set text to right position
 
-        text_PBN = text_PBN.replace("E:", "")       # del E S W for 
-        text_PBN = text_PBN.replace("S:", "")
-        text_PBN = text_PBN.replace("W:", "")
-
         text_PBN_encode = text_PBN.encode()
         
         all = ddstable_standalone.get_ddstable(text_PBN_encode)
@@ -328,8 +329,10 @@ class MyTableWidget(QWidget):
 
         
         
-
-
+    def clicked_input_clear(self):
+        pass
+        #self.line_input_desk.setText("N: QJT5432. T. 6. QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63")
+        #self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63")
     
 
     def exit():
