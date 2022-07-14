@@ -1,8 +1,8 @@
-import sys
+import sys ,os
 from PyQt5 import QtWidgets ,QtGui #,QtCore
 from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QShortcut #,QTextEdit  #,QSizePolicy ,QFileDialog ,QGridLayout 
 from PyQt5.QtCore    import pyqtSlot
-from PyQt5.QtGui     import QKeySequence ,QPixmap ,QColor
+from PyQt5.QtGui     import QKeySequence ,QPixmap #,QColor
 
 
 import ddstable_standalone as ddstable_standalone
@@ -206,7 +206,9 @@ class MyTableWidget(QWidget):
         self.tab2_text5 = QLabel("Sol.")
 
         # loading image
-        self.pixmap = QPixmap('picture_resource/result_default.png')
+        make_pic_4hand({})
+        self.pixmap = QPixmap('picture_resource/result.png')
+        os.remove("picture_resource/result.png")
 
         # creating label and adding image to label
         self.label_pic = QLabel(self)
@@ -291,7 +293,7 @@ class MyTableWidget(QWidget):
         text_PBN_encode = text_PBN.encode()
         
         all = ddstable_standalone.get_ddstable(text_PBN_encode)
-        print(all)
+        #print(all)
 
 
         all_2 = ""
@@ -322,6 +324,10 @@ class MyTableWidget(QWidget):
         # loading image
         self.pixmap = QPixmap('picture_resource/result.png')
         self.label_pic.setPixmap(self.pixmap)
+        os.remove("picture_resource/result.png")
+
+        
+        
 
 
     

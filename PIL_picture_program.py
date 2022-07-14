@@ -30,36 +30,72 @@ def get_textwidth(text, selected_font='arial.ttf', font_size=18):
 def make_pic_4hand(input_dict_desk) :
     # Make picture of 4hand card from desk
 
-    # full dict_desk format
-    """dict_desk = {
+    # F-ull input_dict_desk format
+    """
+    dict_desk = {
         "North" : {
-            "S" : ["AKQJT98765432"] ,
-            "H" : ["AKQJT98765432"] ,
-            "D" : ["AKQJT98765432"] ,
-            "C" : ["AKQJT98765432"]
+            "S" : "AKQJT98765432" ,
+            "H" : "AKQJT98765432" ,
+            "D" : "AKQJT98765432" ,
+            "C" : "AKQJT98765432"
         } ,
         "East" : {
-            "S" : ["AKQJT98765432"] ,
-            "H" : ["AKQJT98765432"] ,
-            "D" : ["AKQJT98765432"] ,
-            "C" : ["AKQJT98765432"]
+            "S" : "AKQJT98765432" ,
+            "H" : "AKQJT98765432" ,
+            "D" : "AKQJT98765432" ,
+            "C" : "AKQJT98765432"
         } ,
         "South" : {
-            "S" : ["AKQJT98765432"] ,
-            "H" : ["AKQJT98765432"] ,
-            "D" : ["AKQJT98765432"] ,
-            "C" : ["AKQJT98765432"]
+            "S" : "AKQJT98765432" ,
+            "H" : "AKQJT98765432" ,
+            "D" : "AKQJT98765432" ,
+            "C" : "AKQJT98765432"
         } ,
         "West" : {
-            "S" : ["AKQJT98765432"] ,
-            "H" : ["AKQJT98765432"] ,
-            "D" : ["AKQJT98765432"] ,
-            "C" : ["AKQJT98765432"]
+            "S" : "AKQJT98765432" ,
+            "H" : "AKQJT98765432" ,
+            "D" : "AKQJT98765432" ,
+            "C" : "AKQJT98765432"
         }
-    }"""
+    }
 
-    # Set input to variable
+    
+    """
+    ############ Set input to variable ############
     dict_desk = input_dict_desk
+    
+    if input_dict_desk == {}:
+        # If input_dict_desk is blank 
+        dict_desk = {
+        "North" : {
+            "S" : "      -      " ,
+            "H" : "      -      " ,
+            "D" : "      -      " ,
+            "C" : "      -      "
+        } ,
+        "East" : {
+            "S" : "      -      " ,
+            "H" : "      -      " ,
+            "D" : "      -      " ,
+            "C" : "      -      "
+        } ,
+        "South" : {
+            "S" : "      -      " ,
+            "H" : "      -      " ,
+            "D" : "      -      " ,
+            "C" : "      -      "
+        } ,
+        "West" : {
+            "S" : "      -      " ,
+            "H" : "      -      " ,
+            "D" : "      -      " ,
+            "C" : "      -      "
+        }
+        }
+    else :
+        # Else Set as Input
+        dict_desk = input_dict_desk
+
 
     ############ Load picture ############
 

@@ -1,72 +1,4 @@
 import re
-import random
-
-class Desk:
-    def __init__(self):
-        # Collect Card as list
-        self.Desk_card = []
-        
-        self.North_card = []
-        self.East_card  = []
-        self.South_card = []
-        self.West_card  = []
-
-        self.suit = ["s" ,"h" ,"d" ,"c"]
-        self.num = ["A" ,"K" ,"Q" ,"J","T" ,"9" ,"8" ,"7" ,"6" ,"5" ,"4" ,"3" ,"2"]
-
-
-    def set_card_as_list(self ,dir ,card):
-        # Example list card
-        # ['Ah', '3d', '4h', '5c', 'Ad', '9h', '3h', 'Jh', '3c', '4s', '9d', 'Tc', '2s']
-
-        if dir == "N":
-            self.North_card = card
-        if dir == "E":
-            self.East_card = card
-        if dir == "S":
-            self.South_card = card
-        if dir == "W":
-            self.West_card = card
-
-    def get_card_as_list(self,dir):
-        if dir == "N":
-            return list(self.North_card)
-        if dir == "E":
-            return list(self.East_card)
-        if dir == "S":
-            return list(self.South_card)
-        if dir == "W":
-            return list(self.West_card)
-
-    def get_desk_as_list(self):
-        return self.Desk_card
-
-    def generate_deck(self):
-        # Initial Variable
-        desk = []
-
-        num  = self.num
-        suit = self.suit
-        
-        # Loop for make list
-        for suit_i in suit:
-            for num_j in num:
-                desk.append( num_j + suit_i )
-        
-        # Shuffle desk
-        random.shuffle(desk)
-
-        # Set Variable
-        self.Desk_card = desk
-
-        
-        self.North_card = desk[0:13]
-        self.East_card  = desk[13:26]
-        self.South_card = desk[26:39]
-        self.West_card  = desk[39:52]
-
-
-        return #desk
 
 
 def text_to_pbn_check(input_text):
@@ -117,93 +49,6 @@ def text_to_pbn(input_text):
     return output_text
 
 
-
-
-
-#desk_1 = Desk()
-#desk_1.generate_deck()
-#print(desk_1.get_card_as_list("N"))
-#print(desk_1.get_card_as_list("S"))
-#print(desk_1.get_card_as_list("E"))
-#print(desk_1.get_card_as_list("W"))
-#print(desk_1.get_desk_as_list())
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 def pbn_to_dict(text):
     # /Input text [String]
     #txt = "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63"
@@ -215,6 +60,7 @@ def pbn_to_dict(text):
 
     #   North
 
+    #North = re.findall("N:[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*", txt)    # Old
     North = re.findall("N:[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*", txt)
     North = str(North)
     North = North[2:-2]
@@ -227,7 +73,8 @@ def pbn_to_dict(text):
     North_C = North_split[3]
 
     #   East
-
+    
+    #
     East = re.findall("E:[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*", txt)
     East = str(East)
     East = East[2:-2]
