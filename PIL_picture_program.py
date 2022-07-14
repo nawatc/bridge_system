@@ -30,7 +30,7 @@ def get_textwidth(text, selected_font='arial.ttf', font_size=18):
 def make_pic_4hand(input_dict_desk) :
     # Make picture of 4hand card from desk
 
-    # F-ull input_dict_desk format
+    # Full input_dict_desk format
     """
     dict_desk = {
         "North" : {
@@ -111,7 +111,7 @@ def make_pic_4hand(input_dict_desk) :
 
     # Add Fonts
     title_font = ImageFont.truetype("arial.ttf", size = 18, encoding="unic")
-    
+
     # Add Text
     #text_fulldesk = "AKQJT98765432\nAKQJT98765432\nAKQJT98765432\nAKQJT98765432"   # Full format
     #text_fulldesk = "      -      \n      -      \n      -      \n      -      "   # Blank format
@@ -130,10 +130,25 @@ def make_pic_4hand(input_dict_desk) :
     # Add text and suit pic
     image_editable = ImageDraw.Draw(pic_4hand)
 
-        # N
-    text_length = get_textwidth(text_fulldesk_N, selected_font="arial.ttf", font_size=18)   # get text length
+    # Edit Text to make North ,South Index equal
+    text_length_N = get_textwidth(text_fulldesk_N, selected_font="arial.ttf", font_size=18)   # get text length
+    text_length_S = get_textwidth(text_fulldesk_S, selected_font="arial.ttf", font_size=18)   # get text length
     
-    x_point = ( int(pic_4hand.width/2) - int((text_length + pic_space.width )/2) )          # text start x point (include suit pic)
+    if text_length_N > text_length_S:
+        # If N more than S ,make S high as N
+        text_length_S = text_length_N
+    elif text_length_S > text_length_N:
+        # If S more than N ,make N high as S
+        text_length_N = text_length_S
+    else:
+        # Else (Equal) make it equal (forget it)
+        pass
+    
+
+        # N
+    #text_length = get_textwidth(text_fulldesk_N, selected_font="arial.ttf", font_size=18)   # get text length
+    
+    x_point = ( int(pic_4hand.width/2) - int((text_length_N + pic_space.width )/2) )          # text start x point (include suit pic)
     
     image_editable.text(xy = (x_point + pic_space.width,20), text = text_fulldesk_N,font = title_font ,fill = (0, 0, 0))
     
@@ -167,9 +182,9 @@ def make_pic_4hand(input_dict_desk) :
     pic_4hand.paste(pic_club    , (x_point,178+(21*3)) )
 
         # S
-    text_length = get_textwidth(text_fulldesk_S, selected_font="arial.ttf", font_size=18)   # get text length
+    #text_length = get_textwidth(text_fulldesk_S, selected_font="arial.ttf", font_size=18)   # get text length
     
-    x_point = ( int(pic_4hand.width/2) - int((text_length + pic_space.width )/2) )          # text start x point (include suit pic)
+    x_point = ( int(pic_4hand.width/2) - int((text_length_S + pic_space.width )/2) )          # text start x point (include suit pic)
     
     image_editable.text(xy = (x_point + pic_space.width,340), text = text_fulldesk_S,font = title_font ,fill = (0, 0, 0))
     
@@ -184,31 +199,46 @@ def make_pic_4hand(input_dict_desk) :
     pic_4hand.save("picture_resource/result.png")
 
 
-# use function
-"""dict_desk = {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Test function
+"""
+dict_desk = {
         "North" : {
-            "S" : ["AKQJT98765432"] ,
-            "H" : ["AKQJT98765432"] ,
-            "D" : ["AKQJT98765432"] ,
-            "C" : ["AKQJT98765432"]
+            "S" : "AKQJT9876" ,
+            "H" : "AKQJT9876" ,
+            "D" : "AKQJT9876" ,
+            "C" : "AKQJT9876"
         } ,
         "East" : {
-            "S" : ["AKQJT98765432"] ,
-            "H" : ["AKQJT98765432"] ,
-            "D" : ["AKQJT98765432"] ,
-            "C" : ["AKQJT98765432"]
+            "S" : "AKQJT98765432" ,
+            "H" : "AKQJT98765432" ,
+            "D" : "AKQJT98765432" ,
+            "C" : "AKQJT98765432"
         } ,
         "South" : {
-            "S" : ["AKQJT98765432"] ,
-            "H" : ["AKQJT98765432"] ,
-            "D" : ["AKQJT98765432"] ,
-            "C" : ["AKQJT98765432"]
+            "S" : "A" ,
+            "H" : "AKQJT9" ,
+            "D" : "AKQJT9" ,
+            "C" : "AKQJT9"
         } ,
         "West" : {
-            "S" : ["AKQJT98765432"] ,
-            "H" : ["AKQJT98765432"] ,
-            "D" : ["AKQJT98765432"] ,
-            "C" : ["AKQJT98765432"]
+            "S" : "AKQJT98765432" ,
+            "H" : "AKQJT98765432" ,
+            "D" : "AKQJT98765432" ,
+            "C" : "AKQJT98765432"
         }
     }
 """
