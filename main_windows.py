@@ -331,7 +331,7 @@ class MyTableWidget(QWidget):
         
     def clicked_input_clear(self):
         pass
-        #self.line_input_desk.setText("N: QJT5432. T. 6. QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63")
+        self.line_input_desk.setText("N:... E:... S:... W:...")
         #self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63")
     
 

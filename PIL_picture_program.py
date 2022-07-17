@@ -100,7 +100,7 @@ def make_pic_4hand(input_dict_desk) :
     for i in ["North","East","South","West"]:
         for j in ["S","H","D","C"]:
             if dict_desk[i][j] == "":
-                dict_desk[i][j] = " --- "
+                dict_desk[i][j] = "  - "
 
     
     ############ Load picture ############
