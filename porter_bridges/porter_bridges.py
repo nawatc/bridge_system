@@ -159,21 +159,55 @@ def pbn_to_dict(text):
 
     return dict_desk
 
+def get_num_from_txt():
+    # Get number from txt file
+    # Number range is 1 to 53644737765488792839237440000
+    f = open("rng_number.txt", "r")
+    #print(f.read())
+    
+    return int(f.read())
 
+def set_num_from_txt(num):
+    # Replace number to txt file
+    # Number range is 1 to 53644737765488792839237440000
+    f = open("rng_number.txt", "w")
+    f.write(str(num))
 
+# Generator that goes through a full cycle
+def cycle(seed: int, sample_size: int, increment: int):
+    nb = seed
+    for i in range(sample_size):
+        nb = (nb + increment) % sample_size
+        yield nb
 
+def cycle_one_step(seed: int, sample_size: int, increment: int):
+    nb = seed
+    nb = (nb + increment) % sample_size
+    return nb
 
+def FC_random_number():
+    # Number range is 1 to 53644737765488792839237440000
+    # Full cycle PRNG
+    # https://en.wikipedia.org/wiki/Full_cycle
+    # Example values
+    seed = 17           #seed_input
+    sample_size = 7 #10    #53644737765488792839237440000      # 53 644 , 737 765 , 488 792 , 839 237 , 440 000
+    increment = 3 #13      #
 
+    # Print all the numbers
+    print(list(cycle(seed, sample_size, increment)))
 
+    # Verify that all numbers were generated correctly
+    assert set(cycle(seed, sample_size, increment)) == set(range(sample_size))
 
+#FC_random_number()
 
+# get 1 step
 
-
-
-
-
-
-
+while(1):
+    a = cycle_one_step(seed = get_num_from_txt() ,sample_size = 53644737765488792839237440000 ,increment = 11)
+    #print(a)
+    set_num_from_txt(a)
 
 
 
