@@ -204,10 +204,10 @@ def FC_random_number():
 
 # get 1 step
 
-while(1):
+"""while(1):
     a = cycle_one_step(seed = get_num_from_txt() ,sample_size = 53644737765488792839237440000 ,increment = 11)
     #print(a)
-    set_num_from_txt(a)
+    set_num_from_txt(a)"""
 
 
 

@@ -18,22 +18,23 @@ def set_num_from_txt(num):
 def are_coprime(a,b):
     
     hcf = 1
-
-    #for i in range(get_num_from_txt(), a+1):
-    for i in range(1, a+1):
+    start_num = get_num_from_txt()
+    #for i in range(start_num, a+1):    #for start from coprime_record.txt
+    for i in range(1, a+1):             #for start from 1
         if a%i==0 and b%i==0:
             hcf = i
 
         # Add 
-        """if i % 1000000 == 0 :
-            print(i)
-            set_num_from_txt(i)"""
+        if i % 1000000 == 0 :
+            #print(i)
+            set_num_from_txt(i)
             
     return hcf == 1
 
 # Reading two numbers
 # 53644 737765 488792 839237 440000
-first = 11 #6377153 
+# #11 #6377153 #70000069 #231613336760891 
+first = 231613336760891
 second = 53644737765488792839237440000
 
 if are_coprime(first, second):
