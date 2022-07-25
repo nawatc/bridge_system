@@ -128,6 +128,9 @@ def random_card():
     #print(key_to_comb(number))
     return key_to_comb(number)
 
+def random_card_with_prng():
+    pass
+
 
 
 
@@ -152,21 +155,22 @@ for i in range(1,10):
 ##################### Generate Desk by number #####################
 #
 # seed is integer between 1 to 53644737765488792839237440000
-
-
-#seed = 26822368884744395102037213184
-"""seed = 231613336760896829
-key_to_comb(seed)
+#                              26822368884744395102037213184    / 2
+#                                    53644737765488792840969    / 1M
+#                                         231613336760896829    sqrt 2
+"""
+seed = 53644737765488792840969
+print(key_to_comb(seed))
 """
 
 ############### Generate Muti Desk ###############
-"""
+
 Seed = 26822368884744395102037213184
-for i in range(1,10):
-    print(cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760896829))
+for i in range(1,20):
+    #print(cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760896829))
     Seed = cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760896829)
-    key_to_comb(Seed)
-"""
+    print(key_to_comb(Seed))
 
 
-random_card()
+
+#random_card()

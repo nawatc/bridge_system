@@ -67,6 +67,9 @@ def list_to_text(input_list_N ,input_list_E ,input_list_S ,input_list_W):
             if j[-1] == suit[count_suit]:
                 output_text = output_text + j[0]
 
+        while(count_suit != 3):
+                output_text = output_text + "."
+                count_suit = count_suit + 1
 
         output_text = output_text + " "
 
