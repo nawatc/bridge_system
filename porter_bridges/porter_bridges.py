@@ -33,6 +33,48 @@ def text_to_pbn_check(input_text):
 
     return output
 
+def list_to_text(input_list_N ,input_list_E ,input_list_S ,input_list_W):
+    # input
+    """
+    ['Ks', 'Js', 'Ts', '9s', 'Ah', '8h', 'Td', '8d', '7d', '6d', '3d', 'Ac', 'Tc']
+    ['As', 'Qs', 'Qh', '7h', '5h', 'Kd', 'Qd', '4d', 'Kc', 'Qc', '6c', '5c', '3c']
+    ['7s', '2s', 'Kh', 'Jh', 'Th', '9h', '6h', '3h', 'Ad', 'Jd', '2d', '7c', '4c']
+    ['8s', '6s', '5s', '4s', '3s', '4h', '2h', '9d', '5d', 'Jc', '9c', '8c', '2c']
+    """
+    # output_text
+    """
+    N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63
+    """
+    input_list = [input_list_N ,input_list_E ,input_list_S ,input_list_W]
+    output_text = ""
+    dir = ["N","E","S","W"]
+    suit = ["s","h","d","c"]
+    
+
+    for i in range(0,4):
+        # Dir
+        output_text = output_text + dir[i] + ":"
+        hand = input_list[i]
+
+        count_suit = 0
+
+        for j in hand:
+            
+            while(j[-1] != suit[count_suit]):
+                output_text = output_text + "."
+                count_suit = count_suit + 1
+
+            if j[-1] == suit[count_suit]:
+                output_text = output_text + j[0]
+
+
+        output_text = output_text + " "
+
+    #print(output_text)
+    return output_text
+        
+#list_to_text(['As', 'Ks', 'Qs', 'Js', 'Ts', '9s', 'Ah', '8h', 'Td', '8d', '7d', '6d', '3d'],['Qh', '7h', '5h', 'Kd', 'Qd', '4d', 'Kc', 'Ac', 'Tc', 'Qc', '6c', '5c', '3c'],['7s', '2s', 'Kh', 'Jh', 'Th', '9h', '6h', '3h', 'Ad', 'Jd', '2d', '7c', '4c'],['8s', '6s', '5s', '4s', '3s', '4h', '2h', '9d', '5d', 'Jc', '9c', '8c', '2c'])
+
 def text_to_list(input_text):
     #input_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" with on don't need to sort
     #output_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" sort by N E S W

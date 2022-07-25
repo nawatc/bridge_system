@@ -8,8 +8,9 @@ from PyQt5.QtGui     import QKeySequence ,QPixmap #,QColor
 import ddstable_standalone as ddstable_standalone
 
 
-from PIL_picture_program import make_pic_4hand
+from picture_program import make_pic_4hand
 
+from random_number import random_card
 
 from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn ,text_to_pbn_check
 from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
@@ -166,7 +167,7 @@ class MyTableWidget(QWidget):
         self.line_input_desk_generate.setStyleSheet('font-size: 14pt;')
 
         self.line_input_desk_generate_random = QPushButton("Random Generate")
-        #self.line_input_desk_generate_random.clicked.connect(self.clicked_generate_random)
+        self.line_input_desk_generate_random.clicked.connect(self.clicked_generate_random)
         self.line_input_desk_generate_random.setAutoDefault(1)              # Make button to click with Enter key
         self.line_input_desk_generate_random.setStyleSheet('font-size: 14pt;')
 
@@ -327,8 +328,10 @@ class MyTableWidget(QWidget):
         self.label_pic.setPixmap(self.pixmap)
         os.remove("picture_resource/result.png")
 
-        
-        
+    def clicked_generate_random(self):
+        self.line_input_desk.setText(random_card())
+        self.clicked_generate()
+
     def clicked_input_clear(self):
         pass
         self.line_input_desk.setText("N:... E:... S:... W:...")

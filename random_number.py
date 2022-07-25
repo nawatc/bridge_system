@@ -1,5 +1,7 @@
 #https://math.stackexchange.com/questions/1227409/indexing-all-combinations-without-making-list
 from math import comb
+from porter_bridges.porter_bridges import list_to_text
+import random
 
 def generate_desk():
     num = ["A","K","Q","J","T","9","8","7","6","5","4","3","2"]
@@ -25,6 +27,7 @@ def C(n,k): #computes nCk, the number of combinations n choose k
         result/=(i+1)
     return result
 """
+
 def cgen(i,n,k):
     """
     returns the i-th combination of k numbers chosen from 1,2,...,n
@@ -92,11 +95,13 @@ def key_to_comb(key):
 
     h4_card = desk
     
+    
+    #print(h1_card)
+    #print(h2_card)
+    #print(h3_card)
+    #print(h4_card)
 
-    print(h1_card)
-    print(h2_card)
-    print(h3_card)
-    print(h4_card)
+    return list_to_text(h1_card ,h2_card ,h3_card ,h4_card)
     
 
 
@@ -117,8 +122,11 @@ def cycle_one_step(seed: int, sample_size: int, increment: int):
     nb = (nb + increment) % sample_size
     return nb
 
-
-
+def random_card():
+    number = random.randint(1, 53644737765488792839237440000)
+    # N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63
+    #print(key_to_comb(number))
+    return key_to_comb(number)
 
 
 
@@ -137,8 +145,8 @@ def cycle_one_step(seed: int, sample_size: int, increment: int):
 """
 Seed = 26822368884744395102037213184
 for i in range(1,10):
-    print(cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760891))
-    Seed = cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760891)
+    print(cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760896829))
+    Seed = cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760896829)
 """
 
 ##################### Generate Desk by number #####################
@@ -147,15 +155,18 @@ for i in range(1,10):
 
 
 #seed = 26822368884744395102037213184
-seed = 53644737765488792839237439999
+"""seed = 231613336760896829
 key_to_comb(seed)
-
+"""
 
 ############### Generate Muti Desk ###############
 """
 Seed = 26822368884744395102037213184
 for i in range(1,10):
-    print(cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760896541))
-    Seed = cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760896541)
+    print(cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760896829))
+    Seed = cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760896829)
     key_to_comb(Seed)
 """
+
+
+random_card()
