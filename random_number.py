@@ -155,9 +155,15 @@ for i in range(1,10):
 ##################### Generate Desk by number #####################
 #
 # seed is integer between 1 to 53644737765488792839237440000
+#                              33644737765488792839237440000    3.3*10^28
+#                              31114111519121615131518191719    Prime
+#         https://primes.utm.edu/curios/index.php?start=25&stop=36
+#
+#33822368884744395102037213184
 #                              26822368884744395102037213184    / 2
 #                                    53644737765488792840969    / 1M
-#                                         231613336760896829    sqrt 2
+#                                    53644737765488792841241
+#                                         231613336760896829    sqrt 2      Need more
 """
 seed = 53644737765488792840969
 print(key_to_comb(seed))
@@ -166,11 +172,20 @@ print(key_to_comb(seed))
 ############### Generate Muti Desk ###############
 
 Seed = 26822368884744395102037213184
-for i in range(1,20):
+for i in range(1,200):
     #print(cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760896829))
-    Seed = cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760896829)
+    Seed = cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 31114111519121615131518191719)
     print(key_to_comb(Seed))
 
 
 
-#random_card()
+
+
+
+"""
+a = 6
+
+for i in range (1,12):
+    a = cycle_one_step(seed = a, sample_size = 10, increment = 7)
+    print(a)
+"""
