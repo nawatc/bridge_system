@@ -170,13 +170,13 @@ print(key_to_comb(seed))
 """
 
 ############### Generate Muti Desk ###############
-
+"""
 Seed = 26822368884744395102037213184
 for i in range(1,200):
     #print(cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760896829))
     Seed = cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 31114111519121615131518191719)
     print(key_to_comb(Seed))
-
+"""
 
 
 
