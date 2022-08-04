@@ -185,7 +185,7 @@ for i in range(1,200):
 """
 a = 6
 
-for i in range (1,12):
-    a = cycle_one_step(seed = a, sample_size = 10, increment = 7)
+for i in range (1,150):
+    a = cycle_one_step(seed = a, sample_size = 100, increment = 81)
     print(a)
 """
