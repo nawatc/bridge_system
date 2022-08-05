@@ -108,6 +108,23 @@ def text_to_pbn(input_text):
 
     return output_text
 
+def dict_to_desk(input_dict):
+    # input_dict is
+    # {'North': {'S': 'QJT5432', 'H': 'T', 'D': '6', 'C': 'QJ82'}
+    # , 'East': {'S': '', 'H': 'J97543', 'D': 'K7532', 'C': '94'}
+    # , 'South': {'S': '87', 'H': 'A62', 'D': 'QJT4', 'C': 'AT75'}
+    # , 'West': {'S': 'AK96', 'H': 'KQ8', 'D': 'A98', 'C': 'K6'}}
+
+    # Output list is []
+    main_dict = input_dict
+    output_list = []
+
+    for i in ["North","East","South","West"]:
+        for j in ["S","H","D","C"]:
+            for k in main_dict[i][j]:
+                output_list.append(k+j.lower())
+
+    return output_list
 
 def pbn_to_dict(text):
     # Input text [String]
@@ -121,59 +138,82 @@ def pbn_to_dict(text):
     #   North
 
     #North = re.findall("N:[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*", txt)    # Old
-    North = re.findall("N:[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*", txt)
-    North = str(North)
-    North = North[2:-2]
-    North = North[2:]
-    North_split = North.split(".")
+    North = re.findall("N:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}", txt)
+    if North == []:
+        North_S = ""
+        North_H = ""
+        North_D = ""
+        North_C = ""
+    else:
+        North = str(North)
+        North = North[2:-2]
+        North = North[2:]
+        North_split = North.split(".")
 
-    North_S = North_split[0]
-    North_H = North_split[1]
-    North_D = North_split[2]
-    North_C = North_split[3]
+        North_S = North_split[0]
+        North_H = North_split[1]
+        North_D = North_split[2]
+        North_C = North_split[3]
 
     #   East
     
-    #
-    East = re.findall("E:[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*", txt)
-    East = str(East)
-    East = East[2:-2]
-    East = East[2:]
+    East = re.findall("E:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}", txt)
+    if East == []:
+        East_S = ""
+        East_H = ""
+        East_D = ""
+        East_C = ""
+    else:
+        East = str(East)
+        East = East[2:-2]
+        East = East[2:]
 
-    East_split = East.split(".")
+        East_split = East.split(".")
 
-    East_S = East_split[0]
-    East_H = East_split[1]
-    East_D = East_split[2]
-    East_C = East_split[3]
+        East_S = East_split[0]
+        East_H = East_split[1]
+        East_D = East_split[2]
+        East_C = East_split[3]
 
     #   South
 
-    South = re.findall("S:[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*", txt)
-    South = str(South)
-    South = South[2:-2]
-    South = South[2:]
+    South = re.findall("S:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}", txt)
+    if South ==[]:
+        South_S = ""
+        South_H = ""
+        South_D = ""
+        South_C = ""
+    else:
+        South = str(South)
+        South = South[2:-2]
+        South = South[2:]
 
-    South_split = South.split(".")
+        South_split = South.split(".")
 
-    South_S = South_split[0]
-    South_H = South_split[1]
-    South_D = South_split[2]
-    South_C = South_split[3]
+        South_S = South_split[0]
+        South_H = South_split[1]
+        South_D = South_split[2]
+        South_C = South_split[3]
 
     #   West
 
-    West = re.findall("W:[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*", txt)
-    West = str(West)
-    West = West[2:-2]
-    West = West[2:]
+    West = re.findall("W:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}", txt)
+    if West == []:
+        West_S = ""
+        West_H = ""
+        West_D = ""
+        West_C = ""
+    else:
+        West = str(West)
+        West = West[2:-2]
+        West = West[2:]
 
-    West_split = West.split(".")
+        West_split = West.split(".")
 
-    West_S = West_split[0]
-    West_H = West_split[1]
-    West_D = West_split[2]
-    West_C = West_split[3]
+        West_S = West_split[0]
+        West_H = West_split[1]
+        West_D = West_split[2]
+        West_C = West_split[3]
 
     dict_desk = {
         "North" : {
@@ -201,7 +241,7 @@ def pbn_to_dict(text):
             "C" : West_C
         }
         }
-
+    print(dict_desk)
     return dict_desk
 
 def get_num_from_txt():
@@ -279,6 +319,24 @@ def deck_list_checker(input_desk):
         return True
     else:
         return False
+
+def deck_list_result(input_desk):
+    # Intitial variable
+    input_desk = input_desk
+    full_desk = generate_desk()
+    lost_card = []
+    over_card = []
+    
+    # Checking by Looping full_desk
+    for i in full_desk:
+        if i in input_desk:
+            input_desk.remove(i)
+        else:
+            lost_card.append(i)
+    
+    over_card = input_desk
+
+    return [lost_card ,over_card]
 
 
 desk = ['As', 'Ks', 'Qs', 'Js', 'Ts', '9s', '8s', '7s', '6s', '5s', '4s', '3s', '2s', 'Ah', 'Kh', 'Qh', 'Jh', 'Th', '9h', '8h', '7h', '6h', '5h', '4h', '3h', '2h', 'Ad', 'Kd', 'Qd', 'Jd', 'Td', '9d', '8d', '7d', '6d', '5d', '4d', '3d', '2d', 'Ac', 'Kc', 'Qc', 'Jc', 'Tc', '9c', '8c', '7c', '6c', '5c', '4c', '3c', '2c']

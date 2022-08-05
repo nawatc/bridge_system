@@ -12,7 +12,7 @@ from picture_program import make_pic_4hand
 
 from random_number import random_card
 
-from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn ,text_to_pbn_check
+from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn ,dict_to_desk ,deck_list_result
 from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
 
 
@@ -52,7 +52,7 @@ class MyTableWidget(QWidget):
         #self.tab3 = QWidget()
         
         
-        # Add tabs
+        # Add Tabs
         self.tabs.addTab(self.tab1,"Input Desk")
         self.tabs.addTab(self.tab2,"Display Selected Desk")
         #self.tabs.addTab(self.tab3,"Select Desk")
@@ -100,6 +100,7 @@ class MyTableWidget(QWidget):
         self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63") # Set Default Text
         #N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75
         self.line_input_desk.setStyleSheet('font-size: 14pt;')      # Set stylesheet for LineEdit
+        self.line_input_desk.textChanged.connect(self.checker_card)
         
         """
         # for color textedit
@@ -177,6 +178,9 @@ class MyTableWidget(QWidget):
         self.line_input_clear.setAutoDefault(1)                             # Make button to click with Enter key
         self.line_input_clear.setStyleSheet('font-size: 14pt;')
 
+        self.tab1_text_checker = QLabel("Checker Card : - ")
+        self.tab1_text_checker.setStyleSheet('font-size: 14pt;')
+
         # Create Layout and Add label
         
         self.tab1.layout_tab1_V = QVBoxLayout(self)
@@ -191,6 +195,9 @@ class MyTableWidget(QWidget):
         self.tab1.layout_tab1_H.addWidget(self.line_input_clear)
 
         self.tab1.layout_tab1_V.addLayout(self.tab1.layout_tab1_H)
+
+
+        self.tab1.layout_tab1_V.addWidget(self.tab1_text_checker)
     
         
 
@@ -333,10 +340,15 @@ class MyTableWidget(QWidget):
         self.clicked_generate()
 
     def clicked_input_clear(self):
-        pass
         self.line_input_desk.setText("N:... E:... S:... W:...")
         #self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63")
     
+    def checker_card(self):
+        dict_desk = pbn_to_dict(self.line_input_desk.text())
+        list_desk = dict_to_desk(dict_desk)
+        lost_card ,over_card = deck_list_result(list_desk)
+        self.tab1_text_checker.setText("Lost_card is " + str(lost_card) +"\n"+"Over_card is " + str(over_card))
+        pass
 
     def exit():
         sys.exit( app.exec_() )
