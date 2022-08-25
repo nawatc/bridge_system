@@ -1,0 +1,30 @@
+Board:	1	Dealer:	N	Vul:	None
+
+Card:
+	S	H	D	C
+N	T7	K542	KQ42	Q72
+E	Q64	QJT7	AJ9	T43
+S	A82	963	76	AK986
+W	KJ953	A8	T853	J5
+
+HCP:	
+N	10
+E	10
+S	11
+W	9
+
+DDS_Sol:
+          S     H     D     C    NT
+    N     -     4     2     -     3
+    S     -     4     2     -     3
+    E     3     -     -     -     -
+    W     3     -     -     -     -
+
+Hard Level:
+	level	bridge_count	
+N	
+E	
+S	
+W	
+
+-- end of board : 1 --

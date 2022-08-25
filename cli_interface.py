@@ -1,7 +1,7 @@
 import argparse
 import re
 
-from main_windows import *
+from gui_interface import *
 
 def Client_run(filename):
     # /Get code from main_function of file
@@ -137,11 +137,21 @@ def act2():
 
 
 if __name__ == '__main__' :
-    parser = argparse.ArgumentParser(description='Example list of options', add_help=True)
-    parser.add_argument('-d', '--delete', dest='command', action='store_const', const='delete', help='Delete ID')
-    parser.add_argument('-s', '--search', dest='command', action='store_const', const='search', help='Search ID')
-    parser.add_argument('-a', '--app'   , dest='command', action='store_const', const='app',  help='open app')
-    parser.add_argument('-l', '--list'  , dest='command', action='store_const', const='list', help='List all ID')
+    parser = argparse.ArgumentParser()
+    parser.add_argument("a")
+
+    args = parser.parse_args()  
+
+    parser.add_argument("a", nargs='?', default="check_string_for_empty")
+
+    if args.a == 'check_string_for_empty':
+        print ('I can tell that no argument was given and I can deal with that here.')
+    elif args.a == 'magic.name':
+        print ('You nailed it!')
+    elif args.a == 'start_gui':
+        Client_run("main_windows.py")
+    else:
+        print (args.a)
 
     #Client_run("test.py")
     #Client_run("main_windows.py")
@@ -157,18 +167,13 @@ if __name__ == '__main__' :
 
 
 
-
-
-
-
-
     
 
 
 
 
     
-
+"""
     if      args.command == 'delete':
         print('Run delete')
     elif    args.command == 'app':
@@ -182,7 +187,7 @@ if __name__ == '__main__' :
     else:
         print('Run list')
     
-
+"""
     
 
 

@@ -2,15 +2,16 @@ import re
 
 
 def text_to_pbn_check(input_text):
-    #input_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" with on sort
+    # Input : input_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" with on sort
     #
-    #output is 
+    # Output : is 
     # No Error : ["No Error"]
-    # Error    : ["Error"   ,"N not found","E not found","S not found","W not found"]   # Many not found
-    # Error    : ["Error"   ,"N not found"]    # One not found
+    # Error    : ["Error"   ,"N not found","E not found","S not found","W not found"]   # for Many not found
+    # Error    : ["Error"   ,"N not found"]                                             # for One not found
 
     output = []
 
+    # Regex to get Text
     N_text = re.findall('N:[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*', input_text)
     E_text = re.findall('E:[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*', input_text)
     S_text = re.findall('S:[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*', input_text)
@@ -34,14 +35,14 @@ def text_to_pbn_check(input_text):
     return output
 
 def list_to_text(input_list_N ,input_list_E ,input_list_S ,input_list_W):
-    # input
+    # Input
     """
     ['Ks', 'Js', 'Ts', '9s', 'Ah', '8h', 'Td', '8d', '7d', '6d', '3d', 'Ac', 'Tc']
     ['As', 'Qs', 'Qh', '7h', '5h', 'Kd', 'Qd', '4d', 'Kc', 'Qc', '6c', '5c', '3c']
     ['7s', '2s', 'Kh', 'Jh', 'Th', '9h', '6h', '3h', 'Ad', 'Jd', '2d', '7c', '4c']
     ['8s', '6s', '5s', '4s', '3s', '4h', '2h', '9d', '5d', 'Jc', '9c', '8c', '2c']
     """
-    # output_text
+    # Output_text
     """
     N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63
     """
@@ -79,8 +80,8 @@ def list_to_text(input_list_N ,input_list_E ,input_list_S ,input_list_W):
 #list_to_text(['As', 'Ks', 'Qs', 'Js', 'Ts', '9s', 'Ah', '8h', 'Td', '8d', '7d', '6d', '3d'],['Qh', '7h', '5h', 'Kd', 'Qd', '4d', 'Kc', 'Ac', 'Tc', 'Qc', '6c', '5c', '3c'],['7s', '2s', 'Kh', 'Jh', 'Th', '9h', '6h', '3h', 'Ad', 'Jd', '2d', '7c', '4c'],['8s', '6s', '5s', '4s', '3s', '4h', '2h', '9d', '5d', 'Jc', '9c', '8c', '2c'])
 
 def text_to_list(input_text):
-    #input_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" with on don't need to sort
-    #output_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" sort by N E S W
+    # Input_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" with on don't need to sort
+    # Output_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" sort by N E S W
     N_text = re.findall('N:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
     E_text = re.findall('E:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
     S_text = re.findall('S:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
@@ -94,8 +95,8 @@ def text_to_list(input_text):
     return output_text
 
 def text_to_pbn(input_text):
-    #input_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" with on don't need to sort
-    #output_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" sort by N E S W
+    # Input_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" with on don't need to sort
+    # Output_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" sort by N E S W
     N_text = re.findall('N:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
     E_text = re.findall('E:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
     S_text = re.findall('S:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
@@ -109,7 +110,7 @@ def text_to_pbn(input_text):
     return output_text
 
 def dict_to_desk(input_dict):
-    # input_dict is
+    # Input_dict is
     # {'North': {'S': 'QJT5432', 'H': 'T', 'D': '6', 'C': 'QJ82'}
     # , 'East': {'S': '', 'H': 'J97543', 'D': 'K7532', 'C': '94'}
     # , 'South': {'S': '87', 'H': 'A62', 'D': 'QJT4', 'C': 'AT75'}
@@ -241,7 +242,7 @@ def pbn_to_dict(text):
             "C" : West_C
         }
         }
-    print(dict_desk)
+    #print(dict_desk)
     return dict_desk
 
 def get_num_from_txt():
@@ -338,13 +339,13 @@ def deck_list_result(input_desk):
 
     return [lost_card ,over_card]
 
-
+"""
 desk = ['As', 'Ks', 'Qs', 'Js', 'Ts', '9s', '8s', '7s', '6s', '5s', '4s', '3s', '2s', 'Ah', 'Kh', 'Qh', 'Jh', 'Th', '9h', '8h', '7h', '6h', '5h', '4h', '3h', '2h', 'Ad', 'Kd', 'Qd', 'Jd', 'Td', '9d', '8d', '7d', '6d', '5d', '4d', '3d', '2d', 'Ac', 'Kc', 'Qc', 'Jc', 'Tc', '9c', '8c', '7c', '6c', '5c', '4c', '3c', '2c']
 
 deck_list_checker(desk)
 
 
-
+"""
 
 
 

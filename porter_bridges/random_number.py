@@ -42,7 +42,7 @@ def cgen(i,n,k):
             cs += 1
         c.append(cs)
         j = cs
-    return c
+    return c    
 
 def key_to_comb(key):
     h1,h2,h3 = 0,0,0
@@ -52,14 +52,14 @@ def key_to_comb(key):
     desk = generate_desk()
     num = key
 
-    h1 = num % 635013559600 # combi for h1 
-    num = int(num / 635013559600)    # C(52,13)
+    h1 = num % 635013559600        # Combination for h1 
+    num = int(num / 635013559600)  # C(52,13)
 
     h2 = num %   8122425444
     num = int(num / 8122425444)    # C(39,13)
 
     h3 = num % 10400600
-    num = int(num / 10400600)     #C(26,13)
+    num = int(num / 10400600)      # C(26,13)
 
     #h4 = num
     num = 0
@@ -130,8 +130,6 @@ def random_card():
 
 def random_card_with_prng():
     pass
-
-
 
 
 

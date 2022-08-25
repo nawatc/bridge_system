@@ -1,16 +1,16 @@
 import sys ,os
 from PyQt5 import QtWidgets ,QtGui #,QtCore
-from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QShortcut #,QTextEdit  #,QSizePolicy ,QFileDialog ,QGridLayout 
-from PyQt5.QtCore    import pyqtSlot
-from PyQt5.QtGui     import QKeySequence ,QPixmap #,QColor
+from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QShortcut ,QGridLayout ,QSizePolicy #,QTextEdit  # ,QFileDialog 
+from PyQt5.QtCore    import QSize ,pyqtSlot
+from PyQt5.QtGui     import QKeySequence ,QPixmap , QPalette, QColor
 
 
 import ddstable_standalone as ddstable_standalone
 
 
-from picture_program import make_pic_4hand
+from picture_program.picture_program import make_pic_4hand
 
-from random_number import random_card
+from porter_bridges.random_number import random_card
 
 from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn ,dict_to_desk ,deck_list_result
 from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
@@ -18,44 +18,49 @@ from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from
 
 
 
-
 class BridgeWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
-        width , height = 1200,600
+        width ,height = 1200,600
         
-        #self.setMinimumSize(QSize(width, height))      # Set Windows Size
-        self.setFixedSize(width, height)                # Set Windows Size That cannot resize
+        self.setMinimumSize(QSize(width, height))      # Set Windows Size
+        #self.setFixedSize(width, height)                # Set Windows Size That cannot resize
         self.setWindowTitle("Bridge system") 
         self.setWindowIcon(QtGui.QIcon('icon.ico'))
-
-        self.table_widget = MyTableWidget(self)
-        self.setCentralWidget(self.table_widget)
-        
         
 
-        self.show()
-
-class MyTableWidget(QWidget):
-    
-    def __init__(self, parent):
-        super(QWidget, self).__init__(parent)
-        
-        
-        # Initialize tab screen
+        #layout = QGridLayout()
+        widget = QWidget()
+        #widget.setLayout(layout)
         self.tabs = QTabWidget()
+        self.setCentralWidget(self.tabs)
+        
+        self.table_widget = self.tabs
+        self.setCentralWidget(self.table_widget)
+
+        # Initialize tab screen
+        
+        #layout.addWidget(self.tabs)
+        #self.tabs.resize(1200,600)
+        #self.tabs.setSizePolicy(QSizePolicy.Expanding ,QSizePolicy.Expanding)
+        
+        
         #self.tabs.resize(300,200)
 
         # Create Tab
         self.tab1 = QWidget()
         self.tab2 = QWidget()
-        #self.tab3 = QWidget()
+        self.tab3 = QWidget()
         
         
         # Add Tabs
-        self.tabs.addTab(self.tab1,"Input Desk")
-        self.tabs.addTab(self.tab2,"Display Selected Desk")
+        #self.tabs.addTab(self.tab1,"Input Desk")
+        #self.tabs.addTab(self.tab2,"Display Selected Desk")
         #self.tabs.addTab(self.tab3,"Select Desk")
+        self.tabs.addTab(self.tab3,"Main Menu")
+        self.tabs.addTab(self.tab1,"Edit Board")
+        self.tabs.addTab(self.tab2,"Display Board")
+        
 
         # Add Tab to Main Windows
         self.layout_tab = QVBoxLayout(self)
@@ -77,8 +82,8 @@ class MyTableWidget(QWidget):
         # Add Shortcut key
 
         # Ctrl + W to Exit
-        self.shortcut = QShortcut(QKeySequence("Ctrl+W"), self)
-        self.shortcut.activated.connect(self.exit)
+        #self.shortcut = QShortcut(QKeySequence("Ctrl+W"), self)
+        #self.shortcut.activated.connect(self.exit)
 
         #########################################################################################################################################################################################
 
@@ -93,7 +98,7 @@ class MyTableWidget(QWidget):
                                                 ' E:<font color="blue"></font>.<font color="red">J97543</font>.<font color="orange">K7532</font>.<font color="green">94</font>' +
                                                 ' S:<font color="blue">87</font>.<font color="red">A62</font>.<font color="orange">QJT4</font>.<font color="green">AT75</font>' +
                                                 ' W:<font color="blue">AK96</font>.<font color="red">KQ8</font>.<font color="orange">A98</font>.<font color="green">K63</font>')
-        """ """
+        
         self.line_input_desk = QLineEdit()
         #self.line_input_desk.setFixedWidth(750)
         self.line_input_desk.setMaximumWidth(750)                   # Set Width
@@ -281,7 +286,7 @@ class MyTableWidget(QWidget):
 
 
 
-
+    
 
 
     @pyqtSlot()
@@ -337,7 +342,8 @@ class MyTableWidget(QWidget):
 
     def clicked_generate_random(self):
         self.line_input_desk.setText(random_card())
-        self.clicked_generate()
+        #self.clicked_generate()
+        pass
 
     def clicked_input_clear(self):
         self.line_input_desk.setText("N:... E:... S:... W:...")
@@ -353,14 +359,27 @@ class MyTableWidget(QWidget):
     def exit():
         sys.exit( app.exec_() )
 
-        
     
 
 
+    
+"""
+
+def window():
+   app = QApplication(sys.argv)
+   widget = QWidget()
+
+   textLabel = QLabel(widget)
+   textLabel.setText("Hello World!")
+   textLabel.move(110,85)
+
+   widget.setGeometry(50,50,320,200)
+   widget.setWindowTitle("PyQt5 Example")
+   widget.show()
+   sys.exit(app.exec_())
 
 
-
-
+"""
 
 
 
