@@ -1,5 +1,5 @@
 from re import X
-import PIL
+#import PIL
 from PIL import Image ,ImageFont ,ImageDraw
  
  
@@ -103,7 +103,7 @@ def make_pic_4hand(input_dict_desk) :
                 dict_desk[i][j] = "  - "
 
     
-    ############ Load picture ############
+    ############ Load Picture ############
 
     #pic_4hand = Image.open('picture_resource/pic_4hand_default.png')
     pic_4hand       = Image.new('RGB',(440, 440) ,"white")

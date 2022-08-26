@@ -144,14 +144,33 @@ if __name__ == '__main__' :
 
     parser.add_argument("a", nargs='?', default="check_string_for_empty")
 
+    # Function for Argument
+    #
+    # No argument
     if args.a == 'check_string_for_empty':
         print ('I can tell that no argument was given and I can deal with that here.')
+    
+    # Argument list
     elif args.a == 'magic.name':
         print ('You nailed it!')
+
     elif args.a == 'start_gui':
-        Client_run("main_windows.py")
+        #Client_run("main_windows.py")  # Old filename
+        Client_run("gui_interface.py")
+        
+    elif args.a == 'help':
+        word_help = """
+        help      : Start help manual
+        start_gui  : Start Gui for program
+
+
+        """
+        print(word_help)
+
+    # Else Argument
     else:
-        print (args.a)
+        #print (args.a)
+        print ("No argument try --help")
 
     #Client_run("test.py")
     #Client_run("main_windows.py")
