@@ -1,7 +1,20 @@
 #https://math.stackexchange.com/questions/1227409/indexing-all-combinations-without-making-list
-from math import comb
-from porter_bridges.porter_bridges import list_to_text
-import random
+from math   import comb
+from random import randint
+
+# Load Library handler
+# To load porter_bridges Library by different location.
+try:
+    # If can't load.
+    # Used for run by gui_interface file.
+    from porter_bridges.porter_bridges import list_to_text
+except:
+    # Then Load from this statement.
+    # Used for run by this file.
+    # Use to test and debug.
+    from porter_bridges import list_to_text
+
+
 
 def generate_desk():
     num = ["A","K","Q","J","T","9","8","7","6","5","4","3","2"]
@@ -120,21 +133,33 @@ def key_to_comb(key):
 def cycle_one_step(seed: int, sample_size: int, increment: int):
     nb = seed
     nb = (nb + increment) % sample_size
+
     return nb
 
 def random_card():
-    number = random.randint(1, 53644737765488792839237440000)
-    # N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63
-    #print(key_to_comb(number))
-    return key_to_comb(number)
+    # Return desk that generate from random number
+    number = randint(1, 53644737765488792839237440000)      # Random number between 1, 53644737765488792839237440000
+    desk = key_to_comb(number)                              # generate desk from number
+    
+    return desk     #print(key_to_comb(number))     # N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63
 
-def random_card_with_prng():
-    pass
+def random_card_with_prng(seed_input: int):
+    # Return desk that generate from random number by 
+    seed        = seed_input
+    sample_size = 53644737765488792839237440000
+    increment   = 31114111519121615131518191719     # 58.000304997 % of sample_size
+                                                    # and be prime number that's be coprime of sample_size
+
+    number = cycle_one_step(seed ,sample_size ,increment)     # Random number from seed ,sampl_size and increment
 
 
+    desk = key_to_comb(number)                              # generate desk from number
+    
+    return desk     #print(key_to_comb(number))     # N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63
 
 
-
+print(random_card())
+print(random_card_with_prng(1))
 
 #################### TEST SECTION. ####################
 

@@ -48,7 +48,7 @@ def list_to_text(input_list_N ,input_list_E ,input_list_S ,input_list_W):
     """
     input_list = [input_list_N ,input_list_E ,input_list_S ,input_list_W]
     output_text = ""
-    dir = ["N","E","S","W"]
+    dir = ["N","E","W","S"]
     suit = ["s","h","d","c"]
     
 
@@ -84,13 +84,13 @@ def text_to_list(input_text):
     # Output_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" sort by N E S W
     N_text = re.findall('N:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
     E_text = re.findall('E:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
-    S_text = re.findall('S:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
     W_text = re.findall('W:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
+    S_text = re.findall('S:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
 
     output_text = [ N_text[0] ,
                     E_text[0] ,
-                    S_text[0] ,
-                    W_text[0] ]
+                    W_text[0] ,
+                    S_text[0] ]
 
     return output_text
 

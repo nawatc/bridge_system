@@ -12,8 +12,8 @@ from picture_program.picture_program import make_pic_4hand
 
 from porter_bridges.random_number import random_card
 
-from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn ,dict_to_desk ,deck_list_result
-from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
+from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn ,dict_to_desk ,deck_list_result ,list_to_text
+#from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
 
 
 
@@ -99,7 +99,7 @@ class MyTabsWidget(QWidget):
         self.line_input_desk = QLineEdit()
         #self.line_input_desk.setFixedWidth(750)
         self.line_input_desk.setMaximumWidth(750)                   # Set Width
-        self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63") # Set Default Text
+        self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 W:AK96.KQ8.A98.K63 S:87.A62.QJT4.AT75") # Set Default Text
         #N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75
         self.line_input_desk.setStyleSheet('font-size: 14pt;')      # Set stylesheet for LineEdit
         self.line_input_desk.textChanged.connect(self.checker_card)
@@ -226,7 +226,7 @@ class MyTabsWidget(QWidget):
         self.pixmap = QPixmap('picture_resource/result.png')
         os.remove("picture_resource/result.png")
 
-        # creating label and adding image to label
+        # Creating label and adding image to label
         self.label_pic = QLabel(self)
         self.label_pic.setPixmap(self.pixmap)
 
@@ -339,7 +339,8 @@ class MyTabsWidget(QWidget):
 
     def clicked_generate_random(self):
         # Signal to change text in line_input_desk to random card
-        self.line_input_desk.setText(random_card())
+        random_desk = random_card()                         # get random card
+        self.line_input_desk.setText(random_desk)           # set text to display
 
     def clicked_input_clear(self):
         # Signal to clear text in line_input_desk
