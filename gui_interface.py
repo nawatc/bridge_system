@@ -103,6 +103,7 @@ class MyTabsWidget(QWidget):
         #N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75
         self.line_input_desk.setStyleSheet('font-size: 14pt;')      # Set stylesheet for LineEdit
         self.line_input_desk.textChanged.connect(self.checker_card)
+        self.line_input_desk.textChanged.connect(self.upper_card)
         
         """
         # for color textedit
@@ -180,8 +181,8 @@ class MyTabsWidget(QWidget):
         self.line_input_clear.setAutoDefault(1)                             # Make button to click with Enter key
         self.line_input_clear.setStyleSheet('font-size: 14pt;')
 
-        self.tab1_text_checker = QLabel("Checker Card : - ")
-        self.tab1_text_checker.setStyleSheet('font-size: 14pt;')
+        self.text_checker = QLabel("Checker Card : - ")
+        self.text_checker.setStyleSheet('font-size: 14pt;')
 
         # Create Layout and Add label
         
@@ -199,7 +200,7 @@ class MyTabsWidget(QWidget):
         self.tab1.layout_tab1_V.addLayout(self.tab1.layout_tab1_H)
 
 
-        self.tab1.layout_tab1_V.addWidget(self.tab1_text_checker)
+        self.tab1.layout_tab1_V.addWidget(self.text_checker)
     
         
 
@@ -288,9 +289,8 @@ class MyTabsWidget(QWidget):
 
     @pyqtSlot()
     def clicked_generate(self):
-        
-        # Switch to 2nd Tab
-        self.tabs.setCurrentIndex(1)
+        # Switch to Tab 3
+        self.tabs.setCurrentIndex(2)
 
         # Set text in Tab 2
         self.tab2_text4.setText(self.line_input_desk.text())
@@ -327,33 +327,49 @@ class MyTabsWidget(QWidget):
         self.tab2_text5.setText(all_2)
 
 
-        # make pic
+        # Create image
         input_text = self.line_input_desk.text()
         input_text = pbn_to_dict(input_text)
-        make_pic_4hand(input_text)      # create pic of 4 hand of desk
+        make_pic_4hand(input_text)                  # Create image of 4 hand desk
 
-        # loading image
+        # Loading image
         self.pixmap = QPixmap('picture_resource/result.png')
         self.label_pic.setPixmap(self.pixmap)
         os.remove("picture_resource/result.png")
 
     def clicked_generate_random(self):
+        # Signal to change text in line_input_desk to random card
         self.line_input_desk.setText(random_card())
-        #self.clicked_generate()
-        pass
 
     def clicked_input_clear(self):
+        # Signal to clear text in line_input_desk
         self.line_input_desk.setText("N:... E:... S:... W:...")
-        #self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63")
     
     def checker_card(self):
-        dict_desk = pbn_to_dict(self.line_input_desk.text())
-        list_desk = dict_to_desk(dict_desk)
-        lost_card ,over_card = deck_list_result(list_desk)
-        self.tab1_text_checker.setText("Lost_card is " + str(lost_card) +"\n"+"Over_card is " + str(over_card))
-        pass
+        # Signal to Display Checker Lost card and Over card on 
+        dict_desk = pbn_to_dict(self.line_input_desk.text())        # get text and change to dict type
+        list_desk = dict_to_desk(dict_desk)                         # change dict type to list of desk
+        lost_card ,over_card = deck_list_result(list_desk)          # get checker result 
+
+        # Display result on text_checker
+        self.text_checker.setText(  "Checker Card : "                           + "\n" +
+                                    "Lost_card \t" + str(lost_card)             + "\n" +
+                                    "Over_card \t" + str(over_card)
+        )
+        
+
+    def upper_card(self):
+        # Signal to change text in line_input_desk to upper character
+
+        line = self.line_input_desk.text().upper()          # get text and change to upper character
+        cursorPos = self.line_input_desk.cursorPosition()   # get cursorPosition of line_input_desk
+        
+        self.line_input_desk.setText(line)                  # set text as upper text
+        self.line_input_desk.setCursorPosition(cursorPos)   # set cursorPosition same as before
+        
 
     def exit():
+        # Exit function to Close progream
         sys.exit( app.exec_() )
 
 
