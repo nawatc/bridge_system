@@ -2,8 +2,12 @@ import re
 
 
 def text_to_pbn_check(input_text):
-    # Input : input_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" with on sort
-    #
+    """
+    
+    Input  : "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 W:87.A62.QJT4.AT75 S:AK96.KQ8.A98.K63" with on sort
+    Output : True    if     found all
+             False   if Not found some
+    """
     # Output : is 
     # No Error : ["No Error"]
     # Error    : ["Error"   ,"N not found","E not found","S not found","W not found"]   # for Many not found
@@ -17,6 +21,7 @@ def text_to_pbn_check(input_text):
     S_text = re.findall('S:[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*', input_text)
     W_text = re.findall('W:[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*\.[AKQJT98765432]*', input_text)
 
+    """
     if N_text == "": # Not found North
         output.append("N : Not found")
     if E_text == "": # Not found East
@@ -30,9 +35,28 @@ def text_to_pbn_check(input_text):
         output.insert( 0 ,"No Error")
     else:               # Error
         output.insert( 0 ,"Error")
+    """
+
+    """
+    print(N_text)
+    print(E_text)
+    print(W_text)
+    print(S_text)
+    """
+    
+    if N_text != [] and E_text != [] and W_text != [] and S_text != []:
+        # if found all
+        output = True
+    else:
+        # else not found some
+        output = False
 
 
     return output
+
+print(text_to_pbn_check("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 W:AK96.KQ8.A98.K63 :87.A62.QJT4.AT75"))
+
+
 
 def list_to_text(input_list_N ,input_list_E ,input_list_S ,input_list_W):
     # Input
@@ -79,8 +103,8 @@ def list_to_text(input_list_N ,input_list_E ,input_list_S ,input_list_W):
         
 #list_to_text(['As', 'Ks', 'Qs', 'Js', 'Ts', '9s', 'Ah', '8h', 'Td', '8d', '7d', '6d', '3d'],['Qh', '7h', '5h', 'Kd', 'Qd', '4d', 'Kc', 'Ac', 'Tc', 'Qc', '6c', '5c', '3c'],['7s', '2s', 'Kh', 'Jh', 'Th', '9h', '6h', '3h', 'Ad', 'Jd', '2d', '7c', '4c'],['8s', '6s', '5s', '4s', '3s', '4h', '2h', '9d', '5d', 'Jc', '9c', '8c', '2c'])
 
-def text_to_list(input_text):
-    # Input_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" with on don't need to sort
+def text_to_list_hand(input_text):
+    # Input_text  is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" with on don't need to sort
     # Output_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" sort by N E S W
     N_text = re.findall('N:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
     E_text = re.findall('E:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
@@ -93,6 +117,42 @@ def text_to_list(input_text):
                     S_text[0] ]
 
     return output_text
+
+def text_to_list_desk(input_text):
+    """
+    Input  : "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63"
+    Output : ['Qs', 'Js', 'Ts', '5s', '4s', '3s', '2s', 'Th', '6d', 'Qc', 'Jc', '8c', '2c'
+            , 'Jh', '9h', '7h', '5h', '4h', '3h', 'Kd', '7d', '5d', '3d', '2d', '9c', '4c'
+            , 'As', 'Ks', '9s', '6s', 'Kh', 'Qh', '8h', 'Ad', '9d', '8d', 'Kc', '6c', '3c'
+            , '8s', '7s', 'Ah', '6h', '2h', 'Qd', 'Jd', 'Td', '4d', 'Ac', 'Tc', '7c', '5c']
+    """
+    # Regex                     ['N:QJT5432.T.6.QJ82']
+    N_text = re.findall('N:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
+    E_text = re.findall('E:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
+    W_text = re.findall('W:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
+    S_text = re.findall('S:[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}\.[AKQJT98765432]{0,13}', input_text)
+
+    # Cut head
+    N_text = N_text[0][2:]      # ['N:QJT5432.T.6.QJ82'] -> "QJT5432.T.6.QJ82"
+    E_text = E_text[0][2:]
+    W_text = W_text[0][2:]
+    S_text = S_text[0][2:]
+
+
+    suit = ["s","h","d","c"]
+    index = 0
+    output = []
+
+    for i in [N_text,E_text,W_text,S_text]:
+        index = 0
+        for j in i:
+            if j == ".":
+                index = index + 1
+            else:
+                output.append(j+suit[index])
+
+    #print(output)
+    return output
 
 def text_to_pbn(input_text):
     # Input_text is "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63" with on don't need to sort
@@ -286,7 +346,13 @@ def FC_random_number():
     # Verify that all numbers were generated correctly
     assert set(cycle(seed, sample_size, increment)) == set(range(sample_size))
 
-def generate_desk():
+def generate_desk_list():
+    """
+    Return list of full desk
+    """
+
+    """
+    # get list by implemented.
     num = ["A","K","Q","J","T","9","8","7","6","5","4","3","2"]
     suit = ["s","h","d","c"]
     desk = []
@@ -294,13 +360,20 @@ def generate_desk():
     for i in suit:
         for j in num:
             desk.append(j+i)
+    """
+    
+    # get list by declear variable
+    desk = ['As', 'Ks', 'Qs', 'Js', 'Ts', '9s', '8s', '7s', '6s', '5s', '4s', '3s', '2s'
+          , 'Ah', 'Kh', 'Qh', 'Jh', 'Th', '9h', '8h', '7h', '6h', '5h', '4h', '3h', '2h'
+          , 'Ad', 'Kd', 'Qd', 'Jd', 'Td', '9d', '8d', '7d', '6d', '5d', '4d', '3d', '2d'
+          , 'Ac', 'Kc', 'Qc', 'Jc', 'Tc', '9c', '8c', '7c', '6c', '5c', '4c', '3c', '2c']
     
     return desk
 
 def deck_list_checker(input_desk):
     # Intitial variable
     input_desk = input_desk
-    full_desk = generate_desk()
+    full_desk = generate_desk_list()
     lost_card = []
     over_card = []
     
@@ -322,9 +395,21 @@ def deck_list_checker(input_desk):
         return False
 
 def deck_list_result(input_desk):
+    """
+    Input  : list of desk
+            ['Qs', 'Js', 'Ts', '5s', '4s', '3s', '2s', 'Th', '6d', 'Qc', 'Jc', '8c', '2c'
+            , 'Jh', '9h', '7h', '5h', '4h', '3h', 'Kd', '7d', '5d', '3d', '2d', '9c', '4c'
+            , '8s', '7s', 'Ah', '6h', '2h', 'Qd', 'Jd', 'Td', '4d', 'Ac', 'Tc', '7c', '5c'
+            , 'As', 'Ks', '9s', '6s', 'Kh', 'Qh', '8h', 'Ad', '9d', '8d', 'Kc', '6c', '3c']
+
+    Output : [lost_card     -> []   or ['3c'] if have lost card
+             ,over_card]    -> []   or ['3c'] if have over card
+            
+    lost_card ,over_card = deck_list_result(list_desk)
+    """
     # Intitial variable
     input_desk = input_desk
-    full_desk = generate_desk()
+    full_desk = generate_desk_list()
     lost_card = []
     over_card = []
     
@@ -340,7 +425,10 @@ def deck_list_result(input_desk):
     return [lost_card ,over_card]
 
 """
-desk = ['As', 'Ks', 'Qs', 'Js', 'Ts', '9s', '8s', '7s', '6s', '5s', '4s', '3s', '2s', 'Ah', 'Kh', 'Qh', 'Jh', 'Th', '9h', '8h', '7h', '6h', '5h', '4h', '3h', '2h', 'Ad', 'Kd', 'Qd', 'Jd', 'Td', '9d', '8d', '7d', '6d', '5d', '4d', '3d', '2d', 'Ac', 'Kc', 'Qc', 'Jc', 'Tc', '9c', '8c', '7c', '6c', '5c', '4c', '3c', '2c']
+desk = ['As', 'Ks', 'Qs', 'Js', 'Ts', '9s', '8s', '7s', '6s', '5s', '4s', '3s', '2s'
+      , 'Ah', 'Kh', 'Qh', 'Jh', 'Th', '9h', '8h', '7h', '6h', '5h', '4h', '3h', '2h'
+      , 'Ad', 'Kd', 'Qd', 'Jd', 'Td', '9d', '8d', '7d', '6d', '5d', '4d', '3d', '2d'
+      , 'Ac', 'Kc', 'Qc', 'Jc', 'Tc', '9c', '8c', '7c', '6c', '5c', '4c', '3c', '2c']
 
 deck_list_checker(desk)
 

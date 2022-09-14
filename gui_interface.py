@@ -1,6 +1,6 @@
 import sys ,os
 from PyQt5 import QtWidgets ,QtGui #,QtCore
-from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QShortcut #,QTextEdit  #,QSizePolicy ,QFileDialog ,QGridLayout 
+from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QMessageBox ,QShortcut #,QTextEdit  #,QSizePolicy ,QFileDialog ,QGridLayout 
 from PyQt5.QtCore    import pyqtSlot
 from PyQt5.QtGui     import QKeySequence ,QPixmap #,QColor
 
@@ -12,10 +12,8 @@ from picture_program.picture_program import make_pic_4hand
 
 from porter_bridges.random_number import random_card
 
-from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn ,dict_to_desk ,deck_list_result ,list_to_text
-#from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
-
-
+from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn_check ,text_to_pbn ,dict_to_desk ,deck_list_result  ,text_to_list_desk
+from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
 
 
 
@@ -39,7 +37,6 @@ class MyTabsWidget(QWidget):
     def __init__(self, parent):
         super(QWidget, self).__init__(parent)
         
-        
         # Initialize tab screen
         self.tabs = QTabWidget()
         #self.tabs.resize(300,200)
@@ -58,6 +55,7 @@ class MyTabsWidget(QWidget):
         self.tabs.addTab(self.tab1,"Edit Board")
         self.tabs.addTab(self.tab2,"Display Board")
         
+        self.tabs.setCurrentIndex(1)    # Go to tab 2
 
         # Add Tab to Main Windows
         self.layout_tab = QVBoxLayout(self)
@@ -181,7 +179,7 @@ class MyTabsWidget(QWidget):
         self.line_input_clear.setAutoDefault(1)                             # Make button to click with Enter key
         self.line_input_clear.setStyleSheet('font-size: 14pt;')
 
-        self.text_checker = QLabel("Checker Card : - ")
+        self.text_checker = QLabel("Checker Card : -")
         self.text_checker.setStyleSheet('font-size: 14pt;')
 
         # Create Layout and Add label
@@ -289,6 +287,48 @@ class MyTabsWidget(QWidget):
 
     @pyqtSlot()
     def clicked_generate(self):
+
+        # Check if Desk code is valid
+
+        if ( text_to_pbn_check(self.line_input_desk.text()) == False):
+            """
+            If pbn is Invaild
+            """
+            # Error message
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            #msg.setText("Error")
+            #msg.setInformativeText('More information')
+            msg.setInformativeText('Desk is Invalid')
+            msg.setWindowTitle("Error")
+            msg.exec_()
+
+            return # Exit function
+
+        else:
+            """
+            Else (If pbn is vaild)
+            -> Check lost_card ,over_card == []
+            """
+            list_desk = self.line_input_desk.text()
+            list_desk = text_to_list_desk(list_desk)
+            lost_card ,over_card = deck_list_result(list_desk)          # get checker result
+
+            if ((lost_card == []) == False) or ((over_card == []) == False):
+                # Error message
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Critical)
+                msg.setText("Error : Desk is not complete")
+                #msg.setInformativeText('More information')
+                msg.setWindowTitle("Error")
+                msg.exec_()
+
+                return # Exit function
+
+
+
+
+        
         # Switch to Tab 3
         self.tabs.setCurrentIndex(2)
 
@@ -350,8 +390,9 @@ class MyTabsWidget(QWidget):
         # Signal to Display Checker Lost card and Over card on 
         dict_desk = pbn_to_dict(self.line_input_desk.text())        # get text and change to dict type
         list_desk = dict_to_desk(dict_desk)                         # change dict type to list of desk
-        lost_card ,over_card = deck_list_result(list_desk)          # get checker result 
 
+        lost_card ,over_card = deck_list_result(list_desk)          # get checker result
+        
         # Display result on text_checker
         self.text_checker.setText(  "Checker Card : "                           + "\n" +
                                     "Lost_card \t" + str(lost_card)             + "\n" +

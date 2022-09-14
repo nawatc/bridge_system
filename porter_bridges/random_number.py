@@ -1,4 +1,11 @@
-#https://math.stackexchange.com/questions/1227409/indexing-all-combinations-without-making-list
+"""
+Ref. 
+Combinatorial number system  for generate 
+https://math.stackexchange.com/questions/1227409/indexing-all-combinations-without-making-list
+Full_cycle PRNG
+https://en.wikipedia.org/wiki/Full_cycle
+"""
+
 from math   import comb
 from random import randint
 
@@ -16,7 +23,13 @@ except:
 
 
 
-def generate_desk():
+def generate_desk_list():
+    """
+    Return list of full desk
+    """
+
+    """
+    # get list by implemented.
     num = ["A","K","Q","J","T","9","8","7","6","5","4","3","2"]
     suit = ["s","h","d","c"]
     desk = []
@@ -24,55 +37,71 @@ def generate_desk():
     for i in suit:
         for j in num:
             desk.append(j+i)
+    """
+    
+    # get list by declear variable
+    desk = ['As', 'Ks', 'Qs', 'Js', 'Ts', '9s', '8s', '7s', '6s', '5s', '4s', '3s', '2s'
+          , 'Ah', 'Kh', 'Qh', 'Jh', 'Th', '9h', '8h', '7h', '6h', '5h', '4h', '3h', '2h'
+          , 'Ad', 'Kd', 'Qd', 'Jd', 'Td', '9d', '8d', '7d', '6d', '5d', '4d', '3d', '2d'
+          , 'Ac', 'Kc', 'Qc', 'Jc', 'Tc', '9c', '8c', '7c', '6c', '5c', '4c', '3c', '2c']
     
     return desk
 
-def C(n,k):
-    return comb(n,k)
-"""
-def C(n,k): #computes nCk, the number of combinations n choose k
-    result = 1
-    for i in range(n):
-        result*=(i+1)
-    for i in range(k):
-        result/=(i+1)
-    for i in range(n-k):
-        result/=(i+1)
-    return result
-"""
+def cgen(i ,n ,k):
+    # Combination Generator
+    """
+    Returns the i-th combination of k numbers chosen from 1,2,...,n
+            Order i from nCk
 
-def cgen(i,n,k):
+    Input  : i ,n ,k (i index_number   n total size   k total numbers chosen)
+    Output : list of k chosen number
+        as   [2, 4, 5, 13, 16, 17, 18, 19, 20, 32, 46, 50, 52]
+
+    List of initials name
+    c list of collection index
+    r range
+    j
+    cs
+    i index     n total size    k numbers chosen
     """
-    returns the i-th combination of k numbers chosen from 1,2,...,n
-    """
+
     c = []
-    r = i+0
+    r = i + 0
     j = 0
+
     for s in range(1,k+1):
         cs = j+1
-        while r-C(n-cs,k-s)>0:
-            r -= C(n-cs,k-s)
+        while r-comb(n-cs,k-s)>0:
+            r -= comb(n-cs,k-s)
             cs += 1
         c.append(cs)
         j = cs
+    
     return c    
 
-def key_to_comb(key):
+def key_to_comb(key_number :int):
+    """
+    Returns Desk_code from key_number
+
+    Input  : int
+    Output : "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63"
+    """
+
     h1,h2,h3 = 0,0,0
     h1_list ,h2_list ,h3_list = [],[],[]
     h1_card ,h2_card ,h3_card ,h4_card = [],[],[],[]
 
-    desk = generate_desk()
-    num = key
+    desk = generate_desk_list()
+    num = key_number
 
     h1 = num % 635013559600        # Combination for h1 
-    num = int(num / 635013559600)  # C(52,13)
+    num = int(num / 635013559600)  # comb(52,13)
 
-    h2 = num %   8122425444
-    num = int(num / 8122425444)    # C(39,13)
+    h2 = num %   8122425444        # Combination for h2
+    num = int(num / 8122425444)    # comb(39,13)
 
-    h3 = num % 10400600
-    num = int(num / 10400600)      # C(26,13)
+    h3 = num % 10400600            # Combination for h3
+    num = int(num / 10400600)      # comb(26,13)
 
     #h4 = num
     num = 0
@@ -121,7 +150,7 @@ def key_to_comb(key):
 #print(cgen(1,10,2))
 #print(cgen(17310309456440,100,10))
 #print(cgen(68814103099439929837637702193841,1000,15))
-#print(C(52,13)*C(39,13)*C(26,13))
+#print(comb(52,13)*comb(39,13)*comb(26,13))
 
 #print(cgen(635013559600,52,13))
 #print(cgen(192307254993,52,13))
@@ -131,20 +160,21 @@ def key_to_comb(key):
 
 
 def cycle_one_step(seed: int, sample_size: int, increment: int):
-    nb = seed
-    nb = (nb + increment) % sample_size
+    """ Return number from full cycle PRNG number """
+    prng_number = (seed + increment) % sample_size
 
-    return nb
+    return prng_number
 
 def random_card():
-    # Return desk that generate from random number
+    """ Return desk that generate from random number """
     number = randint(1, 53644737765488792839237440000)      # Random number between 1, 53644737765488792839237440000
+
     desk = key_to_comb(number)                              # generate desk from number
     
     return desk     #print(key_to_comb(number))     # N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63
 
 def random_card_with_prng(seed_input: int):
-    # Return desk that generate from random number by 
+    """ Return desk that generate from random number by full cycle PRNG method"""
     seed        = seed_input
     sample_size = 53644737765488792839237440000
     increment   = 31114111519121615131518191719     # 58.000304997 % of sample_size
@@ -152,17 +182,17 @@ def random_card_with_prng(seed_input: int):
 
     number = cycle_one_step(seed ,sample_size ,increment)     # Random number from seed ,sampl_size and increment
 
-
     desk = key_to_comb(number)                              # generate desk from number
     
     return desk     #print(key_to_comb(number))     # N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63
 
 
-print(random_card())
-print(random_card_with_prng(1))
+
 
 #################### TEST SECTION. ####################
 
+#print(random_card())
+#print(random_card_with_prng(1))
 
 
 ############### Generate Number for Desk ###############
