@@ -202,14 +202,46 @@ def make_pic_4hand(input_dict_desk) :
 
     ############################ Add HCP ############################
     draw = ImageDraw.Draw(pic_4hand)
-    draw.rectangle(((40, 300), (140, 400)), fill="gray")
-    draw.text((40, 300), "something123", font=ImageFont.truetype("arial.ttf"))
+    draw.rectangle(((30, 300), (150, 400)), fill="gray")
+
+    c1 = [" ","N","S","E","W"]
+    c2 = ["N","-","-","-","-"]
+    c3 = ["S","-","-","-","-"]
+    c4 = ["H","-","-","-","-"]
+    c5 = ["D","-","-","-","-"]
+    c6 = ["C","-","-","-","-"]
+    
+    r = [c1,c2,c3,c4,c5,c6]
+
+    x_start = 35
+    y_start = 300
+    x_p = 20
+    y_p = 20
+    
+    for i in range(0,6):
+        for j in range(0,5):
+            draw.text((x_start + x_p*i, y_start + y_p*j), r[i][j], font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
+
+    """
+    # Draw First Row
+    draw.text((55, 300), "N", font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
+    draw.text((75, 300), "S", font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
+    draw.text((95, 300), "H", font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
+    draw.text((115, 300), "D", font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
+    draw.text((135, 300), "C", font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
+
+    # Draw First Colume
+    draw.text((35, 300), " ", font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
+    draw.text((35, 320), "N", font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
+    draw.text((35, 340), "S", font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
+    draw.text((35, 360), "E", font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
+    draw.text((35, 380), "W", font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
+    """
 
     # Save Pic
-    #pic_4hand.save("result.png")
     pic_4hand.save("picture_resource/result.png")
 
-
+make_pic_4hand({})
 
 
 

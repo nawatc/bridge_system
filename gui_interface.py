@@ -1,8 +1,8 @@
 import sys ,os
-from PyQt5 import QtWidgets ,QtGui #,QtCore
-from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QMessageBox ,QShortcut #,QTextEdit  #,QSizePolicy ,QFileDialog ,QGridLayout 
+from PyQt5 import QtWidgets ,QtGui #,QtCore 
+from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QMessageBox ,QShortcut ,QSizePolicy#,QTextEdit  #,QSizePolicy ,QFileDialog ,QGridLayout 
 from PyQt5.QtCore    import pyqtSlot
-from PyQt5.QtGui     import QKeySequence ,QPixmap #,QColor
+from PyQt5.QtGui     import QKeySequence ,QPixmap  #,QColor
 
 
 import ddstable_standalone as ddstable_standalone
@@ -45,32 +45,22 @@ class MyTabsWidget(QWidget):
         self.tab1 = QWidget()
         self.tab2 = QWidget()
         self.tab3 = QWidget()
+        self.tab4 = QWidget()
+        self.tab5 = QWidget()
         
         
         # Add Tabs
-        #self.tabs.addTab(self.tab1,"Input Desk")
-        #self.tabs.addTab(self.tab2,"Display Selected Desk")
-        #self.tabs.addTab(self.tab3,"Select Desk")
-        self.tabs.addTab(self.tab3,"Main Menu")
-        self.tabs.addTab(self.tab1,"Edit Board")
-        self.tabs.addTab(self.tab2,"Display Board")
+        self.tabs.addTab(self.tab1,"Main Menu")
+        self.tabs.addTab(self.tab2,"Edit Board")
+        self.tabs.addTab(self.tab3,"Display Board")
+        self.tabs.addTab(self.tab4,"Choose from Database")
+        self.tabs.addTab(self.tab5,"Export as PDF")
         
-        self.tabs.setCurrentIndex(2)    # Go to tab 3
+        self.tabs.setCurrentIndex(2)    # Go to tab 2
 
         # Add Tab to Main Windows
         self.layout_tab = QVBoxLayout(self)
         self.layout_tab.addWidget(self.tabs)
-
-
-
-
-
-
-
-
-
-
-        #self.tabs.setCurrentIndex(1)        # Go to Tab 2 
 
         #########################################################################################################################################################################################
 
@@ -83,19 +73,261 @@ class MyTabsWidget(QWidget):
         #########################################################################################################################################################################################
 
         # Create First tab
+        
+        # Create Main Layout and Add label
+        self.tab1.layout_tab1_V_main = QVBoxLayout()
+        self.tab1.setLayout(self.tab1.layout_tab1_V_main)
 
 
-        # Create Label
+            # 1st Horizon Layout
+        self.tab1.layout_tab1_H = QHBoxLayout()
 
-        #self.tab1_text1 = QLabel("Desk Code : N:Space.Heart.Diamond.Club E:Space.Heart.Diamond.Club S:Space.Heart.Diamond.Club W:Space.Heart.Diamond.Club")
-        #self.tab1_text2 = QLabel("Example Input : N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63")    # Default Text
-        self.tab1_text2 = QLabel('Example Input : N:<font color="blue">QJT5432</font>.<font color="red">T</font>.<font color="orange">6</font>.<font color="green">QJ82</font>' +
+                # Autogen Lable
+        self.line_autogen = QLabel("Auto generate new Desk number : ")
+        self.tab1.layout_tab1_H.addWidget(self.line_autogen)
+
+                # Autogen Line Edit
+        self.line_edit_autogen = QLineEdit()
+        self.line_edit_autogen.setText("0") # Set Default Text
+        self.line_edit_autogen.setStyleSheet('font-size: 14pt;')
+        self.line_edit_autogen.setFixedWidth(100)
+        #self.line_edit_autogen.setMaximumWidth(100)                   # Set Width
+        self.tab1.layout_tab1_H.addWidget(self.line_edit_autogen)
+
+                # Autogen Button
+        self.button_autogen = QPushButton("Generate Desk")
+        #self.button_autogen.clicked.connect(self.clicked_input_clear)
+        self.button_autogen.setAutoDefault(1)                             # Make button to click with Enter key
+        self.button_autogen.setStyleSheet('font-size: 14pt;')
+        self.tab1.layout_tab1_H.addWidget(self.button_autogen)
+        
+
+        self.tab1.layout_tab1_H.addStretch()
+
+            # Add 1st Horizon Layout into main Layout
+        self.tab1.layout_tab1_V_main.addLayout(self.tab1.layout_tab1_H)
+
+
+        
+
+
+        # End of first tab
+        
+        # Add Stretch
+        self.tab1.layout_tab1_V_main.addStretch()
+
+
+        #########################################################################################################################################################################################
+    
+        # Create Second tab
+
+        # Create Main Layout and Add label
+        self.tab2.layout_tab2_V_main = QVBoxLayout()
+        self.tab2.setLayout(self.tab2.layout_tab2_V_main)
+
+        """
+            # Vertical
+
+            # 0st Horizon Layout
+        self.tab2.layout_tab2_H_zero = QHBoxLayout()
+        self.tab2.layout_tab2_V_main.addLayout(self.tab2.layout_tab2_H_zero)
+
+                # Table Layout
+        self.tab2.layout_tab2_Table_V = QVBoxLayout()
+        self.tab2.layout_tab2_Table_V_right = QVBoxLayout()
+        self.tab2.layout_tab2_H_zero.addLayout(self.tab2.layout_tab2_Table_V)
+        self.tab2.layout_tab2_H_zero.addLayout(self.tab2.layout_tab2_Table_V_right)
+
+                # Table 1 2 3
+        self.tab2.layout_tab2_Table_H1 = QHBoxLayout()
+        self.tab2.layout_tab2_Table_H2 = QHBoxLayout()
+        self.tab2.layout_tab2_Table_H3 = QHBoxLayout()
+        self.tab2.layout_tab2_Table_V.addLayout(self.tab2.layout_tab2_Table_H1)
+        self.tab2.layout_tab2_Table_V.addLayout(self.tab2.layout_tab2_Table_H2)
+        self.tab2.layout_tab2_Table_V.addLayout(self.tab2.layout_tab2_Table_H3)
+
+
+                # Table 1-1         North Input
+        self.tab2.layout_tab2_Table_V1_1 = QVBoxLayout()
+        self.tab2.layout_tab2_Table_H1.addLayout(self.tab2.layout_tab2_Table_V1_1)
+                    # Add Lable
+        self.lable_V1_1_lable_N = QLabel("North")
+        self.tab2.layout_tab2_Table_V1_1.addWidget(self.lable_V1_1_lable_N)
+                    # Add 13 button
+        self.tab2.layout_tab2_Table_V1_1_H1 = QHBoxLayout()
+        self.tab2.layout_tab2_Table_V1_1.addLayout(self.tab2.layout_tab2_Table_V1_1_H1)
+
+        button_list = ["A","K","Q","J","T","9","8","7","6","5","4","3","2"]
+        for i in button_list:
+            button = QPushButton(i.format(i), self)
+            button.setMaximumWidth(20)
+            #button.clicked.connect(lambda ch, i=i: self.function(i))      # < ---
+            self.tab2.layout_tab2_Table_V1_1_H1.addWidget(button)
+
+        #self.tab2.layout_tab2_Table_V1_1.addStretch()
+
+                # Table 1-2         North Output
+        self.tab2.layout_tab2_Table_V1_2 = QVBoxLayout()
+        self.tab2.layout_tab2_Table_H1.addLayout(self.tab2.layout_tab2_Table_V1_2)
+                    # Add Lable
+        self.lable_V1_2_lable_N = QLabel("North")
+        self.tab2.layout_tab2_Table_V1_2.addWidget(self.lable_V1_2_lable_N)
+        self.lable_V1_2_lable_N_s = QLabel("S : AKQJT98765432")
+        self.lable_V1_2_lable_N_h = QLabel("H : ")
+        self.lable_V1_2_lable_N_d = QLabel("D : ")
+        self.lable_V1_2_lable_N_c = QLabel("C : ")
+
+        self.tab2.layout_tab2_Table_V1_2.addWidget(self.lable_V1_2_lable_N_s)
+        self.tab2.layout_tab2_Table_V1_2.addWidget(self.lable_V1_2_lable_N_h)
+        self.tab2.layout_tab2_Table_V1_2.addWidget(self.lable_V1_2_lable_N_d)
+        self.tab2.layout_tab2_Table_V1_2.addWidget(self.lable_V1_2_lable_N_c)
+
+
+                # Table 1-3         East Input
+        self.tab2.layout_tab2_Table_V1_3 = QVBoxLayout()
+        self.tab2.layout_tab2_Table_H1.addLayout(self.tab2.layout_tab2_Table_V1_3)
+                    # Add Lable
+        self.lable_V1_3_lable_E = QLabel("East")
+        self.tab2.layout_tab2_Table_V1_3.addWidget(self.lable_V1_3_lable_E)
+                    # Add 13 button
+        self.tab2.layout_tab2_Table_V1_3_H1 = QHBoxLayout()
+        self.tab2.layout_tab2_Table_V1_3.addLayout(self.tab2.layout_tab2_Table_V1_3_H1)
+
+        button_list = ["A","K","Q","J","T","9","8","7","6","5","4","3","2"]
+        for i in button_list:
+            button = QPushButton(i.format(i), self)
+            button.setMaximumWidth(20)
+            #button.clicked.connect(lambda ch, i=i: self.function(i))      # < ---
+            self.tab2.layout_tab2_Table_V1_3_H1.addWidget(button)
+
+
+        self.tab2.layout_tab2_Table_H1.addStretch()
+
+
+                # Table 2-1         West Output
+        self.tab2.layout_tab2_Table_V2_1 = QVBoxLayout()
+        self.tab2.layout_tab2_Table_H2.addLayout(self.tab2.layout_tab2_Table_V2_1)
+                    # Add Lable
+        self.lable_V2_1_lable_W = QLabel("West")
+        self.tab2.layout_tab2_Table_V2_1.addWidget(self.lable_V2_1_lable_W)
+        self.lable_V2_1_lable_W_s = QLabel("S : AKQJT98765432")
+        self.lable_V2_1_lable_W_h = QLabel("H : ")
+        self.lable_V2_1_lable_W_d = QLabel("D : ")
+        self.lable_V2_1_lable_W_c = QLabel("C : ")
+
+        self.tab2.layout_tab2_Table_V2_1.addWidget(self.lable_V2_1_lable_W_s)
+        self.tab2.layout_tab2_Table_V2_1.addWidget(self.lable_V2_1_lable_W_h)
+        self.tab2.layout_tab2_Table_V2_1.addWidget(self.lable_V2_1_lable_W_d)
+        self.tab2.layout_tab2_Table_V2_1.addWidget(self.lable_V2_1_lable_W_c)
+
+
+                # Table 2-2         Middle Checker
+        self.tab2.layout_tab2_Table_V2_2 = QVBoxLayout()
+        self.tab2.layout_tab2_Table_H2.addLayout(self.tab2.layout_tab2_Table_V2_2)
+
+
+                # Table 2-3         East Output
+        self.tab2.layout_tab2_Table_V2_3 = QVBoxLayout()
+        self.tab2.layout_tab2_Table_H2.addLayout(self.tab2.layout_tab2_Table_V2_3)
+                    # Add Lable
+        self.lable_V2_3_lable_E = QLabel("West")
+        self.tab2.layout_tab2_Table_V2_3.addWidget(self.lable_V2_3_lable_E)
+        self.lable_V2_3_lable_E_s = QLabel("S : AKQJT98765432")
+        self.lable_V2_3_lable_E_h = QLabel("H : ")
+        self.lable_V2_3_lable_E_d = QLabel("D : ")
+        self.lable_V2_3_lable_E_c = QLabel("C : ")
+
+        self.tab2.layout_tab2_Table_V2_3.addWidget(self.lable_V2_3_lable_E_s)
+        self.tab2.layout_tab2_Table_V2_3.addWidget(self.lable_V2_3_lable_E_h)
+        self.tab2.layout_tab2_Table_V2_3.addWidget(self.lable_V2_3_lable_E_d)
+        self.tab2.layout_tab2_Table_V2_3.addWidget(self.lable_V2_3_lable_E_c)
+
+
+        self.tab2.layout_tab2_Table_H2.addStretch()
+
+
+                # Table 3-1         South Input
+        self.tab2.layout_tab2_Table_V3_1 = QVBoxLayout()
+        self.tab2.layout_tab2_Table_H3.addLayout(self.tab2.layout_tab2_Table_V3_1)
+                    # Add Lable
+        self.lable_V3_1_lable_S = QLabel("South")
+        self.tab2.layout_tab2_Table_V3_1.addWidget(self.lable_V3_1_lable_S)
+                    # Add 13 button
+        self.tab2.layout_tab2_Table_V3_1_H1 = QHBoxLayout()
+        self.tab2.layout_tab2_Table_V3_1.addLayout(self.tab2.layout_tab2_Table_V3_1_H1)
+
+        button_list = ["A","K","Q","J","T","9","8","7","6","5","4","3","2"]
+        for i in button_list:
+            button = QPushButton(i.format(i), self)
+            button.setMaximumWidth(20)
+            #button.clicked.connect(lambda ch, i=i: self.function(i))      # < ---
+            self.tab2.layout_tab2_Table_V3_1_H1.addWidget(button)
+
+
+                # Table 3-2         South Output
+        self.tab2.layout_tab2_Table_V3_2 = QVBoxLayout()
+        self.tab2.layout_tab2_Table_H3.addLayout(self.tab2.layout_tab2_Table_V3_2)
+                    # Add Lable
+        self.lable_V3_2_lable_S = QLabel("West")
+        self.tab2.layout_tab2_Table_V3_2.addWidget(self.lable_V3_2_lable_S)
+        self.lable_V3_2_lable_S_s = QLabel("S : AKQJT98765432")
+        self.lable_V3_2_lable_S_h = QLabel("H : ")
+        self.lable_V3_2_lable_S_d = QLabel("D : ")
+        self.lable_V3_2_lable_S_c = QLabel("C : ")
+
+        self.tab2.layout_tab2_Table_V3_2.addWidget(self.lable_V3_2_lable_S_s)
+        self.tab2.layout_tab2_Table_V3_2.addWidget(self.lable_V3_2_lable_S_h)
+        self.tab2.layout_tab2_Table_V3_2.addWidget(self.lable_V3_2_lable_S_d)
+        self.tab2.layout_tab2_Table_V3_2.addWidget(self.lable_V3_2_lable_S_c)
+
+
+                # Table 3-3         West Input
+        self.tab2.layout_tab2_Table_V3_3 = QVBoxLayout()
+        self.tab2.layout_tab2_Table_H3.addLayout(self.tab2.layout_tab2_Table_V3_3)
+                    # Add Lable
+        self.lable_V3_3_lable_W = QLabel("West")
+        self.tab2.layout_tab2_Table_V3_3.addWidget(self.lable_V3_3_lable_W)
+                    # Add 13 button
+        self.tab2.layout_tab2_Table_V3_3_H1 = QHBoxLayout()
+        self.tab2.layout_tab2_Table_V3_3.addLayout(self.tab2.layout_tab2_Table_V3_3_H1)
+
+        button_list = ["A","K","Q","J","T","9","8","7","6","5","4","3","2"]
+        for i in button_list:
+            button = QPushButton(i.format(i), self)
+            button.setMaximumWidth(20)
+            #button.clicked.connect(lambda ch, i=i: self.function(i))      # < ---
+            self.tab2.layout_tab2_Table_V3_3_H1.addWidget(button)
+
+
+        self.tab2.layout_tab2_Table_H3.addStretch()
+
+
+        # Button Right
+        self.Hzero_right_lable1 = QLabel("Menu :")
+        self.tab2.layout_tab2_Table_V_right.addWidget(self.Hzero_right_lable1)
+
+        self.Hzero_right_button_1 = QPushButton("Right")
+        self.tab2.layout_tab2_Table_V_right.addWidget(self.Hzero_right_button_1)
+
+        self.tab2.layout_tab2_Table_V_right.addStretch()
+
+        """
+
+
+            # 1st Lable_Example Widget
+
+                # Example Lable
+        self.tab2_lable_example = QLabel('Example Input : N:<font color="blue">QJT5432</font>.<font color="red">T</font>.<font color="orange">6</font>.<font color="green">QJ82</font>' +
                                                 ' E:<font color="blue"></font>.<font color="red">J97543</font>.<font color="orange">K7532</font>.<font color="green">94</font>' +
                                                 ' S:<font color="blue">87</font>.<font color="red">A62</font>.<font color="orange">QJT4</font>.<font color="green">AT75</font>' +
                                                 ' W:<font color="blue">AK96</font>.<font color="red">KQ8</font>.<font color="orange">A98</font>.<font color="green">K63</font>')
-        
+        self.tab2.layout_tab2_V_main.addWidget(self.tab2_lable_example)
+
+            # 2st Horizon Layout
+        self.tab2.layout_tab2_H = QHBoxLayout()
+
+                # line_input_desk
         self.line_input_desk = QLineEdit()
-        #self.line_input_desk.setFixedWidth(750)
         self.line_input_desk.setMaximumWidth(750)                   # Set Width
         self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 W:AK96.KQ8.A98.K63 S:87.A62.QJT4.AT75") # Set Default Text
         #N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75
@@ -103,122 +335,73 @@ class MyTabsWidget(QWidget):
         self.line_input_desk.textChanged.connect(self.checker_card)
         #self.line_input_desk.textChanged.connect(self.upper_card)
         self.line_input_desk.textChanged.connect(self.after_input_text)
-        
-        """
-        # for color textedit
-        self.line_input_desk = QTextEdit()
-        # Disable Scroll Bar
-        self.line_input_desk.horizontalScrollBar().setStyleSheet("QScrollBar {height:0px;}")
-        self.line_input_desk.verticalScrollBar().setStyleSheet("QScrollBar {width:0px;}")
-        # Set
-        self.line_input_desk.setMaximumHeight(29)
-        self.line_input_desk.setMaximumWidth(750)                   # Set Width
-        """
+        self.tab2.layout_tab2_H.addWidget(self.line_input_desk)
 
-        #self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63") # Set Default Text
-        """
-        redText = '<span style=\"color:#ff0000;\" >'
-        redText += "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 "
-        redText += "</span>"
-        #self.line_input_desk.append(redText)
-
-        blackText = '<span style=\"color:#000000;\" >'
-        blackText += "S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63"
-        blackText += "</span>"
-        self.line_input_desk.append(redText + blackText)
-        
-        """
-
-        """
-        blackColor = QColor(0, 0, 0)
-
-        blueColor   = QColor(0, 0, 255)
-        redColor    = QColor(255, 0, 0)
-        orangeColor = QColor(255, 165, 0)
-        greenColor  = QColor(0, 255, 0)
-
-        self.line_input_desk.setTextColor(blackColor)
-        self.line_input_desk.insertPlainText("N:")
-        self.line_input_desk.setTextColor(blueColor)
-        self.line_input_desk.insertPlainText("QJT5432")
-        self.line_input_desk.setTextColor(blackColor)
-        self.line_input_desk.insertPlainText(".")
-        self.line_input_desk.setTextColor(redColor)
-        self.line_input_desk.insertPlainText("T")
-        self.line_input_desk.setTextColor(blackColor)
-        self.line_input_desk.insertPlainText(".6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63")
-
-
-        """
-
-
-
-
-
-
-
-        self.line_input_desk.setStyleSheet('font-size: 14pt;')      # Set stylesheet for LineEdit
-        
-
-
-
-
-        
+                # line_input_desk_generate
         self.line_input_desk_generate = QPushButton("Generate")
         self.line_input_desk_generate.clicked.connect(self.clicked_generate)
         self.line_input_desk_generate.setAutoDefault(1)                     # Make button to click with Enter key
         self.line_input_desk_generate.setStyleSheet('font-size: 14pt;')
+        self.tab2.layout_tab2_H.addWidget(self.line_input_desk_generate)
 
+                # line_input_desk_generate_random
         self.line_input_desk_generate_random = QPushButton("Random Generate")
         self.line_input_desk_generate_random.clicked.connect(self.clicked_generate_random)
         self.line_input_desk_generate_random.setAutoDefault(1)              # Make button to click with Enter key
         self.line_input_desk_generate_random.setStyleSheet('font-size: 14pt;')
+        self.tab2.layout_tab2_H.addWidget(self.line_input_desk_generate_random)
 
-        
+                # line_input_clear
         self.line_input_clear = QPushButton("Clear Input")
         self.line_input_clear.clicked.connect(self.clicked_input_clear)
         self.line_input_clear.setAutoDefault(1)                             # Make button to click with Enter key
         self.line_input_clear.setStyleSheet('font-size: 14pt;')
+        self.tab2.layout_tab2_H.addWidget(self.line_input_clear)
 
+
+            # Add 2st Horizon Layout into main Layout
+        self.tab2.layout_tab2_V_main.addLayout(self.tab2.layout_tab2_H)
+
+            # 3st text_checker
+                # text_checker
         self.text_checker = QLabel("Checker Card : -")
         self.text_checker.setStyleSheet('font-size: 14pt;')
-
-        # Create Layout and Add label
-        
-        self.tab1.layout_tab1_V = QVBoxLayout(self)
-        #self.tab1.layout_tab1_V.addWidget(self.tab1_text1)
-        self.tab1.layout_tab1_V.addWidget(self.tab1_text2)
+        self.tab2.layout_tab2_V_main.addWidget(self.text_checker)
 
 
-        self.tab1.layout_tab1_H = QHBoxLayout()
-        self.tab1.layout_tab1_H.addWidget(self.line_input_desk)
-        self.tab1.layout_tab1_H.addWidget(self.line_input_desk_generate)
-        self.tab1.layout_tab1_H.addWidget(self.line_input_desk_generate_random)
-        self.tab1.layout_tab1_H.addWidget(self.line_input_clear)
-
-        self.tab1.layout_tab1_V.addLayout(self.tab1.layout_tab1_H)
 
 
-        self.tab1.layout_tab1_V.addWidget(self.text_checker)
-    
-        
 
-        # End of first tab
-        self.tab1.layout_tab1_V.addStretch()
-        self.tab1.setLayout(self.tab1.layout_tab1_V)
+        # End of Second tab
+
+        # Add Stretch
+        self.tab2.layout_tab2_V_main.addStretch()
 
 
 
         #########################################################################################################################################################################################
     
-        # Create Secend tab
+        # Create Third tab
+
+
+        self.tab3.layout_tab3_H_main = QHBoxLayout(self)
+
+        self.tab3.layout_tab3_V = QVBoxLayout(self)
+        self.tab3.layout_tab3_H_main.addLayout(self.tab3.layout_tab3_V)
+
 
         # Create Label
-        self.tab2_text1 = QLabel("Board : 1")
-        self.tab2_text2 = QLabel("Dealer : N")
-        self.tab2_text3 = QLabel("Vul : N-S")
-        self.tab2_text4 = QLabel("Desk Code")
-        self.tab2_text5 = QLabel("Sol.")
+        self.tab3_text1 = QLabel("Board : 1")
+        self.tab3_text2 = QLabel("Dealer : N")
+        self.tab3_text3 = QLabel("Vul : N-S")
+        self.tab3_text4 = QLabel("Desk Code")
+        self.tab3_text5 = QLabel("Sol.")
+
+        self.tab3.layout_tab3_V.addWidget(self.tab3_text1)
+        self.tab3.layout_tab3_V.addWidget(self.tab3_text2)
+        self.tab3.layout_tab3_V.addWidget(self.tab3_text3)
+        self.tab3.layout_tab3_V.addWidget(self.tab3_text4)
+        self.tab3.layout_tab3_V.addWidget(self.tab3_text5)
 
         # Loading image
         make_pic_4hand({})
@@ -228,30 +411,9 @@ class MyTabsWidget(QWidget):
         # Creating label and adding image to label
         self.label_pic = QLabel(self)
         self.label_pic.setPixmap(self.pixmap)
-
-
-
-        # Create Layout and Add label
-        self.tab2.layout_tab2_H = QHBoxLayout(self)
-        self.tab2.layout_tab2_V = QVBoxLayout(self)
-        
-        self.tab2.layout_tab2_V.addWidget(self.tab2_text1)
-        self.tab2.layout_tab2_V.addWidget(self.tab2_text2)
-        self.tab2.layout_tab2_V.addWidget(self.tab2_text3)
-        self.tab2.layout_tab2_V.addWidget(self.tab2_text4)
-        self.tab2.layout_tab2_V.addWidget(self.tab2_text5)
-
-        self.tab2.layout_tab2_V.addLayout(self.tab2.layout_tab2_V)
-        self.tab2.layout_tab2_V.addLayout(self.tab2.layout_tab2_V)
-
-
-        self.tab2.layout_tab2_H.addLayout(self.tab2.layout_tab2_V)
-        self.tab2.layout_tab2_H.addWidget(self.label_pic)
-
+        self.tab3.layout_tab3_H_main.addWidget(self.label_pic)
 
         
-
-
 
 
         
@@ -260,9 +422,9 @@ class MyTabsWidget(QWidget):
 
 
 
-        # End of Secend tab
-        self.tab2.layout_tab2_V.addStretch()
-        self.tab2.setLayout(self.tab2.layout_tab2_H)
+        # End of Third tab
+        self.tab3.layout_tab3_V.addStretch()
+        self.tab3.setLayout(self.tab3.layout_tab3_H_main)
 
 
     
@@ -277,7 +439,7 @@ class MyTabsWidget(QWidget):
 
         # End of Third tab
         #self.tab2.layout_tab2_V.addStretch()
-        #self.tab2.setLayout(self.tab2.layout_tab2_V)
+        #self.tab2.setLayout(self.tab2.layout_tab_V)
 
 
 
@@ -334,7 +496,7 @@ class MyTabsWidget(QWidget):
         self.tabs.setCurrentIndex(2)
 
         # Set text in Tab 2
-        self.tab2_text4.setText(self.line_input_desk.text())
+        self.tab3_text4.setText(self.line_input_desk.text())
         
         # to PBN
         text_PBN = self.line_input_desk.text()      # get text
@@ -365,7 +527,7 @@ class MyTabsWidget(QWidget):
 
 
         #print(all_2)
-        self.tab2_text5.setText(all_2)
+        self.tab3_text5.setText(all_2)
 
 
         # Create image
