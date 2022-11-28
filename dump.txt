@@ -3,38 +3,38 @@ Error code=-14
 Deal data:
 trump=N
 first=N
-index1=0 index2=0 remainCards=16384
-index1=0 index2=1 remainCards=6432
-index1=0 index2=2 remainCards=144
-index1=0 index2=3 remainCards=23600
-index1=1 index2=0 remainCards=8288
-index1=1 index2=1 remainCards=24720
-index1=1 index2=2 remainCards=3112
-index1=1 index2=3 remainCards=640
-index1=2 index2=0 remainCards=6800
-index1=2 index2=1 remainCards=1544
-index1=2 index2=2 remainCards=8196
-index1=2 index2=3 remainCards=8204
-index1=3 index2=0 remainCards=1292
-index1=3 index2=1 remainCards=68
-index1=3 index2=2 remainCards=21056
-index1=3 index2=3 remainCards=320
+index1=0 index2=0 remainCards=7228
+index1=0 index2=1 remainCards=1024
+index1=0 index2=2 remainCards=64
+index1=0 index2=3 remainCards=6404
+index1=1 index2=0 remainCards=0
+index1=1 index2=1 remainCards=2744
+index1=1 index2=2 remainCards=8364
+index1=1 index2=3 remainCards=528
+index1=2 index2=0 remainCards=256
+index1=2 index2=1 remainCards=16452
+index1=2 index2=2 remainCards=7184
+index1=2 index2=3 remainCards=17568
+index1=3 index2=0 remainCards=25152
+index1=3 index2=1 remainCards=12544
+index1=3 index2=2 remainCards=17152
+index1=3 index2=3 remainCards=8264
 
 target=-1
 solutions=1
 mode=1
 
 
-	S A
-	H QJ85
-	D 74
-	C AQJT54
-S T832		S K65
-H 62		H AK74
-D AQ96		D JT53
-C 86		C 97
-	S QJ974
-	H T93
-	D K2
-	C K32
+	S QJT5432
+	H T
+	D 6
+	C QJ82
+S AK96		S --
+H KQ8		H J97543
+D A98		D K7532
+C K63		C 94
+	S 8
+	H A62
+	D QJT4
+	C AT75
 

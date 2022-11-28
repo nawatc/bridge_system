@@ -55,7 +55,7 @@ class MyTabsWidget(QWidget):
         self.tabs.addTab(self.tab1,"Edit Board")
         self.tabs.addTab(self.tab2,"Display Board")
         
-        self.tabs.setCurrentIndex(1)    # Go to tab 2
+        self.tabs.setCurrentIndex(2)    # Go to tab 3
 
         # Add Tab to Main Windows
         self.layout_tab = QVBoxLayout(self)
@@ -101,7 +101,8 @@ class MyTabsWidget(QWidget):
         #N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75
         self.line_input_desk.setStyleSheet('font-size: 14pt;')      # Set stylesheet for LineEdit
         self.line_input_desk.textChanged.connect(self.checker_card)
-        self.line_input_desk.textChanged.connect(self.upper_card)
+        #self.line_input_desk.textChanged.connect(self.upper_card)
+        self.line_input_desk.textChanged.connect(self.after_input_text)
         
         """
         # for color textedit
@@ -398,7 +399,28 @@ class MyTabsWidget(QWidget):
                                     "Lost_card \t" + str(lost_card)             + "\n" +
                                     "Over_card \t" + str(over_card)
         )
+    
+    def after_input_text(self):
+        # Signal to change text in line_input_desk 
+        self.upper_card()            # to change text to upper character
+        #self.remove_input_text()     # to check input
         
+        
+
+    def remove_input_text(self):
+        # Signal to change text in line_input_desk to right text "AKQJT98765432 NEWS :"
+        line = self.line_input_desk.text()                    # get text and change to upper character
+
+        value = line
+        whitelist = set('AKQJT998765432NEWS: .')
+
+        output = ''.join([c for c in value if c in whitelist])
+
+
+        cursorPos = self.line_input_desk.cursorPosition()     # get cursorPosition of line_input_desk
+        
+        self.line_input_desk.setText(output)                  # set text as upper text
+        self.line_input_desk.setCursorPosition(cursorPos)     # set cursorPosition same as before
 
     def upper_card(self):
         # Signal to change text in line_input_desk to upper character

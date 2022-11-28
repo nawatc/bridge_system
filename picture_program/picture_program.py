@@ -1,7 +1,7 @@
 from re import X
 #import PIL
 from PIL import Image ,ImageFont ,ImageDraw
- 
+
  
 def get_textwidth(text, selected_font='arial.ttf', font_size=18):
     # parameters
@@ -106,8 +106,8 @@ def make_pic_4hand(input_dict_desk) :
     ############ Load Picture ############
 
     #pic_4hand = Image.open('picture_resource/pic_4hand_default.png')
-    pic_4hand       = Image.new('RGB',(440, 440) ,"white")
-    #pic_4hand       = Image.new('RGB',(440, 440) ,"green")
+    #pic_4hand       = Image.new('RGB',(440, 440) ,"white")
+    pic_4hand       = Image.new('RGB',(440, 440) ,"green")
     pic_4direction  = Image.open('picture_resource/pic_nsew_2.png')
 
     pic_space       = Image.open('picture_resource/space_2.png')
@@ -199,6 +199,11 @@ def make_pic_4hand(input_dict_desk) :
     pic_4hand.paste(pic_diamond , (x_point,340+(21*2)) )
     pic_4hand.paste(pic_club    , (x_point,340+(21*3)) )
 
+
+    ############################ Add HCP ############################
+    draw = ImageDraw.Draw(pic_4hand)
+    draw.rectangle(((40, 300), (140, 400)), fill="gray")
+    draw.text((40, 300), "something123", font=ImageFont.truetype("arial.ttf"))
 
     # Save Pic
     #pic_4hand.save("result.png")
