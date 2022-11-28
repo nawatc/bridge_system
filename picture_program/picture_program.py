@@ -200,10 +200,11 @@ def make_pic_4hand(input_dict_desk) :
     pic_4hand.paste(pic_club    , (x_point,340+(21*3)) )
 
 
-    ############################ Add HCP ############################
+    ############################ Add Bo ############################
     draw = ImageDraw.Draw(pic_4hand)
-    draw.rectangle(((30, 300), (150, 400)), fill="gray")
+    draw.rectangle(((10, 300), (130, 400)), fill="gray")
 
+    # Standard blank value
     c1 = [" ","N","S","E","W"]
     c2 = ["N","-","-","-","-"]
     c3 = ["S","-","-","-","-"]
@@ -213,7 +214,7 @@ def make_pic_4hand(input_dict_desk) :
     
     r = [c1,c2,c3,c4,c5,c6]
 
-    x_start = 35
+    x_start = 15
     y_start = 300
     x_p = 20
     y_p = 20
@@ -237,6 +238,24 @@ def make_pic_4hand(input_dict_desk) :
     draw.text((35, 360), "E", font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
     draw.text((35, 380), "W", font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
     """
+
+
+    ############################ Add HCP ############################
+    draw = ImageDraw.Draw(pic_4hand)
+    draw.rectangle(((310, 300), (430, 400)), fill="gray")
+
+    pic_hcp       = Image.open('picture_resource/pic_hcp.png')
+    pic_4hand.paste(pic_hcp   , (310, 300) )
+
+    # N E W S
+    hcp = [ 10 ,10 ,10 ,10 ]
+
+    draw.text((360, 305), str(hcp[0]), font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))    # N
+    draw.text((360, 370), str(hcp[1]), font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))    # E
+    draw.text((315, 340), str(hcp[2]), font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))    # W
+    draw.text((405, 340), str(hcp[3]), font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))   # S
+        
+
 
     # Save Pic
     pic_4hand.save("picture_resource/result.png")
