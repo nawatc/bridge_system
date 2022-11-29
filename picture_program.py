@@ -2,39 +2,71 @@ from re import X
 #import PIL
 from PIL import Image ,ImageFont ,ImageDraw
 
+import ddstable_standalone as ddstable_standalone
+
+import copy     # for copy dict
+import ddstable
+
+
 # Get function
-try:
-    # Trying to find module on sys.path
-    from porter_bridges.porter_bridges import get_hcp_from_text
+def get_hcp_from_text(text = ""):
+    """
+    
+    Input  : "AKQJ864" with no sort
+    Output : 10
+    HCP for A = 4
+            K = 3
+            Q = 2
+            J = 1
+    Else    = 0
+    """
 
-except ModuleNotFoundError:
-    def get_hcp_from_text(text = ""):
-        """
+    hcp = 0
+
+    for i in text:
+        if i == "A":
+            hcp = hcp + 4
+        if i == "K":
+            hcp = hcp + 3
+        if i == "Q":
+            hcp = hcp + 2
+        if i == "J":
+            hcp = hcp + 1
+        else:
+            pass
+
+    return hcp
+
+
+def dict_to_text(input_dict):
+    # Input_dict is
+    # {'North': {'S': 'QJT5432', 'H': 'T', 'D': '6', 'C': 'QJ82'}
+    # , 'East': {'S': '', 'H': 'J97543', 'D': 'K7532', 'C': '94'}
+    # , 'South': {'S': '87', 'H': 'A62', 'D': 'QJT4', 'C': 'AT75'}
+    # , 'West': {'S': 'AK96', 'H': 'KQ8', 'D': 'A98', 'C': 'K63'}}
+
+    # Output
+    # N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K6
+    text = ""
         
-        Input  : "AKQJ864" with no sort
-        Output : 10
-        HCP for A = 4
-                K = 3
-                Q = 2
-                J = 1
-        Else    = 0
-        """
+    for i in ["North" ,"East" ,"South" ,"West"]:
 
-        hcp = 0
+        text = text + i[0] + ":"
 
-        for i in text:
-            if i == "A":
-                hcp = hcp + 4
-            if i == "K":
-                hcp = hcp + 3
-            if i == "Q":
-                hcp = hcp + 2
-            if i == "J":
-                hcp = hcp + 1
-            else:
-                pass
+        for j in ["S" ,"H" ,"D" ,"C"]:
+            text = text + input_dict[i][j]
 
-        return hcp
+            if j != "C":
+                text = text + "."
+            if j == "C" and i != "West":
+                text = text + " "
+
+    return text
+
+
+
+
+
 
 
 
@@ -99,7 +131,8 @@ def make_pic_4hand(input_dict_desk) :
     """
     ############ Set input to variable ############
     dict_desk = input_dict_desk
-    
+    dict_desk_for_calculate = copy.deepcopy(input_dict_desk)    # Copy Data not refer data to dict_desk
+
     if input_dict_desk == {}:
         # If input_dict_desk is blank 
         dict_desk = {
@@ -240,27 +273,49 @@ def make_pic_4hand(input_dict_desk) :
     draw = ImageDraw.Draw(pic_4hand)
     draw.rectangle(((10, 300), (130, 400)), fill="gray")
 
+
+    # Get Data
+
     # Standard blank value
-    if dict_desk == {}:
-        c1 = [" ","N","S","E","W"]
-        c2 = ["N","-","-","-","-"]
-        c3 = ["S","-","-","-","-"]
-        c4 = ["H","-","-","-","-"]
-        c5 = ["D","-","-","-","-"]
-        c6 = ["C","-","-","-","-"]
+    c1 = [" ","N","S","E","W"]
+    c2 = ["N","-","-","-","-"]
+    c3 = ["S","-","-","-","-"]
+    c4 = ["H","-","-","-","-"]
+    c5 = ["D","-","-","-","-"]
+    c6 = ["C","-","-","-","-"]
         
-        r = [c1,c2,c3,c4,c5,c6]
+    r = [c1,c2,c3,c4,c5,c6]
+
+    
+    if dict_desk == {   'North': {'S': '      -      ', 'H': '      -      ', 'D': '      -      ', 'C': '      -      '}
+                    ,   'East' : {'S': '      -      ', 'H': '      -      ', 'D': '      -      ', 'C': '      -      '}
+                    ,   'South': {'S': '      -      ', 'H': '      -      ', 'D': '      -      ', 'C': '      -      '}
+                    ,   'West' : {'S': '      -      ', 'H': '      -      ', 'D': '      -      ', 'C': '      -      '}}:
+        pass
     else:
-        c1 = [" ","N","S","E","W"]
-        c2 = ["N","-","-","-","-"]
-        c3 = ["S","-","-","-","-"]
-        c4 = ["H","-","-","-","-"]
-        c5 = ["D","-","-","-","-"]
-        c6 = ["C","-","-","-","-"]
+
         
+        #text_PBN = "N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 W:AK96.KQ8.A98.K63 S:87.A62.QJT4.AT75"
+        text_PBN = dict_to_text(dict_desk_for_calculate)
+        text_PBN_encode = text_PBN.encode()
+        #print(text_PBN_encode)
+        all = ddstable_standalone.get_ddstable(text_PBN_encode)
+
+        print(all)
+
+        c1 = [" ","N"                   ,"S"                    ,"E"                    ,"W"]
+        c2 = ["N",str(all[c1[1]]["NT"]) ,str(all[c1[2]]["NT"])  ,str(all[c1[3]]["NT"])  ,str(all[c1[4]]["NT"]) ]
+        c3 = ["S",str(all[c1[1]]["S"])  ,str(all[c1[2]]["S"])   ,str(all[c1[3]]["S"])   ,str(all[c1[4]]["S"]) ]
+        c4 = ["H",str(all[c1[1]]["H"])  ,str(all[c1[2]]["H"])   ,str(all[c1[3]]["H"])   ,str(all[c1[4]]["H"]) ]
+        c5 = ["D",str(all[c1[1]]["D"])  ,str(all[c1[2]]["D"])   ,str(all[c1[3]]["D"])   ,str(all[c1[4]]["D"]) ]
+        c6 = ["C",str(all[c1[1]]["C"])  ,str(all[c1[2]]["C"])   ,str(all[c1[3]]["C"])   ,str(all[c1[4]]["C"]) ]
+
+
+
         r = [c1,c2,c3,c4,c5,c6]
 
 
+    # Print Data
 
     x_start = 15
     y_start = 300
@@ -343,6 +398,7 @@ def make_pic_4hand(input_dict_desk) :
 
 
 # Test function
+"""
 dict_desk = {
         "North" : {
             "S" : "AKQJT98765432" ,
@@ -369,6 +425,14 @@ dict_desk = {
             "C" : "AKQJT98765432"
         }
     }
+"""
+
+dict_desk =  {'North': {'S': 'QJT5432', 'H': 'T', 'D': '6', 'C': 'QJ82'}
+     , 'East': {'S': '', 'H': 'J97543', 'D': 'K7532', 'C': '94'}
+     , 'South': {'S': '87', 'H': 'A62', 'D': 'QJT4', 'C': 'AT75'}
+     , 'West': {'S': 'AK96', 'H': 'KQ8', 'D': 'A98', 'C': 'K63'}}
+
+
 
 make_pic_4hand(dict_desk)
 

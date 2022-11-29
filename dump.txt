@@ -11,14 +11,14 @@ index1=1 index2=0 remainCards=0
 index1=1 index2=1 remainCards=2744
 index1=1 index2=2 remainCards=8364
 index1=1 index2=3 remainCards=528
-index1=2 index2=0 remainCards=256
+index1=2 index2=0 remainCards=384
 index1=2 index2=1 remainCards=16452
 index1=2 index2=2 remainCards=7184
 index1=2 index2=3 remainCards=17568
 index1=3 index2=0 remainCards=25152
 index1=3 index2=1 remainCards=12544
 index1=3 index2=2 remainCards=17152
-index1=3 index2=3 remainCards=8264
+index1=3 index2=3 remainCards=8256
 
 target=-1
 solutions=1
@@ -32,8 +32,8 @@ mode=1
 S AK96		S --
 H KQ8		H J97543
 D A98		D K7532
-C K63		C 94
-	S 8
+C K6		C 94
+	S 87
 	H A62
 	D QJT4
 	C AT75

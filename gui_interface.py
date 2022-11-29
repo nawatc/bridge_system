@@ -8,7 +8,7 @@ from PyQt5.QtGui     import QKeySequence ,QPixmap  #,QColor
 import ddstable_standalone as ddstable_standalone
 
 
-from picture_program.picture_program import make_pic_4hand
+from picture_program import make_pic_4hand
 
 from porter_bridges.random_number import random_card
 
@@ -503,7 +503,7 @@ class MyTabsWidget(QWidget):
         #print(self.line_input_desk.toPlainText()) #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! get text from qtextedit
 
         text_PBN = text_to_pbn(text_PBN)            # set text to right position
-
+        #print(text_PBN)
         text_PBN_encode = text_PBN.encode()
         
         all = ddstable_standalone.get_ddstable(text_PBN_encode)
