@@ -2,7 +2,43 @@ from re import X
 #import PIL
 from PIL import Image ,ImageFont ,ImageDraw
 
- 
+# Get function
+try:
+    # Trying to find module on sys.path
+    from porter_bridges.porter_bridges import get_hcp_from_text
+
+except ModuleNotFoundError:
+    def get_hcp_from_text(text = ""):
+        """
+        
+        Input  : "AKQJ864" with no sort
+        Output : 10
+        HCP for A = 4
+                K = 3
+                Q = 2
+                J = 1
+        Else    = 0
+        """
+
+        hcp = 0
+
+        for i in text:
+            if i == "A":
+                hcp = hcp + 4
+            if i == "K":
+                hcp = hcp + 3
+            if i == "Q":
+                hcp = hcp + 2
+            if i == "J":
+                hcp = hcp + 1
+            else:
+                pass
+
+        return hcp
+
+
+
+
 def get_textwidth(text, selected_font='arial.ttf', font_size=18):
     # parameters
     text = text
@@ -205,22 +241,34 @@ def make_pic_4hand(input_dict_desk) :
     draw.rectangle(((10, 300), (130, 400)), fill="gray")
 
     # Standard blank value
-    c1 = [" ","N","S","E","W"]
-    c2 = ["N","-","-","-","-"]
-    c3 = ["S","-","-","-","-"]
-    c4 = ["H","-","-","-","-"]
-    c5 = ["D","-","-","-","-"]
-    c6 = ["C","-","-","-","-"]
-    
-    r = [c1,c2,c3,c4,c5,c6]
+    if dict_desk == {}:
+        c1 = [" ","N","S","E","W"]
+        c2 = ["N","-","-","-","-"]
+        c3 = ["S","-","-","-","-"]
+        c4 = ["H","-","-","-","-"]
+        c5 = ["D","-","-","-","-"]
+        c6 = ["C","-","-","-","-"]
+        
+        r = [c1,c2,c3,c4,c5,c6]
+    else:
+        c1 = [" ","N","S","E","W"]
+        c2 = ["N","-","-","-","-"]
+        c3 = ["S","-","-","-","-"]
+        c4 = ["H","-","-","-","-"]
+        c5 = ["D","-","-","-","-"]
+        c6 = ["C","-","-","-","-"]
+        
+        r = [c1,c2,c3,c4,c5,c6]
+
+
 
     x_start = 15
     y_start = 300
     x_p = 20
     y_p = 20
     
-    for i in range(0,6):
-        for j in range(0,5):
+    for i in range(0,6):        # 1 Colume
+        for j in range(0,5):    # 1 Row
             draw.text((x_start + x_p*i, y_start + y_p*j), r[i][j], font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
 
     """
@@ -247,20 +295,39 @@ def make_pic_4hand(input_dict_desk) :
     pic_hcp       = Image.open('picture_resource/pic_hcp.png')
     pic_4hand.paste(pic_hcp   , (310, 300) )
 
-    # N E W S
-    hcp = [ 10 ,10 ,10 ,10 ]
 
-    draw.text((360, 305), str(hcp[0]), font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))    # N
-    draw.text((360, 370), str(hcp[1]), font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))    # E
-    draw.text((315, 340), str(hcp[2]), font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))    # W
-    draw.text((405, 340), str(hcp[3]), font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))   # S
+    # Get Data
+    #get_hcp_from_text
+    hcp = [ 
+        get_hcp_from_text(dict_desk["North"]["S"]) + get_hcp_from_text(dict_desk["North"]["H"]) + get_hcp_from_text(dict_desk["North"]["D"]) + get_hcp_from_text(dict_desk["North"]["C"]) ,
+        get_hcp_from_text(dict_desk["East"]["S"])  + get_hcp_from_text(dict_desk["East"]["H"])  + get_hcp_from_text(dict_desk["East"]["D"])  + get_hcp_from_text(dict_desk["East"]["C"]) ,
+        get_hcp_from_text(dict_desk["West"]["S"])  + get_hcp_from_text(dict_desk["West"]["H"])  + get_hcp_from_text(dict_desk["West"]["D"])  + get_hcp_from_text(dict_desk["West"]["C"]) ,
+        get_hcp_from_text(dict_desk["South"]["S"]) + get_hcp_from_text(dict_desk["South"]["H"]) + get_hcp_from_text(dict_desk["South"]["D"]) + get_hcp_from_text(dict_desk["South"]["C"])
+    ]
+    # Print Data
+
+    # N E W S
+    #hcp = [ 10 ,7 ,10 ,10 ]
+
+    # x middle 325 370 415
+    # y middle 305 340 370
+
+    text_length_N = get_textwidth(str(hcp[0]), selected_font="arial.ttf", font_size=18)   # get text length N
+    text_length_E = get_textwidth(str(hcp[1]), selected_font="arial.ttf", font_size=18)   # get text length E
+    text_length_W = get_textwidth(str(hcp[2]), selected_font="arial.ttf", font_size=18)   # get text length W
+    text_length_S = get_textwidth(str(hcp[3]), selected_font="arial.ttf", font_size=18)   # get text length S
+
+    draw.text((370 - (text_length_N/2), 305), str(hcp[0]), font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))    # N
+    draw.text((415 - (text_length_E/2), 340), str(hcp[1]), font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))    # E
+    draw.text((325 - (text_length_W/2), 340), str(hcp[2]), font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))    # W
+    draw.text((370 - (text_length_S/2), 370), str(hcp[3]), font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))    # S
         
 
 
     # Save Pic
     pic_4hand.save("picture_resource/result.png")
 
-make_pic_4hand({})
+#make_pic_4hand({})
 
 
 
@@ -276,13 +343,12 @@ make_pic_4hand({})
 
 
 # Test function
-"""
 dict_desk = {
         "North" : {
-            "S" : "AKQJT9876" ,
-            "H" : "AKQJT9876" ,
-            "D" : "AKQJT9876" ,
-            "C" : "AKQJT9876"
+            "S" : "AKQJT98765432" ,
+            "H" : "AKQJT98765432" ,
+            "D" : "AKQJT98765432" ,
+            "C" : "AKQJT98765432"
         } ,
         "East" : {
             "S" : "AKQJT98765432" ,
@@ -291,10 +357,10 @@ dict_desk = {
             "C" : "AKQJT98765432"
         } ,
         "South" : {
-            "S" : "A" ,
-            "H" : "AKQJT9" ,
-            "D" : "AKQJT9" ,
-            "C" : "AKQJT9"
+            "S" : "AKQJT98765432" ,
+            "H" : "AKQJT98765432" ,
+            "D" : "AKQJT98765432" ,
+            "C" : "AKQJT98765432"
         } ,
         "West" : {
             "S" : "AKQJT98765432" ,
@@ -303,7 +369,7 @@ dict_desk = {
             "C" : "AKQJT98765432"
         }
     }
-"""
-#make_pic_4hand(dict_desk)
+
+make_pic_4hand(dict_desk)
 
 

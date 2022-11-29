@@ -1,5 +1,32 @@
 import re
 
+def get_hcp_from_text(text = ""):
+    """
+    
+    Input  : "AKQJ864" with no sort
+    Output : 10
+    HCP for A = 4
+            K = 3
+            Q = 2
+            J = 1
+    Else    = 0
+    """
+
+    hcp = 0
+
+    for i in text:
+        if i == "A":
+            hcp = hcp + 4
+        if i == "K":
+            hcp = hcp + 3
+        if i == "Q":
+            hcp = hcp + 2
+        if i == "J":
+            hcp = hcp + 1
+        else:
+            pass
+
+    return hcp
 
 def text_to_pbn_check(input_text):
     """
