@@ -291,7 +291,9 @@ def make_pic_4hand(input_dict_desk) :
                     ,   'East' : {'S': '      -      ', 'H': '      -      ', 'D': '      -      ', 'C': '      -      '}
                     ,   'South': {'S': '      -      ', 'H': '      -      ', 'D': '      -      ', 'C': '      -      '}
                     ,   'West' : {'S': '      -      ', 'H': '      -      ', 'D': '      -      ', 'C': '      -      '}}:
+
         pass
+
     else:
 
         
@@ -301,7 +303,7 @@ def make_pic_4hand(input_dict_desk) :
         #print(text_PBN_encode)
         all = ddstable_standalone.get_ddstable(text_PBN_encode)
 
-        print(all)
+        #print(all)
 
         c1 = [" ","N"                   ,"S"                    ,"E"                    ,"W"]
         c2 = ["N",str(all[c1[1]]["NT"]) ,str(all[c1[2]]["NT"])  ,str(all[c1[3]]["NT"])  ,str(all[c1[4]]["NT"]) ]
@@ -317,14 +319,20 @@ def make_pic_4hand(input_dict_desk) :
 
     # Print Data
 
-    x_start = 15
+    x_start = 20
     y_start = 300
     x_p = 20
     y_p = 20
     
     for i in range(0,6):        # 1 Colume
         for j in range(0,5):    # 1 Row
-            draw.text((x_start + x_p*i, y_start + y_p*j), r[i][j], font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"))
+            #draw.text(((x_start + x_p*i) - (get_textwidth(r[i][j]) / 2) , y_start + y_p*j), r[i][j], font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"),fill = "black")
+            if i == 1:
+                draw.text(((x_start + x_p*i) - (get_textwidth(r[i][j]) / 2) , y_start + y_p*j), r[i][j], font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"),fill = (0,0,255))
+            elif i == 3 or i == 4:
+                draw.text(((x_start + x_p*i) - (get_textwidth(r[i][j]) / 2) , y_start + y_p*j), r[i][j], font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"),fill = "red")
+            else:
+                draw.text(((x_start + x_p*i) - (get_textwidth(r[i][j]) / 2) , y_start + y_p*j), r[i][j], font=ImageFont.truetype("arial.ttf", size = 18, encoding="unic"),fill = "black")
 
     """
     # Draw First Row
