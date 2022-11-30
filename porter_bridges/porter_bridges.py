@@ -335,20 +335,6 @@ def pbn_to_dict(text):
     #print(dict_desk)
     return dict_desk
 
-def get_num_from_txt():
-    # Get number from txt file
-    # Number range is 1 to 53644737765488792839237440000
-    f = open("rng_number.txt", "r")
-    #print(f.read())
-    
-    return int(f.read())
-
-def set_num_from_txt(num):
-    # Replace number to txt file
-    # Number range is 1 to 53644737765488792839237440000
-    f = open("rng_number.txt", "w")
-    f.write(str(num))
-
 # Generator that goes through a full cycle
 def cycle(seed: int, sample_size: int, increment: int):
     nb = seed

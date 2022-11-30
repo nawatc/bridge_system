@@ -10,10 +10,12 @@ import ddstable_standalone as ddstable_standalone
 
 from picture_program import make_pic_4hand
 
-from porter_bridges.random_number import random_card
+import sqlite3
+
+from porter_bridges.random_number import random_card ,get_num_from_txt ,set_num_from_txt ,random_card_with_prng
 
 from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn_check ,text_to_pbn ,dict_to_desk ,deck_list_result  ,text_to_list_desk
-from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
+#from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
 
 
 
@@ -96,9 +98,9 @@ class MyTabsWidget(QWidget):
 
                 # Autogen Button
         self.button_autogen = QPushButton("Generate Desk")
-        #self.button_autogen.clicked.connect(self.clicked_input_clear)
         self.button_autogen.setAutoDefault(1)                             # Make button to click with Enter key
         self.button_autogen.setStyleSheet('font-size: 14pt;')
+        self.button_autogen.clicked.connect(self.autogen_num)
         self.tab1.layout_tab1_H.addWidget(self.button_autogen)
         
 
@@ -647,7 +649,74 @@ class MyTabsWidget(QWidget):
         
         self.line_input_desk.setText(line)                  # set text as upper text
         self.line_input_desk.setCursorPosition(cursorPos)   # set cursorPosition same as before
+
+
+    def autogen_num(self):
+        # Signal to generate desk ,info and keep it into database
+
+        filename_seed           = "seed"       #filename to collect seed
+        filename_original_seed  = "org_seed"   #filename to collect original_seed
+
+        org_seed = int(get_num_from_txt(filename_original_seed))    # original seed
+        seed     = int(get_num_from_txt(filename_seed))        # seed
+
+        B_DB = sqlite3.Database()
+
+            # Get number
+        random_time = self.line_edit_autogen.text()
         
+        if not(random_time.isdigit()):
+            # Check it's integer if not exit
+            return
+        
+        # Check it's integer if it is continue
+        random_time = int(self.line_edit_autogen.text())
+        #self.line_edit_autogen.setText("0")                # Set Text to 0
+        
+        # Loop as random_time
+        for i in range(0 ,random_time):
+            # Process to Generate info
+            #print(i) # i is    0 to n-1
+                # Get new desk from number
+            seed = int(get_num_from_txt(filename_seed))        # get seed
+
+            if seed == org_seed :
+                # if seed = ori_seed than full cycle is complete
+                print("Full Cycle had Complete")
+
+                # Get PBN from seed
+            #N:KQJT2.986.Q8.T97 E:765.AKQ.A76.K853 W:983.T75.K932.AJ2 S:A4.J432.JT54.Q64
+            pbn_desk = random_card_with_prng(seed)
+
+                # Get Bo
+            pbn_desk_encode = pbn_desk.encode()
+            #{'N': {'S': 5, 'H': 5, 'D': 4, 'C': 4, 'NT': 4}, 'S': {'S': 5, 'H': 5, 'D': 4, 'C': 4, 'NT': 4}, 'E': {'S': 8, 'H': 8, 'D': 8, 'C': 9, 'NT': 8}, 'W': {'S': 8, 'H': 8, 'D': 8, 'C': 9, 'NT': 8}}
+            all = ddstable_standalone.get_ddstable(pbn_desk_encode)
+
+            
+                # Data
+
+            # pbn_desk  # Desk Info
+            #N:KQJT2.986.Q8.T97 E:765.AKQ.A76.K853 W:983.T75.K932.AJ2 S:A4.J432.JT54.Q64
+            # all       # DDS (Bo algorithm)
+            #{'N': {'S': 5, 'H': 5, 'D': 4, 'C': 4, 'NT': 4}, 'S': {'S': 5, 'H': 5, 'D': 4, 'C': 4, 'NT': 4}, 'E': {'S': 8, 'H': 8, 'D': 8, 'C': 9, 'NT': 8}, 'W': {'S': 8, 'H': 8, 'D': 8, 'C': 9, 'NT': 8}}
+
+
+            # Process to put into database
+            B_DB 
+
+            
+        
+        
+
+
+
+
+
+
+
+
+
 
     def exit():
         # Exit function to Close progream

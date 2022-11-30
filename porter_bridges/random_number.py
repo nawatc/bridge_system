@@ -187,7 +187,19 @@ def random_card_with_prng(seed_input: int):
     return desk     #print(key_to_comb(number))     # N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K63
 
 
+def get_num_from_txt(filename):
+    # Get number from txt file
+    # Number range is 1 to 53644737765488792839237440000
+    f = open(filename, "r")
+    #print(f.read())
+    
+    return int(f.read())
 
+def set_num_from_txt(filename ,num):
+    # Replace number to txt file
+    # Number range is 1 to 53644737765488792839237440000
+    f = open(filename, "w")
+    f.write(str(num))
 
 #################### TEST SECTION. ####################
 
@@ -242,3 +254,4 @@ for i in range (1,150):
     a = cycle_one_step(seed = a, sample_size = 100, increment = 81)
     print(a)
 """
+
