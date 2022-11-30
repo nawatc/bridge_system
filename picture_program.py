@@ -175,8 +175,8 @@ def make_pic_4hand(input_dict_desk) :
     ############ Load Picture ############
 
     #pic_4hand = Image.open('picture_resource/pic_4hand_default.png')
-    #pic_4hand       = Image.new('RGB',(440, 440) ,"white")
-    pic_4hand       = Image.new('RGB',(440, 440) ,"green")
+    pic_4hand       = Image.new('RGB',(440, 440) ,"white")
+    #pic_4hand       = Image.new('RGB',(440, 440) ,"green")
     pic_4direction  = Image.open('picture_resource/pic_nsew_2.png')
 
     pic_space       = Image.open('picture_resource/space_2.png')

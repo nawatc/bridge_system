@@ -1,6 +1,6 @@
 import sys ,os
 from PyQt5 import QtWidgets ,QtGui #,QtCore 
-from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QMessageBox ,QShortcut ,QSizePolicy#,QTextEdit  #,QSizePolicy ,QFileDialog ,QGridLayout 
+from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QMessageBox ,QTextEdit ,QTableWidget ,QTableView ,QShortcut ,QSizePolicy#  #,QSizePolicy ,QFileDialog ,QGridLayout 
 from PyQt5.QtCore    import pyqtSlot
 from PyQt5.QtGui     import QKeySequence ,QPixmap  #,QColor
 
@@ -127,6 +127,7 @@ class MyTabsWidget(QWidget):
 
         """
             # Vertical
+            # https://stackoverflow.com/questions/57137027/conect-multiple-buttons-to-same-function-with-different-parameters
 
             # 0st Horizon Layout
         self.tab2.layout_tab2_H_zero = QHBoxLayout()
@@ -329,7 +330,8 @@ class MyTabsWidget(QWidget):
                 # line_input_desk
         self.line_input_desk = QLineEdit()
         self.line_input_desk.setMaximumWidth(750)                   # Set Width
-        self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 W:AK96.KQ8.A98.K63 S:87.A62.QJT4.AT75") # Set Default Text
+        #self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 W:AK96.KQ8.A98.K63 S:87.A62.QJT4.AT75") # Set Default Text
+        self.clicked_generate_random()  # Random card as start
         #N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75
         self.line_input_desk.setStyleSheet('font-size: 14pt;')      # Set stylesheet for LineEdit
         self.line_input_desk.textChanged.connect(self.checker_card)
@@ -382,20 +384,28 @@ class MyTabsWidget(QWidget):
         #########################################################################################################################################################################################
     
         # Create Third tab
-
+        
 
         self.tab3.layout_tab3_H_main = QHBoxLayout(self)
+        self.tab3.setLayout(self.tab3.layout_tab3_H_main)
 
         self.tab3.layout_tab3_V = QVBoxLayout(self)
         self.tab3.layout_tab3_H_main.addLayout(self.tab3.layout_tab3_V)
 
 
         # Create Label
+        """
         self.tab3_text1 = QLabel("Board : 1")
         self.tab3_text2 = QLabel("Dealer : N")
         self.tab3_text3 = QLabel("Vul : N-S")
         self.tab3_text4 = QLabel("Desk Code")
-        self.tab3_text5 = QLabel("Sol.")
+        """
+        self.tab3_text1 = QLabel("Board  : -")
+        self.tab3_text2 = QLabel("Dealer : -")
+        self.tab3_text3 = QLabel("Vul : -")
+        self.tab3_text4 = QLabel("Desk Code :")
+        self.tab3_text5 = QTextEdit("Sol.")
+        self.tab3_text5.setStyleSheet("font-size: 14pt;")
 
         self.tab3.layout_tab3_V.addWidget(self.tab3_text1)
         self.tab3.layout_tab3_V.addWidget(self.tab3_text2)
@@ -430,7 +440,53 @@ class MyTabsWidget(QWidget):
     
         #########################################################################################################################################################################################
     
-        # Create Third tab
+        # Create Forth tab
+        self.tab4.layout_tab4_V_main = QVBoxLayout(self)
+        self.tab4.setLayout(self.tab4.layout_tab4_V_main)
+
+
+        # Add H Layout 
+
+        self.tab4.layout_tab4_H1 = QHBoxLayout(self)
+        self.tab4.layout_tab4_V_main.addLayout(self.tab4.layout_tab4_H1)
+
+        # Create TableWidget
+        self.TableWidget = QTableWidget(self)
+        self.tab4.layout_tab4_V_main.addWidget(self.TableWidget)
+
+
+        # Set Table
+            # Set Column
+        Column_header = ["asd","asd"]
+        self.TableWidget.setColumnCount(len(Column_header))
+        self.TableWidget.setHorizontalHeaderLabels(Column_header)
+
+
+            # Set Row
+        self.TableWidget.setRowCount(3) 
+
+        
+        # Load Data
+
+
+
+
+
+
+
+
+
+
+        # Create Layout and Add label
+
+
+        # End of Third tab
+        #self.tab2.layout_tab2_V.addStretch()
+        #self.tab2.setLayout(self.tab2.layout_tab_V)
+
+        #########################################################################################################################################################################################
+    
+        # Create Fifth tab
 
         # Create Label
 
@@ -440,8 +496,6 @@ class MyTabsWidget(QWidget):
         # End of Third tab
         #self.tab2.layout_tab2_V.addStretch()
         #self.tab2.setLayout(self.tab2.layout_tab_V)
-
-
 
 
 
@@ -527,7 +581,8 @@ class MyTabsWidget(QWidget):
 
 
         #print(all_2)
-        self.tab3_text5.setText(all_2)
+        self.tab3_text5.setText(    text_PBN +
+                                    "\n\n" + all_2)
 
 
         # Create image
@@ -621,7 +676,7 @@ class MyTabsWidget(QWidget):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    app.setStyleSheet("QLabel{font-size: 14pt;}")              # Set Default Font
+    app.setStyleSheet("QLabel {font-size: 14pt;}")              # Set Default Font
 
     main_windows = BridgeWindow()
     main_windows.show()
