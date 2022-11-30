@@ -143,7 +143,7 @@ def key_to_comb(key_number :int):
     #print(h3_card)
     #print(h4_card)
 
-    return list_to_text(h1_card ,h2_card ,h3_card ,h4_card)
+    return list_to_text(h1_card ,h2_card ,h3_card ,h4_card)[:-1]    # cut last " " character
     
 
 

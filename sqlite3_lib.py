@@ -34,20 +34,29 @@ class Database:
 
   def create_table_bridge_board(self):
     self.connect_db()
-
+    """
     self.cur.execute('''CREATE TABLE bridge_board
                (N_card, E_card, W_card, S_card)''')
+    """
+    self.cur.execute('''CREATE TABLE bridge_board
+               (pbn_desk, max_score_deals)''')
 
     self.disconnect_db()
 
-  def add_board(self ,N_card ,E_card ,S_card ,W_card):
+  #def add_board(self ,N_card ,E_card ,S_card ,W_card):
+  def add_board(self ,pbn_desk, max_score_deals):
     self.connect_db()
-    
+    """
     string = "INSERT INTO bridge_board VALUES ('" + \
              N_card + "','" + \
              E_card + "','" + \
              S_card + "','" + \
              W_card + "')"
+    """
+    
+    string = "INSERT INTO bridge_board VALUES ('" + \
+             pbn_desk + "','" + \
+             max_score_deals + "')"
              
     #print(string)
     self.cur.execute(string)
@@ -59,7 +68,8 @@ class Database:
 
   def print_select_board(self):
     self.connect_db()
-    for row in self.cur.execute('SELECT * FROM bridge_board ORDER BY N_card'):
+    #for row in self.cur.execute('SELECT * FROM bridge_board ORDER BY N_card'):
+    for row in self.cur.execute('SELECT * FROM bridge_board ORDER BY max_score_deals'):
       print(row)
     self.disconnect_db()
 
@@ -77,19 +87,38 @@ class Database:
       self.disconnect_db()
       self.create_table_bridge_board()
 
-  def check_if_row_exist(self ,N_card ,E_card ,W_card ,S_card):
+  #def check_if_row_exist(self ,N_card ,E_card ,W_card ,S_card):
+  def check_if_row_exist(self ,pbn_desk):
     self.connect_db()
     
-    string = \
-    """ SELECT 1
-    FROM bridge_board 
-    WHERE N_card = '""" + N_card + """' AND E_card = '""" + E_card + """' AND  W_card = '""" + W_card + """' AND S_card = '""" + S_card + """'
-    """
+    #string = \
+    #""" SELECT 1
+    #FROM bridge_board 
+    #WHERE N_card = '""" + N_card + """' AND E_card = '""" + E_card + """' AND  W_card = '""" + W_card + """' AND S_card = '""" + S_card + """'
+    #"""
+    
+    #print(pbn_desk)
+    #print(max_score_deals)
 
+    string = \
+    """SELECT 1 FROM bridge_board WHERE pbn_desk = '""" + pbn_desk + """'"""
     #print(string)
 
     self.cur.execute(string)
 
+    #a = self.cur.fetchone()
+
+    if self.cur.fetchone() == None :
+      #print('Row does not exist.')
+      self.disconnect_db()
+      return False
+    else :
+      #print('Row exists.')
+      self.disconnect_db()
+      return True
+
+    
+    """
     if self.cur.fetchone()[0] == 1 :
       #print('Row exists.')
       self.disconnect_db()
@@ -98,6 +127,19 @@ class Database:
       #print('Row does not exist.')
       self.disconnect_db()
       return False
+    """
+  def get_row_number(self):
+    self.connect_db()
+
+    self.cur.execute('''SELECT Count(*) FROM bridge_board;''')
+    #print(self.cur.fetchone()[0])
+    row_num = self.cur.fetchone()[0]
+
+    self.disconnect_db()
+
+    return row_num
+
+
 
   def del_all_from_table(self):
     self.connect_db()
@@ -109,13 +151,17 @@ class Database:
     self.connect_db()
     
     string = \
-    """SELECT * FROM bridge_board ORDER BY RANDOM() LIMIT """ + str(num) + """;"""
+    """SELECT * FROM bridge_board ORDER BY RANDOM() LIMIT """ + str(num)
 
     #print(string)
 
     self.cur.execute(string)
 
-    print(self.cur.fetchone())
+    list_row = self.cur.fetchall()
+    self.disconnect_db()
+    #print(self.cur.fetchall())
+
+    return list_row
     
 
 
@@ -151,7 +197,14 @@ class Database:
 
 
 a = Database()
+#a.check_if_row_exist("N:QT.T9543.AK.KT84 E:K9543.Q76.94.A97 W:AJ7.AJ2.JT87652. S:862.K8.Q3.QJ6532")
+#a.add_board('N:QT.T9543.AK.KT84 E:K9543.Q76.94.A97 W:AJ7.AJ2.JT87652. S:862.K8.Q3.QJ6532 ','small slam')
+#a.print_select_board()
+#print(a.get_row_limit(5))
+#a.get_row_number()
+#a.del_all_from_table()
 
+"""
 #a.add_board("JT963.AQ87.A63.7","Q72.J62.K84.AKQ9","A5.T543.JT7.J432","K84.K9.Q952.T865")
 #a.add_board                ("AQ.63.AJT4.KJ865","T42.9842.9863.32","K9763.KQT5.Q.AQ9","J85.AJ7.K752.T74")
 #a.print_select_board()
@@ -159,11 +212,11 @@ a = Database()
 #print(a.check_if_row_exist("AQ.63.AJT4.KJ865","T42.9842.9863.32","K9763.KQT5.Q.AQ9","J85.AJ7.K752.T74"))
 #print( a.check_if_row_exist("AQ.63.AJT4.KJ865","T42.9842.9863.32","K9763.KQT5.Q.AQ9","J85.AJ7.K752.T74") )
 
-print(a.get_row_limit(1))
+#print(a.get_row_limit(3))
 
 #a.del_all_from_table()
 #a.print_select_board()
-
+"""
 
 
 

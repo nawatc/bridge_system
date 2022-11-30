@@ -10,9 +10,9 @@ import ddstable_standalone as ddstable_standalone
 
 from picture_program import make_pic_4hand
 
-import sqlite3
+from sqlite3_lib import Database
 
-from porter_bridges.random_number import random_card ,get_num_from_txt ,set_num_from_txt ,random_card_with_prng
+from porter_bridges.random_number import random_card ,get_num_from_txt ,set_num_from_txt ,cycle_one_step ,random_card_with_prng
 
 from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn_check ,text_to_pbn ,dict_to_desk ,deck_list_result  ,text_to_list_desk
 #from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
@@ -82,11 +82,11 @@ class MyTabsWidget(QWidget):
 
 
             # 1st Horizon Layout
-        self.tab1.layout_tab1_H = QHBoxLayout()
+        self.tab1.layout_tab1_H1 = QHBoxLayout()
 
                 # Autogen Lable
         self.line_autogen = QLabel("Auto generate new Desk number : ")
-        self.tab1.layout_tab1_H.addWidget(self.line_autogen)
+        self.tab1.layout_tab1_H1.addWidget(self.line_autogen)
 
                 # Autogen Line Edit
         self.line_edit_autogen = QLineEdit()
@@ -94,20 +94,33 @@ class MyTabsWidget(QWidget):
         self.line_edit_autogen.setStyleSheet('font-size: 14pt;')
         self.line_edit_autogen.setFixedWidth(100)
         #self.line_edit_autogen.setMaximumWidth(100)                   # Set Width
-        self.tab1.layout_tab1_H.addWidget(self.line_edit_autogen)
+        self.tab1.layout_tab1_H1.addWidget(self.line_edit_autogen)
 
                 # Autogen Button
         self.button_autogen = QPushButton("Generate Desk")
         self.button_autogen.setAutoDefault(1)                             # Make button to click with Enter key
         self.button_autogen.setStyleSheet('font-size: 14pt;')
         self.button_autogen.clicked.connect(self.autogen_num)
-        self.tab1.layout_tab1_H.addWidget(self.button_autogen)
-        
+        self.tab1.layout_tab1_H1.addWidget(self.button_autogen)
 
-        self.tab1.layout_tab1_H.addStretch()
+                # Add 1st Horizon Layout into main Layout
+        self.tab1.layout_tab1_V_main.addLayout(self.tab1.layout_tab1_H1)
 
-            # Add 1st Horizon Layout into main Layout
-        self.tab1.layout_tab1_V_main.addLayout(self.tab1.layout_tab1_H)
+
+            # 2nd Lable
+        B_DB = Database()
+        row_num = B_DB.get_row_number()
+        row_num_percent = row_num / 53644737765488792839237440000
+
+        self.line_total = QLabel("Total Record : \t" + str(row_num) + " / " + "53644737765488792839237440000")
+        self.tab1.layout_tab1_V_main.addWidget(self.line_total)
+
+        self.line_total_percent = QLabel("\t\t" + str(row_num_percent) + "%")
+        self.tab1.layout_tab1_V_main.addWidget(self.line_total_percent)
+
+        self.tab1.layout_tab1_H1.addStretch()
+
+
 
 
         
@@ -583,10 +596,11 @@ class MyTabsWidget(QWidget):
 
 
         #print(all_2)
-        self.tab3_text5.setText(    text_PBN +
+        #self.tab3_text5.setText(    text_PBN +
+        #                            "\n\n" + all_2)
+        self.tab3_text5.setText(    self.line_input_desk.text() +
                                     "\n\n" + all_2)
-
-
+        
         # Create image
         input_text = self.line_input_desk.text()
         input_text = pbn_to_dict(input_text)
@@ -597,10 +611,14 @@ class MyTabsWidget(QWidget):
         self.label_pic.setPixmap(self.pixmap)
         os.remove("picture_resource/result.png")
 
+
+
     def clicked_generate_random(self):
         # Signal to change text in line_input_desk to random card
         random_desk = random_card()                         # get random card
         self.line_input_desk.setText(random_desk)           # set text to display
+
+        self.pbn_calulate_and_keep_DB(random_desk)
 
     def clicked_input_clear(self):
         # Signal to clear text in line_input_desk
@@ -660,7 +678,7 @@ class MyTabsWidget(QWidget):
         org_seed = int(get_num_from_txt(filename_original_seed))    # original seed
         seed     = int(get_num_from_txt(filename_seed))        # seed
 
-        B_DB = sqlite3.Database()
+        
 
             # Get number
         random_time = self.line_edit_autogen.text()
@@ -683,34 +701,101 @@ class MyTabsWidget(QWidget):
             if seed == org_seed :
                 # if seed = ori_seed than full cycle is complete
                 print("Full Cycle had Complete")
-
+        
                 # Get PBN from seed
             #N:KQJT2.986.Q8.T97 E:765.AKQ.A76.K853 W:983.T75.K932.AJ2 S:A4.J432.JT54.Q64
             pbn_desk = random_card_with_prng(seed)
+            
+            #print(pbn_desk)
+            self.pbn_calulate_and_keep_DB(pbn_desk)
 
-                # Get Bo
-            pbn_desk_encode = pbn_desk.encode()
-            #{'N': {'S': 5, 'H': 5, 'D': 4, 'C': 4, 'NT': 4}, 'S': {'S': 5, 'H': 5, 'D': 4, 'C': 4, 'NT': 4}, 'E': {'S': 8, 'H': 8, 'D': 8, 'C': 9, 'NT': 8}, 'W': {'S': 8, 'H': 8, 'D': 8, 'C': 9, 'NT': 8}}
-            all = ddstable_standalone.get_ddstable(pbn_desk_encode)
+
+
+
+
+            # set seed to next seed
+            set_num_from_txt(filename_seed ,cycle_one_step(seed = seed, sample_size = 53644737765488792839237440000, increment = 31114111519121615131518191719))
+            
+
+    def pbn_calulate_and_keep_DB(self ,pbn_desk):
+        
+            
+        # Get Bo
+        pbn_desk_encode = pbn_desk.encode()
+        #{'N': {'S': 5, 'H': 5, 'D': 4, 'C': 4, 'NT': 4}, 'S': {'S': 5, 'H': 5, 'D': 4, 'C': 4, 'NT': 4}, 'E': {'S': 8, 'H': 8, 'D': 8, 'C': 9, 'NT': 8}, 'W': {'S': 8, 'H': 8, 'D': 8, 'C': 9, 'NT': 8}}
+        dds = ddstable_standalone.get_ddstable(pbn_desk_encode)
+            
+            # Get Max Scoring deals
+        max_score_deals = ""
+        score_deals     = []
+        #score_deals     = ["part score","game part","small slam","grand slam"]
+        #score_deals     = [           1,          4,           6,           7]
+        #score_deals_lv  = [           7,         10,          12,          13]
+        #score_deals_suit= ["s","h","d","c"]
+            
+        for i in ['N','E','W','S']:
+            for j in ['S','H','D','C','NT']:
+                if dds[i][j] == 13:
+                    score_deals.append("grand slam")
+                elif dds[i][j] == 12:
+                    score_deals.append("small slam")
+                elif dds[i][j] >= 11 and (j == 'D' or j == 'C'):
+                    score_deals.append("game part")
+                elif dds[i][j] >= 10 and (j == 'S' or j == 'H'):
+                    score_deals.append("game part")
+                elif dds[i][j] >=  9 and (j == 'NT'):
+                    score_deals.append("game part")
+                elif dds[i][j] >=  7:
+                    score_deals.append("part score")
+                else:
+                    score_deals.append("below score")
+            
+        if "grand slam" in score_deals:
+            max_score_deals = "grand slam"
+        elif "small slam" in score_deals:
+            max_score_deals = "small slam"
+        elif "game part" in score_deals:
+            max_score_deals = "game part"
+        elif "part score" in score_deals:
+            max_score_deals = "part score"
+        elif "below score" in score_deals:
+            max_score_deals = "below score"
+        else:
+            max_score_deals = ""
+            
+            
+            # Data
+
+        # pbn_desk  # Desk Info
+        #N:KQJT2.986.Q8.T97 E:765.AKQ.A76.K853 W:983.T75.K932.AJ2 S:A4.J432.JT54.Q64
+        # dds       # DDS (Bo algorithm)
+        #{'N': {'S': 5, 'H': 5, 'D': 4, 'C': 4, 'NT': 4}, 'S': {'S': 5, 'H': 5, 'D': 4, 'C': 4, 'NT': 4}, 'E': {'S': 8, 'H': 8, 'D': 8, 'C': 9, 'NT': 8}, 'W': {'S': 8, 'H': 8, 'D': 8, 'C': 9, 'NT': 8}}
+        # max_score_deals # max_score_deals of board
+        # "" <- "part score" "game part" "small slam" "grand slam"
+
 
             
-                # Data
+        # Process to put into database
+        B_DB = Database()       # Database Class
 
-            # pbn_desk  # Desk Info
-            #N:KQJT2.986.Q8.T97 E:765.AKQ.A76.K853 W:983.T75.K932.AJ2 S:A4.J432.JT54.Q64
-            # all       # DDS (Bo algorithm)
-            #{'N': {'S': 5, 'H': 5, 'D': 4, 'C': 4, 'NT': 4}, 'S': {'S': 5, 'H': 5, 'D': 4, 'C': 4, 'NT': 4}, 'E': {'S': 8, 'H': 8, 'D': 8, 'C': 9, 'NT': 8}, 'W': {'S': 8, 'H': 8, 'D': 8, 'C': 9, 'NT': 8}}
+        if B_DB.check_if_row_exist(pbn_desk):
+            # Check if this desk already into database
+            pass
 
-
-            # Process to put into database
-            B_DB 
-
-            
-        
-        
+        else:
+            # Check if this desk is new to database
+            B_DB.add_board(pbn_desk, max_score_deals)
 
 
+        #B_DB.print_select_board()
 
+        # Set Total Record in Tab 1
+        #B_DB = Database()
+        row_num = B_DB.get_row_number()
+        row_num_percent = row_num / 53644737765488792839237440000
+
+        self.line_total.setText("Total Record : \t" + str(row_num) + " / " + "53644737765488792839237440000")
+        self.line_total_percent.setText("\t\t" + str(row_num_percent) + "%")
 
 
 
