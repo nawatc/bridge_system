@@ -1,6 +1,9 @@
 import sys ,os
 from PyQt5 import QtWidgets ,QtGui #,QtCore 
-from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QMessageBox ,QTextEdit ,QTableWidget ,QTableView ,QShortcut ,QSizePolicy#  #,QSizePolicy ,QFileDialog ,QGridLayout 
+from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout \
+    ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QMessageBox ,QTextEdit \
+    ,QTableWidget ,QTableView ,QShortcut ,QCheckBox \
+    ,QSizePolicy ,QComboBox#  #,QSizePolicy ,QFileDialog ,QGridLayout 
 from PyQt5.QtCore    import pyqtSlot
 from PyQt5.QtGui     import QKeySequence ,QPixmap  #,QColor
 
@@ -41,6 +44,7 @@ class MyTabsWidget(QWidget):
         
         # Initialize tab screen
         self.tabs = QTabWidget()
+        self.tabs.setStyleSheet('font-size: 14pt;')
         #self.tabs.resize(300,200)
 
         # Create Tab
@@ -58,7 +62,7 @@ class MyTabsWidget(QWidget):
         self.tabs.addTab(self.tab4,"Choose from Database")
         self.tabs.addTab(self.tab5,"Export as PDF")
         
-        self.tabs.setCurrentIndex(2)    # Go to tab 2
+        self.tabs.setCurrentIndex(3)    # Go to tab 4
 
         # Add Tab to Main Windows
         self.layout_tab = QVBoxLayout(self)
@@ -460,25 +464,87 @@ class MyTabsWidget(QWidget):
         self.tab4.setLayout(self.tab4.layout_tab4_V_main)
 
 
-        # Add H Layout 
-
+        # Add H1 Layout 
         self.tab4.layout_tab4_H1 = QHBoxLayout(self)
         self.tab4.layout_tab4_V_main.addLayout(self.tab4.layout_tab4_H1)
 
+        self.random_table_button = QPushButton("Random")
+        self.random_table_button.setStyleSheet('font-size: 14pt;')
+        self.tab4.layout_tab4_H1.addWidget(self.random_table_button)
+
+        self.sort_by_label = QLabel("Sort By :")
+        self.tab4.layout_tab4_H1.addWidget(self.sort_by_label)
+
+        self.combo_box_sort_by = QComboBox()
+        self.combo_box_sort_by.setStyleSheet('font-size: 14pt;')
+        self.combo_box_sort_by.addItems(["Random","Part score to Grand Slam", "Grand Slam to Part score"])
+        self.tab4.layout_tab4_H1.addWidget(self.combo_box_sort_by)
+
+        self.show_only = QLabel("Show ")
+        self.tab4.layout_tab4_H1.addWidget(self.show_only)
+
+        self.part_score = QCheckBox("Part score")
+        self.tab4.layout_tab4_H1.addWidget(self.part_score)
+        self.game_part  = QCheckBox("Game part")
+        self.tab4.layout_tab4_H1.addWidget(self.game_part)
+        self.small_slam = QCheckBox("Small Slam")
+        self.tab4.layout_tab4_H1.addWidget(self.small_slam)
+        self.grand_slam = QCheckBox("Grand Slam")
+        self.tab4.layout_tab4_H1.addWidget(self.grand_slam)
+
+
+
+        self.tab4.layout_tab4_H1.addStretch()
+
+
+
+
+
+
+        # Add H2 Layout 
+        self.tab4.layout_tab4_H2 = QHBoxLayout(self)
+        self.tab4.layout_tab4_V_main.addLayout(self.tab4.layout_tab4_H2)
+
         # Create TableWidget
         self.TableWidget = QTableWidget(self)
-        self.tab4.layout_tab4_V_main.addWidget(self.TableWidget)
+        self.tab4.layout_tab4_H2.addWidget(self.TableWidget)
+
+
+
+        # Add tab4_V_in_H2 Layout
+        self.tab4.layout_tab4_V_in_H2 = QVBoxLayout(self)
+        self.tab4.layout_tab4_H2.addLayout(self.tab4.layout_tab4_V_in_H2)
+
+        # Add Choose Button
+        self.choose_button = QPushButton(" >> ")
+        self.choose_button.setStyleSheet('font-size: 14pt;')
+        self.tab4.layout_tab4_V_in_H2.addWidget(self.choose_button)
+
+        # Add Choose Del Button
+        self.choose_del_button = QPushButton(" << ")
+        self.choose_del_button.setStyleSheet('font-size: 14pt;')
+        self.tab4.layout_tab4_V_in_H2.addWidget(self.choose_del_button)
+
+
+
+        # Add Table Choose
+        self.TableWidget_choose = QTableWidget(self)
+        self.tab4.layout_tab4_H2.addWidget(self.TableWidget_choose)
 
 
         # Set Table
             # Set Column
-        Column_header = ["asd","asd"]
+        Column_header = ["Desk Code","Game type"]
         self.TableWidget.setColumnCount(len(Column_header))
         self.TableWidget.setHorizontalHeaderLabels(Column_header)
 
+        self.TableWidget_choose.setColumnCount(len(Column_header))
+        self.TableWidget_choose.setHorizontalHeaderLabels(Column_header)
 
             # Set Row
-        self.TableWidget.setRowCount(3) 
+            #N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75
+            
+        #self.TableWidget.setRowCount(3) 
 
         
         # Load Data
