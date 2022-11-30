@@ -497,11 +497,15 @@ class MyTabsWidget(QWidget):
         self.number_desk_label = QLabel("Number Desk : ")
         self.tab4.layout_tab4_H1.addWidget(self.number_desk_label)
 
-        self.combo_box_num_desk = QComboBox()
-        self.combo_box_num_desk.setStyleSheet('font-size: 14pt;')
-        self.combo_box_num_desk.addItems(["20","50","100"])
-        self.tab4.layout_tab4_H1.addWidget(self.combo_box_num_desk)
+        #self.combo_box_num_desk = QComboBox()
+        #self.combo_box_num_desk.setStyleSheet('font-size: 14pt;')
+        #self.combo_box_num_desk.addItems(["20","50","100","200"])
+        #self.tab4.layout_tab4_H1.addWidget(self.combo_box_num_desk)
 
+        self.lineedit_num_desk = QLineEdit()
+        self.lineedit_num_desk.setStyleSheet('font-size: 14pt;')
+        self.lineedit_num_desk.setText("20")
+        self.tab4.layout_tab4_H1.addWidget(self.lineedit_num_desk)
 
         self.random_table_button = QPushButton("Random")
         self.random_table_button.setStyleSheet('font-size: 14pt;')
@@ -934,9 +938,21 @@ class MyTabsWidget(QWidget):
         if self.grand_slam.isChecked():
             get_only.append("Grand Slam")
 
-        num_desk = int(self.combo_box_num_desk.currentText())
+        #num_desk = int(self.combo_box_num_desk.currentText())
+        if self.lineedit_num_desk.text().isdigit():
+            num_desk = int(self.lineedit_num_desk.text())
+        else:
+            num_desk = 0
+
+        if num_desk > 9999:
+            num_desk = 9999
 
         self.plot_table(get_only = get_only ,sort_type = self.combo_box_sort_by.currentText() ,limit = num_desk )
+
+
+    def clicked_display_board_table(self):
+        pass
+
 
     def exit():
         # Exit function to Close progream
