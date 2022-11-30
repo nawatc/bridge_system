@@ -66,6 +66,60 @@ class Database:
 
     self.disconnect_db()
 
+  def get_select_board(self ,get_only = ["Part score","Game part","Small Slam","Grand Slam"] ,sort_type = "Random" ,limit = 10 ):
+    # Example Input
+    # sort = "Random" , "Grand Slam to Part score" ,"Part score to Grand Slam"
+    # get_only = ["Part score","Game part","Small Slam","Grand Slam"]
+    #
+    self.connect_db()
+    
+    if get_only != []:
+      get_only_exe = ""
+    else:
+      get_only_str = ""
+      for i in get_only:
+        get_only_str = get_only_str +'"'+ i + '"' + ","
+      get_only_str = get_only_str[:-1]
+
+      get_only_exe = '''WHERE "max_score_deals" IN (''' + get_only_str + ") " 
+
+
+
+    sort_exe = ""
+
+    if sort_type == "Random":
+      sort_exe = '''ORDER BY RANDOM() '''
+    elif sort_type == "Grand Slam to Part score":
+      sort_exe = '''ORDER BY CASE "max_score_deals"
+      WHEN "Grand Slam" THEN 0
+      WHEN "Small Slam" THEN 1
+      WHEN "Game part"  THEN 2
+      WHEN "Part score" THEN 3
+      END '''
+    elif sort_type == "Part score to Grand Slam":
+      sort_exe = '''ORDER BY CASE "max_score_deals"
+      WHEN "Part score" THEN 0
+      WHEN "Game part"  THEN 1
+      WHEN "Small Slam" THEN 2
+      WHEN "Grand Slam" THEN 3
+      END '''
+    else:
+      sort_exe = ""
+
+    
+    limit_exe = "LIMIT " + str(limit) + " "
+
+
+    string_exe = '''SELECT * FROM bridge_board ''' + get_only_exe + sort_exe + limit_exe
+    #print(string_exe)
+    self.cur.execute(string_exe)
+    #print(self.cur.fetchall())
+    output = self.cur.fetchall()
+
+    self.disconnect_db()
+
+    return output
+  
   def print_select_board(self):
     self.connect_db()
     #for row in self.cur.execute('SELECT * FROM bridge_board ORDER BY N_card'):
@@ -196,7 +250,8 @@ class Database:
 
 
 
-a = Database()
+#a = Database()
+#print(a.get_select_board())
 #a.check_if_row_exist("N:QT.T9543.AK.KT84 E:K9543.Q76.94.A97 W:AJ7.AJ2.JT87652. S:862.K8.Q3.QJ6532")
 #a.add_board('N:QT.T9543.AK.KT84 E:K9543.Q76.94.A97 W:AJ7.AJ2.JT87652. S:862.K8.Q3.QJ6532 ','small slam')
 #a.print_select_board()

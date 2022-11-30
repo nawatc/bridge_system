@@ -1,10 +1,10 @@
 import sys ,os
-from PyQt5 import QtWidgets ,QtGui #,QtCore 
+from PyQt5 import QtWidgets ,QtGui ,QtCore 
 from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout \
     ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QMessageBox ,QTextEdit \
-    ,QTableWidget ,QTableView ,QShortcut ,QCheckBox \
+    ,QTableWidget ,QTableView ,QShortcut ,QCheckBox ,QTableWidgetItem \
     ,QSizePolicy ,QComboBox#  #,QSizePolicy ,QFileDialog ,QGridLayout 
-from PyQt5.QtCore    import pyqtSlot
+from PyQt5.QtCore    import pyqtSlot ,QSize
 from PyQt5.QtGui     import QKeySequence ,QPixmap  #,QColor
 
 
@@ -25,10 +25,10 @@ from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn_check ,text_t
 class BridgeWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
-        width , height = 1200,600
+        width , height = 1720,600
         
-        #self.setMinimumSize(QSize(width, height))      # Set Windows Size
-        self.setFixedSize(width, height)                # Set Windows Size That cannot resize
+        self.setMinimumSize(QSize(width, height))      # Set Windows Size
+        #self.setFixedSize(width, height)                # Set Windows Size That cannot resize
         self.setWindowTitle("Bridge system") 
         self.setWindowIcon(QtGui.QIcon('icon.ico'))
 
@@ -115,7 +115,7 @@ class MyTabsWidget(QWidget):
         B_DB = Database()
         row_num = B_DB.get_row_number()
         row_num_percent = row_num / 53644737765488792839237440000
-
+        
         self.line_total = QLabel("Total Record : \t" + str(row_num) + " / " + "53644737765488792839237440000")
         self.tab1.layout_tab1_V_main.addWidget(self.line_total)
 
@@ -468,9 +468,6 @@ class MyTabsWidget(QWidget):
         self.tab4.layout_tab4_H1 = QHBoxLayout(self)
         self.tab4.layout_tab4_V_main.addLayout(self.tab4.layout_tab4_H1)
 
-        self.random_table_button = QPushButton("Random")
-        self.random_table_button.setStyleSheet('font-size: 14pt;')
-        self.tab4.layout_tab4_H1.addWidget(self.random_table_button)
 
         self.sort_by_label = QLabel("Sort By :")
         self.tab4.layout_tab4_H1.addWidget(self.sort_by_label)
@@ -480,19 +477,29 @@ class MyTabsWidget(QWidget):
         self.combo_box_sort_by.addItems(["Random","Part score to Grand Slam", "Grand Slam to Part score"])
         self.tab4.layout_tab4_H1.addWidget(self.combo_box_sort_by)
 
-        self.show_only = QLabel("Show ")
+        self.show_only = QLabel("Show : ")
         self.tab4.layout_tab4_H1.addWidget(self.show_only)
 
         self.part_score = QCheckBox("Part score")
+        self.part_score.setChecked(True)
         self.tab4.layout_tab4_H1.addWidget(self.part_score)
         self.game_part  = QCheckBox("Game part")
+        self.game_part.setChecked(True)
         self.tab4.layout_tab4_H1.addWidget(self.game_part)
         self.small_slam = QCheckBox("Small Slam")
+        self.small_slam.setChecked(True)
         self.tab4.layout_tab4_H1.addWidget(self.small_slam)
         self.grand_slam = QCheckBox("Grand Slam")
+        self.grand_slam.setChecked(True)
         self.tab4.layout_tab4_H1.addWidget(self.grand_slam)
 
+        self.random_table_button = QPushButton("Random")
+        self.random_table_button.setStyleSheet('font-size: 14pt;')
+        self.tab4.layout_tab4_H1.addWidget(self.random_table_button)
 
+        self.display_from_table_button = QPushButton("Display Board")
+        self.display_from_table_button.setStyleSheet('font-size: 14pt;')
+        self.tab4.layout_tab4_H1.addWidget(self.display_from_table_button)
 
         self.tab4.layout_tab4_H1.addStretch()
 
@@ -537,17 +544,33 @@ class MyTabsWidget(QWidget):
         Column_header = ["Desk Code","Game type"]
         self.TableWidget.setColumnCount(len(Column_header))
         self.TableWidget.setHorizontalHeaderLabels(Column_header)
+        self.TableWidget.setColumnWidth(0,660)
+        self.TableWidget.setColumnWidth(1,115)
 
         self.TableWidget_choose.setColumnCount(len(Column_header))
         self.TableWidget_choose.setHorizontalHeaderLabels(Column_header)
+        self.TableWidget_choose.setColumnWidth(0,660)
+        self.TableWidget_choose.setColumnWidth(1,115)
 
-            # Set Row
-            #N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75
-            
-        #self.TableWidget.setRowCount(3) 
+        # Example Input
+        # get_only = ["Part score","Game part","Small Slam","Grand Slam"]
+        # sort = "Random" , "Grand Slam to Part score" ,"Part score to Grand Slam"
+        # limit = 10
+        #self.get_database_as_list(self ,get_only = [] ,sort_type = "Random" ,limit = 10 )
 
         
-        # Load Data
+        #a = [["N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75","Grand Slam"],["N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75","Grand Slam"]]
+        a = self.get_database_as_list(get_only = [] ,sort_type = "Random" ,limit = 10 )
+        #print(self.get_database_as_list(get_only = [] ,sort_type = "Random" ,limit = 10 ))
+        for row_data in a:
+            # insert new row at the end of the tableWidget
+            row_number = self.TableWidget.rowCount()
+            self.TableWidget.insertRow(row_number)
+
+            for column_number, data in enumerate(row_data):
+                self.TableWidget.setItem(
+                    row_number, column_number, QTableWidgetItem(str(data)))
+
 
 
 
@@ -802,30 +825,30 @@ class MyTabsWidget(QWidget):
         for i in ['N','E','W','S']:
             for j in ['S','H','D','C','NT']:
                 if dds[i][j] == 13:
-                    score_deals.append("grand slam")
+                    score_deals.append("Grand Slam")
                 elif dds[i][j] == 12:
-                    score_deals.append("small slam")
+                    score_deals.append("Small Slam")
                 elif dds[i][j] >= 11 and (j == 'D' or j == 'C'):
-                    score_deals.append("game part")
+                    score_deals.append("Game part")
                 elif dds[i][j] >= 10 and (j == 'S' or j == 'H'):
-                    score_deals.append("game part")
+                    score_deals.append("Game part")
                 elif dds[i][j] >=  9 and (j == 'NT'):
-                    score_deals.append("game part")
+                    score_deals.append("Game part")
                 elif dds[i][j] >=  7:
-                    score_deals.append("part score")
+                    score_deals.append("Part score")
                 else:
-                    score_deals.append("below score")
+                    score_deals.append("Below score")
             
-        if "grand slam" in score_deals:
-            max_score_deals = "grand slam"
-        elif "small slam" in score_deals:
-            max_score_deals = "small slam"
-        elif "game part" in score_deals:
-            max_score_deals = "game part"
-        elif "part score" in score_deals:
-            max_score_deals = "part score"
-        elif "below score" in score_deals:
-            max_score_deals = "below score"
+        if "Grand Slam" in score_deals:
+            max_score_deals = "Grand Slam"
+        elif "Small Slam" in score_deals:
+            max_score_deals = "Small Slam"
+        elif "Game part" in score_deals:
+            max_score_deals = "Game part"
+        elif "Part score" in score_deals:
+            max_score_deals = "Part score"
+        elif "Below score" in score_deals:
+            max_score_deals = "Below score"
         else:
             max_score_deals = ""
             
@@ -862,6 +885,22 @@ class MyTabsWidget(QWidget):
 
         self.line_total.setText("Total Record : \t" + str(row_num) + " / " + "53644737765488792839237440000")
         self.line_total_percent.setText("\t\t" + str(row_num_percent) + "%")
+
+
+    def get_database_as_list(self ,get_only = ["Part score","Game part","Small Slam","Grand Slam"] ,sort_type = "Random" ,limit = 10 ):
+        # Get desk code and gametype from database
+        B_DB = Database()
+
+        # Example Input
+        # get_only = ["Part score","Game part","Small Slam","Grand Slam"]
+        # sort = "Random" , "Grand Slam to Part score" ,"Part score to Grand Slam"
+        # limit = 10
+        #
+        #print(B_DB.get_select_board(get_only = ["Part score","Game part","Small Slam","Grand Slam"] ,sort_type = "Random" ,limit = 10))
+
+        #output_list = []
+
+        return B_DB.get_select_board(get_only = ["Part score","Game part","Small Slam","Grand Slam"] ,sort_type = "Random" ,limit = 10)
 
 
 
