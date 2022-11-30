@@ -35,7 +35,7 @@ class BridgeWindow(QMainWindow):
         self.table_widget = MyTabsWidget(self)
         self.setCentralWidget(self.table_widget)
         
-        
+        self.choose_data = []
 
 class MyTabsWidget(QWidget):
     
@@ -379,7 +379,7 @@ class MyTabsWidget(QWidget):
         self.line_input_clear.setStyleSheet('font-size: 14pt;')
         self.tab2.layout_tab2_H.addWidget(self.line_input_clear)
 
-
+        self.tab2.layout_tab2_H.addStretch()
             # Add 2st Horizon Layout into main Layout
         self.tab2.layout_tab2_V_main.addLayout(self.tab2.layout_tab2_H)
 
@@ -492,6 +492,16 @@ class MyTabsWidget(QWidget):
         self.grand_slam = QCheckBox("Grand Slam")
         self.grand_slam.setChecked(True)
         self.tab4.layout_tab4_H1.addWidget(self.grand_slam)
+
+
+        self.number_desk_label = QLabel("Number Desk : ")
+        self.tab4.layout_tab4_H1.addWidget(self.number_desk_label)
+
+        self.combo_box_num_desk = QComboBox()
+        self.combo_box_num_desk.setStyleSheet('font-size: 14pt;')
+        self.combo_box_num_desk.addItems(["20","50","100"])
+        self.tab4.layout_tab4_H1.addWidget(self.combo_box_num_desk)
+
 
         self.random_table_button = QPushButton("Random")
         self.random_table_button.setStyleSheet('font-size: 14pt;')
@@ -924,8 +934,9 @@ class MyTabsWidget(QWidget):
         if self.grand_slam.isChecked():
             get_only.append("Grand Slam")
 
-        
-        self.plot_table(get_only = get_only ,sort_type = self.combo_box_sort_by.currentText() ,limit = 20 )
+        num_desk = int(self.combo_box_num_desk.currentText())
+
+        self.plot_table(get_only = get_only ,sort_type = self.combo_box_sort_by.currentText() ,limit = num_desk )
 
     def exit():
         # Exit function to Close progream
