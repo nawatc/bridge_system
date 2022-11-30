@@ -25,7 +25,7 @@ from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn_check ,text_t
 class BridgeWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
-        width , height = 1720,600
+        width , height = 1820,600
         
         self.setMinimumSize(QSize(width, height))      # Set Windows Size
         #self.setFixedSize(width, height)                # Set Windows Size That cannot resize
@@ -495,6 +495,7 @@ class MyTabsWidget(QWidget):
 
         self.random_table_button = QPushButton("Random")
         self.random_table_button.setStyleSheet('font-size: 14pt;')
+        self.random_table_button.clicked.connect(self.clicked_random_plot_table)
         self.tab4.layout_tab4_H1.addWidget(self.random_table_button)
 
         self.display_from_table_button = QPushButton("Display Board")
@@ -544,32 +545,17 @@ class MyTabsWidget(QWidget):
         Column_header = ["Desk Code","Game type"]
         self.TableWidget.setColumnCount(len(Column_header))
         self.TableWidget.setHorizontalHeaderLabels(Column_header)
-        self.TableWidget.setColumnWidth(0,660)
-        self.TableWidget.setColumnWidth(1,115)
+        self.TableWidget.setColumnWidth(0,680)
+        self.TableWidget.setColumnWidth(1,120)
 
         self.TableWidget_choose.setColumnCount(len(Column_header))
         self.TableWidget_choose.setHorizontalHeaderLabels(Column_header)
-        self.TableWidget_choose.setColumnWidth(0,660)
-        self.TableWidget_choose.setColumnWidth(1,115)
-
-        # Example Input
-        # get_only = ["Part score","Game part","Small Slam","Grand Slam"]
-        # sort = "Random" , "Grand Slam to Part score" ,"Part score to Grand Slam"
-        # limit = 10
-        #self.get_database_as_list(self ,get_only = [] ,sort_type = "Random" ,limit = 10 )
+        self.TableWidget_choose.setColumnWidth(0,680)
+        self.TableWidget_choose.setColumnWidth(1,120)
 
         
-        #a = [["N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75","Grand Slam"],["N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75","Grand Slam"]]
-        a = self.get_database_as_list(get_only = [] ,sort_type = "Random" ,limit = 10 )
-        #print(self.get_database_as_list(get_only = [] ,sort_type = "Random" ,limit = 10 ))
-        for row_data in a:
-            # insert new row at the end of the tableWidget
-            row_number = self.TableWidget.rowCount()
-            self.TableWidget.insertRow(row_number)
-
-            for column_number, data in enumerate(row_data):
-                self.TableWidget.setItem(
-                    row_number, column_number, QTableWidgetItem(str(data)))
+        
+        self.plot_table(get_only = ["Part score","Game part","Small Slam","Grand Slam"] ,sort_type = "Random" ,limit = 20 )
 
 
 
@@ -890,7 +876,7 @@ class MyTabsWidget(QWidget):
     def get_database_as_list(self ,get_only = ["Part score","Game part","Small Slam","Grand Slam"] ,sort_type = "Random" ,limit = 10 ):
         # Get desk code and gametype from database
         B_DB = Database()
-
+        
         # Example Input
         # get_only = ["Part score","Game part","Small Slam","Grand Slam"]
         # sort = "Random" , "Grand Slam to Part score" ,"Part score to Grand Slam"
@@ -900,13 +886,46 @@ class MyTabsWidget(QWidget):
 
         #output_list = []
 
-        return B_DB.get_select_board(get_only = ["Part score","Game part","Small Slam","Grand Slam"] ,sort_type = "Random" ,limit = 10)
+        return B_DB.get_select_board(get_only = get_only ,sort_type = sort_type ,limit = limit)
 
 
+    def plot_table(self ,get_only = ["Part score","Game part","Small Slam","Grand Slam"] ,sort_type = "Random" ,limit = 20 ):
+        
+        # Example Input
+        # get_only = ["Part score","Game part","Small Slam","Grand Slam"]
+        # sort = "Random" , "Grand Slam to Part score" ,"Part score to Grand Slam"
+        # limit = 10
+        #self.get_database_as_list(self ,get_only = [] ,sort_type = "Random" ,limit = 10 )
+
+        #a = [["N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75","Grand Slam"],["N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75","Grand Slam"]]
+        a = self.get_database_as_list(get_only ,sort_type ,limit)
+        #print(self.get_database_as_list(get_only = [] ,sort_type = "Random" ,limit = 10 ))
+        for row_data in a:
+            # insert new row at the end of the tableWidget
+            row_number = self.TableWidget.rowCount()
+            self.TableWidget.insertRow(row_number)
+
+            for column_number, data in enumerate(row_data):
+                self.TableWidget.setItem(
+                    row_number, column_number, QTableWidgetItem(str(data)))
 
 
+    def clicked_random_plot_table(self):
+        # Plot table
 
+        self.TableWidget.setRowCount(0)     # Clear Table
+        get_only = []
+        if self.part_score.isChecked():
+            get_only.append("Part score")
+        if self.game_part.isChecked():
+            get_only.append("Game part")
+        if self.small_slam.isChecked():
+            get_only.append("Small Slam")
+        if self.grand_slam.isChecked():
+            get_only.append("Grand Slam")
 
+        
+        self.plot_table(get_only = get_only ,sort_type = self.combo_box_sort_by.currentText() ,limit = 20 )
 
     def exit():
         # Exit function to Close progream

@@ -66,14 +66,14 @@ class Database:
 
     self.disconnect_db()
 
-  def get_select_board(self ,get_only = ["Part score","Game part","Small Slam","Grand Slam"] ,sort_type = "Random" ,limit = 10 ):
+  def get_select_board(self ,get_only = ["Part score","Game part","Small Slam","Grand Slam"] ,sort_type = "Random" ,limit = 20 ):
     # Example Input
     # sort = "Random" , "Grand Slam to Part score" ,"Part score to Grand Slam"
     # get_only = ["Part score","Game part","Small Slam","Grand Slam"]
     #
     self.connect_db()
     
-    if get_only != []:
+    if get_only == []:
       get_only_exe = ""
     else:
       get_only_str = ""
@@ -83,7 +83,7 @@ class Database:
 
       get_only_exe = '''WHERE "max_score_deals" IN (''' + get_only_str + ") " 
 
-
+    #print(get_only)
 
     sort_exe = ""
 
@@ -251,7 +251,6 @@ class Database:
 
 
 #a = Database()
-#print(a.get_select_board())
 #a.check_if_row_exist("N:QT.T9543.AK.KT84 E:K9543.Q76.94.A97 W:AJ7.AJ2.JT87652. S:862.K8.Q3.QJ6532")
 #a.add_board('N:QT.T9543.AK.KT84 E:K9543.Q76.94.A97 W:AJ7.AJ2.JT87652. S:862.K8.Q3.QJ6532 ','small slam')
 #a.print_select_board()
