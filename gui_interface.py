@@ -514,6 +514,7 @@ class MyTabsWidget(QWidget):
 
         self.display_from_table_button = QPushButton("Display Board")
         self.display_from_table_button.setStyleSheet('font-size: 14pt;')
+        self.display_from_table_button.clicked.connect(self.clicked_display_board_table)
         self.tab4.layout_tab4_H1.addWidget(self.display_from_table_button)
 
         self.tab4.layout_tab4_H1.addStretch()
@@ -648,16 +649,21 @@ class MyTabsWidget(QWidget):
 
 
 
-
+    
         
         # Switch to Tab 3
         self.tabs.setCurrentIndex(2)
 
         # Set text in Tab 2
         self.tab3_text4.setText(self.line_input_desk.text())
+
+        self.Display_board(self.line_input_desk.text())
         
+    def Display_board(self ,pbn_desk):
+        
+        text_PBN = pbn_desk
         # to PBN
-        text_PBN = self.line_input_desk.text()      # get text
+        #text_PBN = self.line_input_desk.text()      # get text
         #print(self.line_input_desk.toPlainText()) #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! get text from qtextedit
 
         text_PBN = text_to_pbn(text_PBN)            # set text to right position
@@ -687,11 +693,11 @@ class MyTabsWidget(QWidget):
         #print(all_2)
         #self.tab3_text5.setText(    text_PBN +
         #                            "\n\n" + all_2)
-        self.tab3_text5.setText(    self.line_input_desk.text() +
+        self.tab3_text5.setText(    text_PBN +
                                     "\n\n" + all_2)
         
         # Create image
-        input_text = self.line_input_desk.text()
+        input_text = text_PBN
         input_text = pbn_to_dict(input_text)
         make_pic_4hand(input_text)                  # Create image of 4 hand desk
 
@@ -951,7 +957,22 @@ class MyTabsWidget(QWidget):
 
 
     def clicked_display_board_table(self):
-        pass
+        self.tabs.setCurrentIndex(2)    # Go to tab 3
+        #self.get_selected_cell_value()
+        pbn_desk = self.get_selected_cell_value()
+        #print(pbn_desk)
+        self.Display_board(pbn_desk)
+
+    def get_selected_cell_value(self):
+        current_row     = self.TableWidget.currentRow()
+        current_column  = 0
+        #print(current_row)
+        if current_row == -1:
+            current_row = 0
+        #current_column  = self.TableWidget.currentColumn()
+        cell_value = self.TableWidget.item(current_row, current_column).text()
+        #print(cell_value)
+        return cell_value
 
 
     def exit():
