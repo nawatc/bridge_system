@@ -348,7 +348,8 @@ class MyTabsWidget(QWidget):
 
                 # line_input_desk
         self.line_input_desk = QLineEdit()
-        self.line_input_desk.setMaximumWidth(750)                   # Set Width
+        #self.line_input_desk.setMaximumWidth(750)                   # Set Width
+        self.line_input_desk.setMinimumWidth(730)               # Set Width
         #self.line_input_desk.setText("N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 W:AK96.KQ8.A98.K63 S:87.A62.QJT4.AT75") # Set Default Text
         self.clicked_generate_random()  # Random card as start
         #N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75
@@ -647,8 +648,8 @@ class MyTabsWidget(QWidget):
 
                 return # Exit function
 
-
-
+        # calulate_and_keep_DB
+        self.pbn_calulate_and_keep_DB(self.line_input_desk.text())
     
         
         # Switch to Tab 3
@@ -656,6 +657,8 @@ class MyTabsWidget(QWidget):
 
         # Set text in Tab 2
         self.tab3_text4.setText(self.line_input_desk.text())
+
+        
 
         self.Display_board(self.line_input_desk.text())
         
@@ -713,7 +716,7 @@ class MyTabsWidget(QWidget):
         random_desk = random_card()                         # get random card
         self.line_input_desk.setText(random_desk)           # set text to display
 
-        self.pbn_calulate_and_keep_DB(random_desk)
+        #self.pbn_calulate_and_keep_DB(random_desk)
 
     def clicked_input_clear(self):
         # Signal to clear text in line_input_desk
