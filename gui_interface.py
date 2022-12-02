@@ -525,6 +525,10 @@ class MyTabsWidget(QWidget):
         self.clear_choose_table_button.clicked.connect(self.clicked_clear_choose_table)
         self.tab4.layout_tab4_H1.addWidget(self.clear_choose_table_button)
 
+        self.blank_lable = QLabel(" ")
+        self.blank_lable.setStyleSheet('font-size: 14pt;')
+        self.tab4.layout_tab4_H1.addWidget(self.blank_lable)
+
         self.export_pdf_button = QPushButton("Export Table as PDF")
         self.export_pdf_button.setStyleSheet('font-size: 14pt;')
         #self.export_pdf_button.clicked.connect()
@@ -979,8 +983,15 @@ class MyTabsWidget(QWidget):
 
     def clicked_display_board_table(self):
         self.tabs.setCurrentIndex(2)    # Go to tab 3
-        #self.get_selected_cell_value()
-        pbn_desk = self.get_selected_cell_value()
+        
+        #pbn_desk = self.get_selected_cell_value()
+        if self.get_selected_cell_value_table_choose() == -1:
+            # if can't get data from choose table
+            # get from left table instand
+            pbn_desk = self.get_selected_cell_value()
+        else:
+            pbn_desk = self.get_selected_cell_value_table_choose()
+
         #print(pbn_desk)
         self.Display_board(pbn_desk)
 
@@ -1007,24 +1018,24 @@ class MyTabsWidget(QWidget):
         return cell_value
 
     def get_selected_cell_value_table_choose(self):
-        current_row     = self.TableWidget.currentRow()
+        current_row     = self.TableWidget_choose.currentRow()
         current_column  = 0
         #print(current_row)
         if current_row == -1:
-            current_row = 0
-        #current_column  = self.TableWidget.currentColumn()
-        cell_value = self.TableWidget.item(current_row, current_column).text()
+            return -1
+        #current_column  = self.TableWidget_choose.currentColumn()
+        cell_value = self.TableWidget_choose.item(current_row, current_column).text()
         #print(cell_value)
         return cell_value
     
     def get_selected_cell_value_table_choose_gametype(self):
-        current_row     = self.TableWidget.currentRow()
+        current_row     = self.TableWidget_choose.currentRow()
         current_column  = 1
         #print(current_row)
         if current_row == -1:
             current_row = 0
-        #current_column  = self.TableWidget.currentColumn()
-        cell_value = self.TableWidget.item(current_row, current_column).text()
+        #current_column  = self.TableWidget_choose.currentColumn()
+        cell_value = self.TableWidget_choose.item(current_row, current_column).text()
         #print(cell_value)
         return cell_value
 
