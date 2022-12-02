@@ -35,7 +35,7 @@ class BridgeWindow(QMainWindow):
         self.table_widget = MyTabsWidget(self)
         self.setCentralWidget(self.table_widget)
         
-        self.choose_data = []
+        
 
 class MyTabsWidget(QWidget):
     
@@ -46,6 +46,8 @@ class MyTabsWidget(QWidget):
         self.tabs = QTabWidget()
         self.tabs.setStyleSheet('font-size: 14pt;')
         #self.tabs.resize(300,200)
+
+        self.choose_data = []
 
         # Create Tab
         self.tab1 = QWidget()
@@ -518,7 +520,21 @@ class MyTabsWidget(QWidget):
         self.display_from_table_button.clicked.connect(self.clicked_display_board_table)
         self.tab4.layout_tab4_H1.addWidget(self.display_from_table_button)
 
+        self.clear_choose_table_button = QPushButton("Clear Table")
+        self.clear_choose_table_button.setStyleSheet('font-size: 14pt;')
+        self.clear_choose_table_button.clicked.connect(self.clicked_clear_choose_table)
+        self.tab4.layout_tab4_H1.addWidget(self.clear_choose_table_button)
+
+        self.export_pdf_button = QPushButton("Export Table as PDF")
+        self.export_pdf_button.setStyleSheet('font-size: 14pt;')
+        #self.export_pdf_button.clicked.connect()
+        self.tab4.layout_tab4_H1.addWidget(self.export_pdf_button)
+
+
+
         self.tab4.layout_tab4_H1.addStretch()
+        # self.export_pdf_button (13th item) will be right side of layout
+        self.tab4.layout_tab4_H1.setStretch(12, 4)
 
 
 
@@ -542,11 +558,13 @@ class MyTabsWidget(QWidget):
         # Add Choose Button
         self.choose_button = QPushButton(" >> ")
         self.choose_button.setStyleSheet('font-size: 14pt;')
+        self.choose_button.clicked.connect(self.clicked_add_from_table)
         self.tab4.layout_tab4_V_in_H2.addWidget(self.choose_button)
 
         # Add Choose Del Button
         self.choose_del_button = QPushButton(" << ")
         self.choose_del_button.setStyleSheet('font-size: 14pt;')
+        self.choose_del_button.clicked.connect(self.clicked_del_from_table)
         self.tab4.layout_tab4_V_in_H2.addWidget(self.choose_del_button)
 
 
@@ -976,8 +994,103 @@ class MyTabsWidget(QWidget):
         cell_value = self.TableWidget.item(current_row, current_column).text()
         #print(cell_value)
         return cell_value
+    
+    def get_selected_cell_value_gametype(self):
+        current_row     = self.TableWidget.currentRow()
+        current_column  = 1
+        #print(current_row)
+        if current_row == -1:
+            current_row = 0
+        #current_column  = self.TableWidget.currentColumn()
+        cell_value = self.TableWidget.item(current_row, current_column).text()
+        #print(cell_value)
+        return cell_value
 
+    def get_selected_cell_value_table_choose(self):
+        current_row     = self.TableWidget.currentRow()
+        current_column  = 0
+        #print(current_row)
+        if current_row == -1:
+            current_row = 0
+        #current_column  = self.TableWidget.currentColumn()
+        cell_value = self.TableWidget.item(current_row, current_column).text()
+        #print(cell_value)
+        return cell_value
+    
+    def get_selected_cell_value_table_choose_gametype(self):
+        current_row     = self.TableWidget.currentRow()
+        current_column  = 1
+        #print(current_row)
+        if current_row == -1:
+            current_row = 0
+        #current_column  = self.TableWidget.currentColumn()
+        cell_value = self.TableWidget.item(current_row, current_column).text()
+        #print(cell_value)
+        return cell_value
 
+    def clicked_add_from_table(self):
+        
+        # Get Data
+        add_row = [self.get_selected_cell_value(),self.get_selected_cell_value_gametype()]
+        # Collect Data
+        self.choose_data.append(add_row)
+        
+        
+        # plot latest data on choose table
+        self.clear_and_plot_choose_table()
+
+    def clicked_del_from_table(self):
+
+        if self.choose_data == []:
+            # If choose data is empty ,don't do anything
+            pass
+        
+        else :
+            # Get Current row
+            # if current_row == -1 # return as no choose row
+            # dont del anything
+            current_row = self.TableWidget_choose.currentRow()
+
+            
+            if current_row == -1:
+                #if not choose row
+                #del last row
+
+                current_row = -1
+                #return
+
+            
+            # Del Row Data
+            self.choose_data.pop(current_row)
+
+            # plot latest data on choose table
+            self.clear_and_plot_choose_table()
+
+            
+    def clicked_clear_choose_table(self):
+        
+
+        # Set data as empty
+        self.choose_data = []
+
+        # Plot latest data on choose table
+        self.clear_and_plot_choose_table()
+        
+
+    def clear_and_plot_choose_table(self):
+        # Clear Table
+        self.TableWidget_choose.setRowCount(0)
+
+        # Plot on Choose Table
+        for row_data in self.choose_data:
+            # insert new row at the end of the tableWidget
+            row_number = self.TableWidget_choose.rowCount()
+            self.TableWidget_choose.insertRow(row_number)
+
+            for column_number, data in enumerate(row_data):
+                self.TableWidget_choose.setItem(
+                    row_number, column_number, QTableWidgetItem(str(data)))
+        
     def exit():
         # Exit function to Close progream
         sys.exit( app.exec_() )
