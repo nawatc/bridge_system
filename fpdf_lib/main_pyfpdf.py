@@ -1,14 +1,18 @@
 from fpdf import FPDF
-from bridge import get_dealer ,get_vul
+
+try:
+    from bridge import get_dealer ,get_vul
+except:
+    from fpdf_lib.bridge import get_dealer ,get_vul
 
 
 
 #Add Text To Images With Pillow - Python Tkinter GUI Tutorial 203
 #https://www.youtube.com/watch?v=bmzDUQRPEdE
 
-title = 'Open Pairs - Mon.5.10.20'
-author = 'Project-Bridge-system'
-output_filename = title + ".pdf"
+#   Ref.
+#   https://github.com/reingart/pyfpdf/blob/master/docs/ReferenceManual.md
+
 
 
 class PDF(FPDF):
@@ -21,13 +25,13 @@ class PDF(FPDF):
         self.line(1 , 1, 209, 1)
         self.line(1 , 9.5, 209, 9.5)
         # Calculate width of title and position
-        w = self.get_string_width(title) + 6
+        w = self.get_string_width(title_pdf) + 6
         self.set_x((210 - w) / 2)
         # Colors of frame, background and text
         self.set_fill_color(255, 255, 255)
         self.set_text_color( 4, 5, 211)
         # Title
-        self.cell(w, 7, title, 0, 1, 'C', 1)
+        self.cell(w, 7, title_pdf, 0, 1, 'C', 1)
         # Line break
         self.ln(10)
 
@@ -43,38 +47,9 @@ class PDF(FPDF):
         # Page number
         self.cell(0, 10, 'Page ' + str(self.page_no()), 0, 0, 'C')
 
+    # Main function to make pdf
 
-    def chapter_title(self, num, label):
-        # Arial 12
-        self.set_font('Arial', '', 12)
-        # Background color
-        self.set_fill_color(200, 220, 255)
-        # Title
-        self.cell(0, 6, 'Chapter %d : %s' % (num, label), 0, 1, 'L', 1)
-        # Line break
-        self.ln(4)
-
-    def chapter_body(self, name):
-        # Read text file
-        with open(name, 'rb') as fh:
-            txt = fh.read().decode('latin-1')
-        # Times 12
-        self.set_font('Times', '', 12)
-        # Output justified text
-        self.multi_cell(0, 5, txt)
-        # Line break
-        self.ln()
-        # Mention in italics
-        self.set_font('', 'I')
-        self.cell(0, 5, '(end of excerpt)')
-
-    def print_chapter(self, num, title, name):
-        self.add_page()
-        self.chapter_title(num, title)
-        self.chapter_body(name)
-
-
-    def print_board(self, Board_num, dealer, vul):
+    def print_board(self, Board_num, dealer, vul, desk):
         if ( (Board_num % 12) == 1):
             self.add_page()
             
@@ -82,11 +57,72 @@ class PDF(FPDF):
         self.board_information(Board_num, dealer, vul)
         pass
 
-    
+        
+        # Working on it
+        self.draw_dds(Board_num ,desk)    
+
+        #self.draw_card(Board_num)
+        #self.draw_hcp(Board_num)
+        #self.draw_gametype(Board_num)
+
+
+    # Sub function to make pdf
+
+    def draw_dds(self ,position ,desk):
+        # Set Position
+        x_start , y_start = self.start_point_from_position(position)
+
+        # Draw Gray Background
+            # Set color of box
+        self.set_draw_color(231 ,231 ,231)  # Set to Gray
+        self.set_fill_color(231 ,231 ,231)  # Set to Gray
+
+        y_long = 30 # mm , height of box
+        x_long = 30 # mm , wide of box
+
+        self.rect(x_start + 1, y_start + 20, x_long, y_long, style = 'DF')
+
+        # Draw Text
+            # Set text
+        self.set_font('Times', '', 12)
+        self.set_text_color( 4, 5, 211)
+
+
+
+
+
+
+        #self.set_xy(x_start + 1, y_start + 20)
+
+        #line_1 = "Test " + str(position)
+
+        #self.cell(w = 10, h = 0, txt = line_1)
+
+
+
+        
+        
+    def draw_box(self ,position):
+        # position in range 1 to 12
+        y_long = 47  # mm , height of box
+        x_long = 104 # mm , wide of box
+
+        # y_header = 10 # mm point from header
+        # x_header = 0  # mm point from header
+
+        # Set color of box
+        self.set_draw_color(0 ,0 ,0)  # to Black
+
+
+        x_start , y_start = self.start_point_from_position(position)
+
+        self.rect(x_start, y_start, x_long, y_long, style = '')
+
+
     def board_information(self ,position ,dealer ,vul):
         # Set text
         self.set_font('Times', '', 12)
-        self.set_text_color( 4, 5, 211)
+        self.set_text_color( 4, 5, 211)     # Text color is Blue.
 
         # Set Position
         # Line 1
@@ -115,18 +151,7 @@ class PDF(FPDF):
         self.cell(w = 10, h = 0, txt = line_3)
 
 
-    def draw_box(self ,position):
-        # position in range 1 to 12
-        y_long = 47  # mm , height of box
-        x_long = 104 # mm , wide of box
 
-        # y_header = 10 # mm point from header
-        # x_header = 0  # mm point from header
-
-
-        x_start , y_start = self.start_point_from_position(position)
-
-        self.rect(x_start, y_start, x_long, y_long, style = '')
 
     def start_point_from_position(self ,position):
         # position in range 1 to 12
@@ -136,17 +161,17 @@ class PDF(FPDF):
         y_header = 10 # mm point from header
         x_header = 0  # mm point from header
 
-        if position < 1 :
+        if position < 1 :   # for zero error
             position = 1
-        elif position > 0 :
+        elif position > 0 : # for 1-12 board
             position = position % 12
-        else :
+        else :              # for accidently get string number
             position = int(position) 
 
-        if position == 0:
+        if position == 0:   # board 12 mod 12 will be 0, so make zero to 12.
             position = 12
 
-        position = position - 1 # First position start with 0
+        position = position - 1 # First position start with 0 to 11 in 1 page
         
         if position % 2 == 0:
             # start point left box
@@ -161,16 +186,27 @@ class PDF(FPDF):
         return x_start ,y_start
 
 
+# Info
+title_pdf = 'Open Pairs - Mon.5.10.20'
+#title_pdf = 'Bridge System - PDF'
+author = 'Project-Bridge-system'
+output_filename = title_pdf + ".pdf"
+
+
 # Setting to pdf
 pdf = PDF()
 
-pdf.set_title(title)
-pdf.set_author(author)
+#pdf.set_title('Open Pairs - Mon.5.10.20')
+#pdf.set_author('Project-Bridge-system')
 pdf.set_margins(0.1 , 1.5, -0.1)
+#pdf.set_header("kujhgvb")
+
+desk = [['N:A842.QT3.K8.J652 E:75.AJ6542.92.KQ4 W:KT3.97.AQT64.T87 S:QJ96.K8.J753.A93', 'Part score']
+      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']]
 
 
 for Board_num in range(1,200):
-    pdf.print_board(Board_num, get_dealer(Board_num) ,get_vul(Board_num) )
+    pdf.print_board(Board_num, get_dealer(Board_num) ,get_vul(Board_num) ,desk)
 
 
 
@@ -180,7 +216,8 @@ for Board_num in range(1,200):
 #pdf.print_chapter(1, 'A RUNAWAY REEF', '20k_c1.txt')
 #pdf.print_chapter(2, 'THE PROS AND CONS', '20k_c2.txt')
 
-pdf.output(output_filename, 'F')
+output_filename = 'Open Pairs - Mon.5.10.20' + ".pdf"
+pdf.output(output_filename, 'F')    # save to a local file
 
 
 

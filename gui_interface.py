@@ -3,9 +3,9 @@ from PyQt5 import QtWidgets ,QtGui ,QtCore
 from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout \
     ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QMessageBox ,QTextEdit \
     ,QTableWidget ,QTableView ,QShortcut ,QCheckBox ,QTableWidgetItem \
-    ,QSizePolicy ,QComboBox#  #,QSizePolicy ,QFileDialog ,QGridLayout 
+    ,QSizePolicy ,QComboBox ,QFileDialog #,QSizePolicy  ,QGridLayout 
 from PyQt5.QtCore    import pyqtSlot ,QSize
-from PyQt5.QtGui     import QKeySequence ,QPixmap  #,QColor
+from PyQt5.QtGui     import QKeySequence ,QPixmap #,QColor 
 
 
 import ddstable_standalone as ddstable_standalone
@@ -15,10 +15,15 @@ from picture_program import make_pic_4hand
 
 from sqlite3_lib import Database
 
+from fpdf_lib.main_pyfpdf import PDF
+from fpdf_lib.bridge import get_dealer ,get_vul
+
 from porter_bridges.random_number import random_card ,get_num_from_txt ,set_num_from_txt ,cycle_one_step ,random_card_with_prng
 
 from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn_check ,text_to_pbn ,dict_to_desk ,deck_list_result  ,text_to_list_desk
 #from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
+
+from time import gmtime, strftime
 
 
 
@@ -62,9 +67,9 @@ class MyTabsWidget(QWidget):
         self.tabs.addTab(self.tab2,"Edit Board")
         self.tabs.addTab(self.tab3,"Display Board")
         self.tabs.addTab(self.tab4,"Choose from Database")
-        self.tabs.addTab(self.tab5,"Export as PDF")
+        #self.tabs.addTab(self.tab5,"Export as PDF")
         
-        self.tabs.setCurrentIndex(3)    # Go to tab 4
+        self.tabs.setCurrentIndex(0)    # Go to tab 4
 
         # Add Tab to Main Windows
         self.layout_tab = QVBoxLayout(self)
@@ -529,10 +534,10 @@ class MyTabsWidget(QWidget):
         self.blank_lable.setStyleSheet('font-size: 14pt;')
         self.tab4.layout_tab4_H1.addWidget(self.blank_lable)
 
-        self.export_pdf_button = QPushButton("Export Table as PDF")
-        self.export_pdf_button.setStyleSheet('font-size: 14pt;')
-        #self.export_pdf_button.clicked.connect()
-        self.tab4.layout_tab4_H1.addWidget(self.export_pdf_button)
+        #self.export_pdf_button = QPushButton("Export Table as PDF")
+        #self.export_pdf_button.setStyleSheet('font-size: 14pt;')
+        #self.export_pdf_button.clicked.connect(self.clicked_export_pdf)
+        #self.tab4.layout_tab4_H1.addWidget(self.export_pdf_button)
 
 
 
@@ -1050,6 +1055,7 @@ class MyTabsWidget(QWidget):
         # plot latest data on choose table
         self.clear_and_plot_choose_table()
 
+
     def clicked_del_from_table(self):
 
         if self.choose_data == []:
@@ -1101,6 +1107,65 @@ class MyTabsWidget(QWidget):
             for column_number, data in enumerate(row_data):
                 self.TableWidget_choose.setItem(
                     row_number, column_number, QTableWidgetItem(str(data)))
+
+
+    def clicked_export_pdf(self):
+        # Export self.choose_data as PDF
+
+        # Get Desk Choose to print
+        #[  ['N:T83.J943.753.Q85 E:J64.T62.AK62.732 W:Q975.KQ875.J8.A6 S:AK2.A.QT94.KJT94', 'Game part']
+        # , ['N:T9542.K4.JT3.J52 E:A.AQ2.865.KQ9764 W:Q76.J9863.AQ9.A8 S:KJ83.T75.K742.T3', 'Game part']
+        # , ['N:42.A942.K98653.8 E:QJT.KT85.A7.AKJ7 W:AK975.J6.J2.Q952 S:863.Q73.QT4.T643', 'Part score']
+        # , ['N:T83.J943.753.Q85 E:J64.T62.AK62.732 W:Q975.KQ875.J8.A6 S:AK2.A.QT94.KJT94', 'Game part']
+        # , ['N:AK72.76.KT32.T97 E:T54.K432.J965.86 W:QJ86.QJT9.A8.QJ5 S:93.A85.Q74.AK432', 'Part score']]
+        #print(self.choose_data)
+        desk = self.choose_data
+
+        # Get Time
+        current_time = strftime("%a_%d.%b.%Y_%H.%M.%S", gmtime())
+        
+        # Get Save file location
+        filename = QFileDialog.getSaveFileName(self, "Save file", "Bridge_Sport_"+current_time, ".pdf")
+        #print(filename)
+
+        Fname = filename[0].split('/')[-1]
+        #print(Fname)
+        #Lname = filename[1]
+        #print(Lname)
+        fullpath = filename[0]
+        #print(fullpath)
+        
+
+
+
+        # Set Info
+        #title = 'Open Pairs - Mon.5.10.20'
+        title = Fname
+        author = 'Project-Bridge-system'
+        #output_filename = title + ".pdf"
+        output_filename = fullpath + ".pdf"
+
+        pdf = PDF()
+        pdf.set_title(title)
+        pdf.set_author(author)
+        pdf.set_margins(0.1 , 1.5, -0.1)
+
+        # Print Info to PDF
+        for Board_num in range(1 ,len(desk) + 1):
+            pdf.print_board(Board_num, get_dealer(Board_num) ,get_vul(Board_num) ,desk)
+        
+        
+        
+
+
+        # Working ! ! ! 
+
+        
+        pdf.output(output_filename, 'F')    # save to a local file
+
+
+
+
         
     def exit():
         # Exit function to Close progream
