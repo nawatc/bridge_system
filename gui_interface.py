@@ -26,7 +26,7 @@ from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn_check ,text_t
 from time import gmtime, strftime
 
 
-
+    
 class BridgeWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
@@ -411,44 +411,71 @@ class MyTabsWidget(QWidget):
         #########################################################################################################################################################################################
     
         # Create Third tab
-        
 
-        self.tab3.layout_tab3_H_main = QHBoxLayout(self)
-        self.tab3.setLayout(self.tab3.layout_tab3_H_main)
+        # V_main Layout
+        self.tab3.layout_tab3_V_main = QVBoxLayout(self)
+        self.tab3.setLayout(self.tab3.layout_tab3_V_main)
 
+            # 1st H Sub Layout of # V_Main
+        self.tab3.layout_tab3_H_1 = QHBoxLayout(self)
+        self.tab3.layout_tab3_V_main.addLayout(self.tab3.layout_tab3_H_1)
+
+            # 2nd H Sub Layout of # V_Main
+        self.tab3.layout_tab3_H_2 = QHBoxLayout(self)
+        self.tab3.layout_tab3_V_main.addLayout(self.tab3.layout_tab3_H_2)
+
+                # 1st V of # 2nd H Sub Layout of # V_Main
         self.tab3.layout_tab3_V = QVBoxLayout(self)
-        self.tab3.layout_tab3_H_main.addLayout(self.tab3.layout_tab3_V)
+        self.tab3.layout_tab3_H_2.addLayout(self.tab3.layout_tab3_V)
 
 
-        # Create Label
+        # Create Button to # 1nd H Sub Layout of # V_Main
+            # Create Button
+        self.tab3_button_H_1_1 = QPushButton("  <<<  ")
+        self.tab3_button_H_1_2 = QPushButton("  >>>  ")
+
+            # Disable Button
+        self.tab3_button_H_1_1.setEnabled(False)
+        self.tab3_button_H_1_2.setEnabled(False)
+
+            # Add Button to Layout
+        self.tab3.layout_tab3_H_1.addWidget(self.tab3_button_H_1_1, alignment=QtCore.Qt.AlignLeft)
+        self.tab3.layout_tab3_H_1.addWidget(self.tab3_button_H_1_2, alignment=QtCore.Qt.AlignRight)
+
+
+
+        # Create Label to # 2nd H Sub Layout of # V_Main
+            # Create Lable
+            # Default Value
+        self.tab3_text1 = QLabel("Board  : -")
+        self.tab3_text2 = QLabel("Dealer : -")
+        self.tab3_text3 = QLabel("Vul : -")
+        self.tab3_text4 = QLabel("Desk Code :")
+        self.tab3_text5 = QTextEdit("Solution : ")
+
+            # Example Value
         """
         self.tab3_text1 = QLabel("Board : 1")
         self.tab3_text2 = QLabel("Dealer : N")
         self.tab3_text3 = QLabel("Vul : N-S")
         self.tab3_text4 = QLabel("Desk Code")
         """
-        self.tab3_text1 = QLabel("Board  : -")
-        self.tab3_text2 = QLabel("Dealer : -")
-        self.tab3_text3 = QLabel("Vul : -")
-        self.tab3_text4 = QLabel("Desk Code :")
-        self.tab3_text5 = QTextEdit("Sol.")
-        self.tab3_text5.setStyleSheet("font-size: 14pt;")
-
+            # Add Lable to Layout
         self.tab3.layout_tab3_V.addWidget(self.tab3_text1)
         self.tab3.layout_tab3_V.addWidget(self.tab3_text2)
         self.tab3.layout_tab3_V.addWidget(self.tab3_text3)
         self.tab3.layout_tab3_V.addWidget(self.tab3_text4)
         self.tab3.layout_tab3_V.addWidget(self.tab3_text5)
 
-        # Loading image
-        make_pic_4hand({})
-        self.pixmap = QPixmap('picture_resource/result.png')
-        os.remove("picture_resource/result.png")
+            # Loading image to Program
+        make_pic_4hand({})                                      # Create image /w No Card # and Save file
+        self.pixmap = QPixmap('picture_resource/result.png')    # Loading image file to Program
+        os.remove("picture_resource/result.png")                # Delete image file
 
-        # Creating label and adding image to label
+            # Creating label and adding image to label
         self.label_pic = QLabel(self)
         self.label_pic.setPixmap(self.pixmap)
-        self.tab3.layout_tab3_H_main.addWidget(self.label_pic)
+        self.tab3.layout_tab3_H_2.addWidget(self.label_pic)     # 2st V of # 2nd H Sub Layout of # V_Main
 
         
 
@@ -461,7 +488,6 @@ class MyTabsWidget(QWidget):
 
         # End of Third tab
         self.tab3.layout_tab3_V.addStretch()
-        self.tab3.setLayout(self.tab3.layout_tab3_H_main)
 
 
     
