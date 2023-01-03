@@ -122,6 +122,7 @@ class MyTabsWidget(QWidget):
         B_DB = Database()
         row_num = B_DB.get_row_number()
         row_num_percent = row_num / 53644737765488792839237440000
+        row_num_percent = f'{row_num_percent:.26f}'
         
         self.line_total = QLabel("Total Record : \t" + str(row_num) + " / " + "53644737765488792839237440000")
         self.tab1.layout_tab1_V_main.addWidget(self.line_total)
@@ -944,6 +945,7 @@ class MyTabsWidget(QWidget):
         #B_DB = Database()
         row_num = B_DB.get_row_number()
         row_num_percent = row_num / 53644737765488792839237440000
+        row_num_percent = f'{row_num_percent:.26f}'
 
         self.line_total.setText("Total Record : \t" + str(row_num) + " / " + "53644737765488792839237440000")
         self.line_total_percent.setText("\t\t" + str(row_num_percent) + "%")
