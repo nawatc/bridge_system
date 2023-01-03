@@ -6,7 +6,9 @@
   cd docs
   "[dev] install_libraries_windows.bat"   
   
+  
   for Debian
+  
   cd docs
   "[dev] install_libraries_debian.sh"
   
