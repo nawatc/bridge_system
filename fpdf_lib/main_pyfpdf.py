@@ -7,15 +7,34 @@ except:
 
 
 
-#Add Text To Images With Pillow - Python Tkinter GUI Tutorial 203
-#https://www.youtube.com/watch?v=bmzDUQRPEdE
+# Add Text To Images With Pillow - Python Tkinter GUI Tutorial 203
+# https://www.youtube.com/watch?v=bmzDUQRPEdE
 
-#   Ref.
-#   https://github.com/reingart/pyfpdf/blob/master/docs/ReferenceManual.md
+# Ref.
+# https://github.com/reingart/pyfpdf/blob/master/docs/ReferenceManual.md
 
+# Docs
+# https://github.com/reingart/pyfpdf/tree/master/docs
 
 
 class PDF(FPDF):
+    def __init__(self):
+        super().__init__()      # Inheritance all Method and Property
+
+        self.header_title = ""                  # Header Name
+
+        self.set_margins(0.1 , 1.5, -0.1)       # Set Margins for all page
+
+        
+    def set_header_title(self ,header_title):
+        self.header_title = header_title
+    
+    def get_header_title(self):
+        return self.header_title
+
+
+    # Set Header & Footer 
+
     def header(self):
         # Times bold 20
         self.set_font('Times', 'B', 20)
@@ -25,13 +44,13 @@ class PDF(FPDF):
         self.line(1 , 1, 209, 1)
         self.line(1 , 9.5, 209, 9.5)
         # Calculate width of title and position
-        w = self.get_string_width(title_pdf) + 6
+        w = self.get_string_width(self.header_title)# + 6
         self.set_x((210 - w) / 2)
         # Colors of frame, background and text
         self.set_fill_color(255, 255, 255)
         self.set_text_color( 4, 5, 211)
         # Title
-        self.cell(w, 7, title_pdf, 0, 1, 'C', 1)
+        self.cell(w, 7, self.header_title, 0, 1, 'C', 1)
         # Line break
         self.ln(10)
 
@@ -46,6 +65,8 @@ class PDF(FPDF):
         self.set_text_color( 4, 5, 211)
         # Page number
         self.cell(0, 10, 'Page ' + str(self.page_no()), 0, 0, 'C')
+    
+    
 
     # Main function to make pdf
 
@@ -186,20 +207,21 @@ class PDF(FPDF):
         return x_start ,y_start
 
 
-# Info
-title_pdf = 'Open Pairs - Mon.5.10.20'
-#title_pdf = 'Bridge System - PDF'
+
+# Example
+
+    # Example Info
+#title_pdf = 'Open Pairs - Mon.5.10.20'
+title_pdf = 'Bridge System - PDF'
 author = 'Project-Bridge-system'
 output_filename = title_pdf + ".pdf"
 
 
-# Setting to pdf
-pdf = PDF()
 
-#pdf.set_title('Open Pairs - Mon.5.10.20')
-#pdf.set_author('Project-Bridge-system')
-pdf.set_margins(0.1 , 1.5, -0.1)
-#pdf.set_header("kujhgvb")
+    # Setting to pdf
+pdf = PDF()                 
+pdf.set_header_title(title_pdf)    # Set Header Title
+pdf.set_author(author)
 
 desk = [['N:A842.QT3.K8.J652 E:75.AJ6542.92.KQ4 W:KT3.97.AQT64.T87 S:QJ96.K8.J753.A93', 'Part score']
       , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']]
@@ -209,18 +231,10 @@ for Board_num in range(1,200):
     pdf.print_board(Board_num, get_dealer(Board_num) ,get_vul(Board_num) ,desk)
 
 
-
-#pdf.print_chapter(1, 'A RUNAWAY REEF', '20k_c1.txt')
-#pdf.print_chapter(2, 'THE PROS AND CONS', '20k_c2.txt')
-# to
-#pdf.print_chapter(1, 'A RUNAWAY REEF', '20k_c1.txt')
-#pdf.print_chapter(2, 'THE PROS AND CONS', '20k_c2.txt')
-
-output_filename = 'Open Pairs - Mon.5.10.20' + ".pdf"
+    # Save file
+    # Bridge System - PDF.pdf
 pdf.output(output_filename, 'F')    # save to a local file
 
 
 
 
-# docs
-# https://github.com/reingart/pyfpdf/tree/master/docs
