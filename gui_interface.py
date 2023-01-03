@@ -15,7 +15,7 @@ from picture_program import make_pic_4hand
 
 from sqlite3_lib import Database
 
-from fpdf_lib.main_pyfpdf import PDF
+from main_pyfpdf import PDF
 from fpdf_lib.bridge import get_dealer ,get_vul
 
 from porter_bridges.random_number import random_card ,get_num_from_txt ,set_num_from_txt ,cycle_one_step ,random_card_with_prng

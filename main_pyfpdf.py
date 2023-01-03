@@ -1,11 +1,6 @@
 from fpdf import FPDF
-
-try:
-    from bridge import get_dealer ,get_vul
-except:
-    from fpdf_lib.bridge import get_dealer ,get_vul
-
-
+from fpdf_lib.bridge import get_dealer ,get_vul
+import ddstable_standalone as ddstable_standalone
 
 # Add Text To Images With Pillow - Python Tkinter GUI Tutorial 203
 # https://www.youtube.com/watch?v=bmzDUQRPEdE
@@ -77,7 +72,7 @@ class PDF(FPDF):
         self.draw_box(Board_num)
         self.board_information(Board_num, dealer, vul)
         pass
-
+        
         
         # Working on it
         self.draw_dds(Board_num ,desk)    
@@ -87,9 +82,11 @@ class PDF(FPDF):
         #self.draw_gametype(Board_num)
 
 
+
     # Sub function to make pdf
 
     def draw_dds(self ,position ,desk):
+        
         # Set Position
         x_start , y_start = self.start_point_from_position(position)
 
@@ -98,27 +95,97 @@ class PDF(FPDF):
         self.set_draw_color(231 ,231 ,231)  # Set to Gray
         self.set_fill_color(231 ,231 ,231)  # Set to Gray
 
-        y_long = 30 # mm , height of box
-        x_long = 30 # mm , wide of box
+            # Set Height & Width
+        y_long = 16.5 # mm , height of box
+        x_long = 20 # mm , wide of box
 
-        self.rect(x_start + 1, y_start + 20, x_long, y_long, style = 'DF')
+            # Draw Gray
+        self.rect(x_start + 2, y_start + 28, x_long, y_long, style = 'DF')
 
         # Draw Text
             # Set text
-        self.set_font('Times', '', 12)
+        self.set_font('Arial', '', 10)
         self.set_text_color( 4, 5, 211)
 
+            # Get DDS Info
+
+        text_PBN = desk[0]
+        text_PBN_encode = text_PBN.encode()
+        all = ddstable_standalone.get_ddstable(text_PBN_encode)
+        #print(all)
+
+            # Draw Text
+
+                # Adjust Info
+                    # Default Info
+        """
+        all = {     'N': {'S': 4, 'H': 7, 'D': 4, 'C': 3, 'NT': 3}, 
+                    'S': {'S': 4, 'H': 7, 'D': 4, 'C': 3, 'NT': 3}, 
+                    'E': {'S': 6, 'H': 6, 'D': 8, 'C': 9, 'NT': 8}, 
+                    'W': {'S': 6, 'H': 6, 'D': 8, 'C': 9, 'NT': 10} }
+        """
+                # Change All play   to Level play
+        for i in ["N","E","W","S"]:
+            for j in ['S', 'H', 'D', 'C', 'NT']:
+
+                if all[i][j] >= 7:
+                    all[i][j] = all[i][j] -6
+                else:
+                    all[i][j] = 0
 
 
+                # Add Head table        # " " NT S H D C
+
+        all[' '] = {'S': "S", 'H': "H", 'D': "D", 'C': "C", 'NT': "NT"}
+        line_key  = [ " ","N","S","E","W"]
+
+                # Add Left table        # " " N E W S
+
+        for i in list(all.keys()): # ['N', 'S', 'E', 'W', ' ']
+            #print(all[i])
+            all[i][" "] = i
+        all_key   = [ " ","NT","S","H","D","C"]
 
 
+                # Draw Text to PDF
 
-        #self.set_xy(x_start + 1, y_start + 20)
+        for i in range(0 ,len(line_key)):
+            #print(line_key[i])
+            
+            for j in range(0 ,len(all_key)):
+                #print(all_key[j])
+                #print(all[line_key[i]][all_key[j]])
 
-        #line_1 = "Test " + str(position)
 
-        #self.cell(w = 10, h = 0, txt = line_1)
+                # Set Color     " " NT S H D C
 
+                if all_key[j] == " " or all_key[j] == "S" or all_key[j] == "C" :
+                    self.set_text_color( 4, 2, 3)       # Text color To Black
+
+                elif all_key[j] == "NT" :
+                    self.set_text_color( 4, 5, 211)     # Text color To Blue
+
+                elif all_key[j] == "H" or all_key[j] == "D" :
+                    self.set_text_color(233, 47, 32)     # Text color To Red
+
+                else:
+                    self.set_text_color( 4, 2, 3)       # Text color To Black
+
+
+                # Draw Text
+                    # Blank  If Level = 0
+                if all[line_key[i]][all_key[j]] == 0:
+                    txt = " "
+                    # if NT make it N
+                elif all[line_key[i]][all_key[j]] == "NT":
+                    txt = "N"
+                else:
+                    txt = str(all[line_key[i]][all_key[j]])
+                
+                #txt = str(all[line_key[i]][all_key[j]])
+                self.set_xy(x_start + (-1) + (j*3.2), y_start + 30 + (i*3.2))
+                self.cell(w = 10, h = 0, txt = txt ,align = 'C')
+        
 
 
         
@@ -214,8 +281,8 @@ class PDF(FPDF):
 #title_pdf = 'Open Pairs - Mon.5.10.20'
 title_pdf = 'Bridge System - PDF'
 author = 'Project-Bridge-system'
-output_filename = title_pdf + ".pdf"
 
+output_filename = title_pdf + ".pdf"
 
 
     # Setting to pdf
@@ -223,17 +290,22 @@ pdf = PDF()
 pdf.set_header_title(title_pdf)    # Set Header Title
 pdf.set_author(author)
 
+
+    # Example Desk
 desk = [['N:A842.QT3.K8.J652 E:75.AJ6542.92.KQ4 W:KT3.97.AQT64.T87 S:QJ96.K8.J753.A93', 'Part score']
       , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']]
 
+    # Create Board from Desk
+for Board_num in range(1 ,len(desk) + 1):
+    pdf.print_board(Board_num, get_dealer(Board_num) ,get_vul(Board_num) ,desk[Board_num - 1])
 
-for Board_num in range(1,200):
-    pdf.print_board(Board_num, get_dealer(Board_num) ,get_vul(Board_num) ,desk)
 
+    #print(desk[Board_num - 1])
+
+    
 
     # Save file
-    # Bridge System - PDF.pdf
-pdf.output(output_filename, 'F')    # save to a local file
+pdf.output(output_filename, 'F')    # Save to a local file
 
 
 

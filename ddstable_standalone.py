@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+########## #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 # https://github.com/anntzer/redeal/blob/master/redeal/dds.py
