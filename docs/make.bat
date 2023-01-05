@@ -27,7 +27,8 @@ rmdir /S /Q 	%cd%\build
 rmdir /S /Q 	%cd%\dist
 
 rem Rename Folder to build
-rename %cd%\build_program	build
+rename %cd%\%foldername%\gui_interface.exe	bridge_system.exe
+rename %cd%\%foldername%			build
 
 rem Return to start folder
 cls

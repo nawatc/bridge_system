@@ -1180,14 +1180,8 @@ class MyTabsWidget(QWidget):
         for Board_num in range(1 ,len(desk) + 1):
             pdf.print_board(Board_num, get_dealer_from_board_number(Board_num) ,get_vul_from_board_number(Board_num) ,desk[Board_num - 1])
         
-        
-        
-
-
-        # Working ! ! ! 
-
-        
-        pdf.output(output_filename, 'F')    # Save to a local file
+        # Save to a local file
+        pdf.output(output_filename, 'F')    
 
 
 

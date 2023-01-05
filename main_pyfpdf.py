@@ -1,18 +1,9 @@
-# -*- coding: utf-8 -*-
-# import sys
-# from io import TextIOWrapper
-# sys.stdout = TextIOWrapper(sys.stdout.buffer, encoding='UTF-8', errors='replace')
-
 from fpdf import FPDF
 
 from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number ,hcp_point_count_by_str
 from porter_bridges.porter_bridges import pbn_to_dict
 
 import ddstable_standalone as ddstable_standalone
-
-
-# Add Text To Images With Pillow - Python Tkinter GUI Tutorial 203
-# https://www.youtube.com/watch?v=bmzDUQRPEdE
 
 # Ref.
 # https://github.com/reingart/pyfpdf/blob/master/docs/ReferenceManual.md
@@ -432,73 +423,74 @@ class PDF(FPDF):
         return x_start ,y_start
 
 
-
-# Example
+def Example():
+    # Example
 
     # Example Info
-#title_pdf = 'Open Pairs - Mon.5.10.20'
-title_pdf = 'Bridge System - PDF'
-author = 'Project-Bridge-system'
+    #title_pdf = 'Open Pairs - Mon.5.10.20'
+    title_pdf = 'Bridge System - PDF'
+    author = 'Project-Bridge-system'
 
-output_filename = title_pdf + ".pdf"
-
-
-    # Setting to pdf
-pdf = PDF()                 
-pdf.set_header_title(title_pdf)     # Set Header Title
-pdf.set_title(title_pdf)            # Set Document Title
-pdf.set_author(author)              # Set Document Author
+    output_filename = title_pdf + ".pdf"
 
 
-    # Example Desk
-desk = [['N:A842.QT3.K8.J652 E:75.AJ6542.92.KQ4 W:KT3.97.AQT64.T87 S:QJ96.K8.J753.A93', 'Part score']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:AKQJT98765432... E:.AKQJT98765432.. W:..AKQJT98765432. S:...AKQJT98765432', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']   # #12
-
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']   # #24
-
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
-      , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']]  # #33
-
-    # Create Board from Desk
-for Board_num in range(1 ,len(desk) + 1):
-    pdf.print_board(Board_num, get_dealer_from_board_number(Board_num) ,get_vul_from_board_number(Board_num) ,desk[Board_num - 1])
+        # Setting to pdf
+    pdf = PDF()                 
+    pdf.set_header_title(title_pdf)     # Set Header Title
+    pdf.set_title(title_pdf)            # Set Document Title
+    pdf.set_author(author)              # Set Document Author
 
 
-    #print(desk[Board_num - 1])
+        # Example Desk
+    desk = [['N:A842.QT3.K8.J652 E:75.AJ6542.92.KQ4 W:KT3.97.AQT64.T87 S:QJ96.K8.J753.A93', 'Part score']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:AKQJT98765432... E:.AKQJT98765432.. W:..AKQJT98765432. S:...AKQJT98765432', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']   # #12
 
-    
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']   # #24
 
-    # Save file
-pdf.output(output_filename, 'F')    # Save to a local file
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
+        , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']]  # #33
 
+        # Create Board from Desk
+    for Board_num in range(1 ,len(desk) + 1):
+        pdf.print_board(Board_num, get_dealer_from_board_number(Board_num) ,get_vul_from_board_number(Board_num) ,desk[Board_num - 1])
+
+
+        #print(desk[Board_num - 1])
+
+        
+
+        # Save file
+    pdf.output(output_filename, 'F')    # Save to a local file
+
+#Example()
 
 
 
