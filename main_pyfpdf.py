@@ -5,8 +5,9 @@
 
 from fpdf import FPDF
 
-from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
+from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number ,hcp_point_count_by_str
 from porter_bridges.porter_bridges import pbn_to_dict
+
 import ddstable_standalone as ddstable_standalone
 
 
@@ -84,26 +85,85 @@ class PDF(FPDF):
         self.draw_box(Board_num)                            # Draw Box
         self.board_information(Board_num, dealer, vul)      # Draw Board Info
         self.draw_dds(Board_num ,desk)                      # Draw DDS Info
-        
-        # Working on it
-
         self.draw_card(Board_num ,desk)                     # Draw Card in Board
+        self.draw_hcp(Board_num ,desk)                      # Draw HCP of card in Board
+
+
+        # Working on it
+        self.draw_gametype(Board_num)                      # Draw Gametype Info
+        
         pass
 
 
-        
-        
-        #self.draw_hcp(Board_num)                           # Draw HCP of card in Board
-        #self.draw_gametype(Board_num)                      # Draw Gametype Info
 
 
 
     # Sub function to make pdf
+    def draw_gametype(self, position ,desk):
+        pass
+
+    
+    def draw_hcp(self, position ,desk):
+        # Set text
+        self.set_font('Arial', '', 10)      # Set Fonts and Size
+        self.set_text_color( 4, 2, 3)        # Text color To Black.
+
+        # Get Position
+        x_start , y_start = self.start_point_from_position(position)
+
+        # Draw Image to Center of Board
+        self.image(name = """picture_resource\pic_hcp_2.png""", x = x_start + 90, y = y_start + 37, w = 8, h = 5, type = 'PNG')
+
+        # Draw Text
+        # PBN to Dict
+        # 'N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.'
+        # {'North': {'S': 'J72', 'H': 'QT', 'D': 'JT4', 'C': 'T9843'}, 'East': {'S': 'Q983', 'H': 'J872', 'D': 'A7', 'C': 'AK7'}, 'South': {'S': 'AKT54', 'H': 'AK5', 'D': 'K6532', 'C': ''}, 'West': {'S': '6', 'H': '9643', 'D': 'Q98', 'C': 'QJ652'}}
+        desk_dict = pbn_to_dict(desk[0])
+
+        count_list = []
+
+        # Calulate HCP and Draw Text
+        for i in ['North','East','South','West']:
+            for j in ['S', 'H', 'D', 'C']:
+
+                count_list.append(desk_dict[i][j])      # Add Text to list  -> ['J72','QT','JT4','T9843']
+
+            hcp = hcp_point_count_by_str(count_list)    # Get HCP
+
+            count_list = []     # Reset list
+        
+            # Setting x ,y For Direction
+                # Setting x ,y For Direction
+            if i == 'West':
+                x_dir ,y_dir =  86   , 39
+
+            elif i == 'North':
+                x_dir ,y_dir =  93   , 34
+
+            elif i == 'South':
+                x_dir ,y_dir =  93   , 44
+
+            elif i == 'East':
+                x_dir ,y_dir =  100   , 39
+
+
+            # Draw Text
+            line = str(hcp)     
+                    
+            self.set_xy(x_start + x_dir , y_start + y_dir)
+            self.cell(w = 2, h = 1, txt = line ,align = 'C')
+
+
+
+
+
+
+
 
     def draw_card(self ,position ,desk):
         # Set text
         self.set_font('Arial', '', 10)      # Set Fonts and Size
-        self.set_text_color( 4, 5, 211)     # Text color is Blue.
+        self.set_text_color( 4, 2, 3)        # Text color To Black.
 
         # Get Position
         x_start , y_start = self.start_point_from_position(position)
@@ -111,7 +171,6 @@ class PDF(FPDF):
         x_suit , y_suit = 0 , 0
 
         # Draw Image to Center of Board
-        #self.image(name = """picture_resource\pic_nsew_2.png""", x = x_start + 48, y = y_start + 18, w = 12, h = 12, type = 'PNG')
         self.image(name = """picture_resource\pic_nsew_2.png""", x = x_start + 55, y = y_start + 18, w = 12, h = 12, type = 'PNG')
 
         # Draw Text
