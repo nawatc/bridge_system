@@ -90,7 +90,7 @@ class PDF(FPDF):
 
 
         # Working on it
-        self.draw_gametype(Board_num)                      # Draw Gametype Info
+        self.draw_gametype(Board_num ,desk)                      # Draw Gametype Info
         
         pass
 
@@ -100,9 +100,21 @@ class PDF(FPDF):
 
     # Sub function to make pdf
     def draw_gametype(self, position ,desk):
-        pass
+        # Set text
+        self.set_font('Arial', '', 10)      # Set Fonts and Size
+        self.set_text_color( 4, 2, 3)        # Text color To Black.
 
-    
+        # Get Position
+        x_start , y_start = self.start_point_from_position(position)
+
+        # Draw Text
+        line = desk[1]    # "Grand Slam"
+        
+        self.set_xy(x_start + 10, y_start + 20)
+        self.cell(w = 2, h = 1, txt = line ,align = 'C')
+
+
+
     def draw_hcp(self, position ,desk):
         # Set text
         self.set_font('Arial', '', 10)      # Set Fonts and Size
