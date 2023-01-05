@@ -88,11 +88,14 @@ Section "Uninstall"
   DeleteRegKey HKLM SOFTWARE\NSIS_bridge_system
 
   ; Remove files and uninstaller
-  Delete $INSTDIR\bridge_system.nsi
+  Delete $INSTDIR\*
+  Delete $INSTDIR\picture_resource\*
+  RMDir "$INSTDIR\picture_resource"
   Delete $INSTDIR\uninstall.exe
 
   ; Remove shortcuts, if any
   Delete "$SMPROGRAMS\bridge_system\*.lnk"
+  Delete "$DESKTOP\Bridge_system.lnk"
 
   ; Remove directories
   RMDir "$SMPROGRAMS\bridge_system"
