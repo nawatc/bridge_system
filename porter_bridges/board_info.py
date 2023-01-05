@@ -87,7 +87,26 @@ Board	Dealer	Vul.
 16	    W   	E-W
 """
 
+def split(word):
+    return [char for char in word]
 
+def hcp_point_count_by_str(list):
+    #hcp_point_count_by_str( ["T7", "K542", "KQ42", "Q72"] )
+    hcp = 0
+    foo = ''.join(map(str, list))
+    boo = split(foo)
+    
+    for i in boo:
+        if i == "A":
+            hcp = hcp + 4
+        if i == "K":
+            hcp = hcp + 3
+        if i == "Q":
+            hcp = hcp + 2
+        if i == "J":
+            hcp = hcp + 1
+    
+    return hcp
 
 
 

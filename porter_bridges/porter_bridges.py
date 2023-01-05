@@ -469,6 +469,6 @@ deck_list_checker(desk)
 
 
 
-
+#print(pbn_to_dict("N:AKQJT98765432... E:.QJT872.AJT7.AK7 W:.9643.Q984.QJ652 S:.AK5.K6532.T9843"))
 
         

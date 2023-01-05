@@ -1,4 +1,5 @@
 import sys ,os
+
 from PyQt5 import QtWidgets ,QtGui ,QtCore 
 from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout \
     ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QMessageBox ,QTextEdit \
@@ -7,21 +8,17 @@ from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout \
 from PyQt5.QtCore    import pyqtSlot ,QSize
 from PyQt5.QtGui     import QKeySequence ,QPixmap #,QColor 
 
-
 import ddstable_standalone as ddstable_standalone
-
 
 from picture_program import make_pic_4hand
 
 from sqlite3_lib import Database
 
 from main_pyfpdf import PDF
-from fpdf_lib.bridge import get_dealer ,get_vul
 
+from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
 from porter_bridges.random_number import random_card ,get_num_from_txt ,set_num_from_txt ,cycle_one_step ,random_card_with_prng
-
 from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn_check ,text_to_pbn ,dict_to_desk ,deck_list_result  ,text_to_list_desk
-#from porter_bridges.board_info import get_dealer_from_board_number ,get_vul_from_board_number
 
 from time import gmtime, strftime
 
@@ -1180,7 +1177,7 @@ class MyTabsWidget(QWidget):
 
         # Print Info to PDF
         for Board_num in range(1 ,len(desk) + 1):
-            pdf.print_board(Board_num, get_dealer(Board_num) ,get_vul(Board_num) ,desk)
+            pdf.print_board(Board_num, get_dealer_from_board_number(Board_num) ,get_vul_from_board_number(Board_num) ,desk)
         
         
         
