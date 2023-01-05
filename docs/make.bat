@@ -9,7 +9,8 @@ cd ..
 mkdir %foldername%
 
 rem Run Pyinstaller
-pyinstaller -F --add-data "dds-64.dll;." --icon="icon.ico" --noconsole gui_interface.py
+rem pyinstaller -F --add-data "dds-64.dll;." --icon="icon.ico" --noconsole gui_interface.py
+pyinstaller -F --add-data "dds-64.dll;." --icon="icon.ico" --noconsole --uac-admin gui_interface.py
 
 rem Copy to build folder
 xcopy /Q	%cd%\dist\gui_interface.exe 	%cd%\%foldername%
