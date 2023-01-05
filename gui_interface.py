@@ -558,10 +558,10 @@ class MyTabsWidget(QWidget):
         self.blank_lable.setStyleSheet('font-size: 14pt;')
         self.tab4.layout_tab4_H1.addWidget(self.blank_lable)
 
-        #self.export_pdf_button = QPushButton("Export Table as PDF")
-        #self.export_pdf_button.setStyleSheet('font-size: 14pt;')
-        #self.export_pdf_button.clicked.connect(self.clicked_export_pdf)
-        #self.tab4.layout_tab4_H1.addWidget(self.export_pdf_button)
+        self.export_pdf_button = QPushButton("Export Table as PDF")
+        self.export_pdf_button.setStyleSheet('font-size: 14pt;')
+        self.export_pdf_button.clicked.connect(self.clicked_export_pdf)
+        self.tab4.layout_tab4_H1.addWidget(self.export_pdf_button)
 
 
 
@@ -1150,7 +1150,7 @@ class MyTabsWidget(QWidget):
         current_time = strftime("%a_%d.%b.%Y_%H.%M.%S", gmtime())
         
         # Get Save file location
-        filename = QFileDialog.getSaveFileName(self, "Save file", "Bridge_Sport_"+current_time, ".pdf")
+        filename = QFileDialog.getSaveFileName(self, "Save file", "Bridge_Sport_" + current_time, ".pdf")
         #print(filename)
 
         Fname = filename[0].split('/')[-1]
@@ -1171,13 +1171,14 @@ class MyTabsWidget(QWidget):
         output_filename = fullpath + ".pdf"
 
         pdf = PDF()
-        pdf.set_title(title)
-        pdf.set_author(author)
-        pdf.set_margins(0.1 , 1.5, -0.1)
+        pdf.set_header_title(title)     # Set Header Title
+        pdf.set_title(title)            # Set Document Title
+        pdf.set_author(author)              # Set Document Author
 
+        
         # Print Info to PDF
         for Board_num in range(1 ,len(desk) + 1):
-            pdf.print_board(Board_num, get_dealer_from_board_number(Board_num) ,get_vul_from_board_number(Board_num) ,desk)
+            pdf.print_board(Board_num, get_dealer_from_board_number(Board_num) ,get_vul_from_board_number(Board_num) ,desk[Board_num - 1])
         
         
         
@@ -1186,7 +1187,7 @@ class MyTabsWidget(QWidget):
         # Working ! ! ! 
 
         
-        pdf.output(output_filename, 'F')    # save to a local file
+        pdf.output(output_filename, 'F')    # Save to a local file
 
 
 

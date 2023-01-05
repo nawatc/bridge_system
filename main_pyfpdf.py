@@ -122,7 +122,7 @@ class PDF(FPDF):
         self.image(name = """picture_resource\pic_hcp_2.png""", x = x_start + 90, y = y_start + 37, w = 8, h = 5, type = 'PNG')
 
         # Draw Text
-        # PBN to Dict
+        # PBN_text to Dict
         # 'N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.'
         # {'North': {'S': 'J72', 'H': 'QT', 'D': 'JT4', 'C': 'T9843'}, 'East': {'S': 'Q983', 'H': 'J872', 'D': 'A7', 'C': 'AK7'}, 'South': {'S': 'AKT54', 'H': 'AK5', 'D': 'K6532', 'C': ''}, 'West': {'S': '6', 'H': '9643', 'D': 'Q98', 'C': 'QJ652'}}
         desk_dict = pbn_to_dict(desk[0])
@@ -170,7 +170,7 @@ class PDF(FPDF):
     def draw_card(self ,position ,desk):
         # Set text
         self.set_font('Arial', '', 10)      # Set Fonts and Size
-        self.set_text_color( 4, 2, 3)        # Text color To Black.
+        self.set_text_color( 4, 2, 3)       # Text color To Black.
 
         # Get Position
         x_start , y_start = self.start_point_from_position(position)
@@ -181,7 +181,7 @@ class PDF(FPDF):
         self.image(name = """picture_resource\pic_nsew_2.png""", x = x_start + 55, y = y_start + 18, w = 12, h = 12, type = 'PNG')
 
         # Draw Text
-        # PBN to Dict
+        # PBN_text to Dict
         # 'N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.'
         # {'North': {'S': 'J72', 'H': 'QT', 'D': 'JT4', 'C': 'T9843'}, 'East': {'S': 'Q983', 'H': 'J872', 'D': 'A7', 'C': 'AK7'}, 'South': {'S': 'AKT54', 'H': 'AK5', 'D': 'K6532', 'C': ''}, 'West': {'S': '6', 'H': '9643', 'D': 'Q98', 'C': 'QJ652'}}
         desk_dict = pbn_to_dict(desk[0])
