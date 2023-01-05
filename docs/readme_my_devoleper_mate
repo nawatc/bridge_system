@@ -1,9 +1,0 @@
-Python Library Used :
-
-PyQt5       for GUI
-pillow      for create picture
-ddstable    for get board solution 
-fpdf        for make pdf output
-
-anvil lib is shit, it's not independent. we'll use fpdf instead.
-PIL is still in consider.
