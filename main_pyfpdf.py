@@ -87,12 +87,7 @@ class PDF(FPDF):
         self.draw_dds(Board_num ,desk)                      # Draw DDS Info
         self.draw_card(Board_num ,desk)                     # Draw Card in Board
         self.draw_hcp(Board_num ,desk)                      # Draw HCP of card in Board
-
-
-        # Working on it
-        self.draw_gametype(Board_num ,desk)                      # Draw Gametype Info
-        
-        pass
+        self.draw_gametype(Board_num ,desk)                 # Draw Gametype Info
 
 
 
@@ -212,30 +207,39 @@ class PDF(FPDF):
 
             for j in ['S', 'H', 'D', 'C']:
             # Draw Text By Suit
-                # Setting x ,y , color For Suit
+                # Setting x ,y , color ,picture For Suit
                 if j == 'S':
                     x_suit , y_suit = 0 , 0
                     self.set_text_color( 4, 2, 3)        # Text color To Black
+                    name = """picture_resource\space_2.png"""
 
                 elif j == 'H':
                     x_suit , y_suit = 0 , 3.5
                     self.set_text_color(233, 47, 32)     # Text color To Red
+                    name = """picture_resource\heart_2.png"""
 
                 elif j == 'D':
                     x_suit , y_suit = 0 , 7
                     self.set_text_color(233, 47, 32)     # Text color To Red
+                    name = """picture_resource\diamond_2.png"""
 
                 elif j == 'C':
                     x_suit , y_suit = 0 , 10.5
                     self.set_text_color( 4, 2, 3)        # Text color To Black
+                    name = """picture_resource\club_2.png"""
 
 
                 # Draw Text
 
-                line = j + ":" + desk_dict[i][j]
+                #line = j + ":" + desk_dict[i][j]
+                line = desk_dict[i][j]
                     
-                self.set_xy(x_start + x_dir + x_suit , y_start + y_dir + y_suit)
+                self.set_xy(x_start + x_dir + x_suit  + 2.5, y_start + y_dir + y_suit)
                 self.cell(w = 2, h = 1, txt = line ,align = 'L')
+
+
+                # Draw Suit Picture
+                self.image(name = name, x = x_start + x_dir + x_suit, y = y_start + y_dir + y_suit - 1.3, w = 3, h = 3, type = 'PNG')
                     
 
 
