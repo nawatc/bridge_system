@@ -28,6 +28,31 @@ def get_hcp_from_text(text = ""):
 
     return hcp
 
+def dict_to_text(input_dict):
+    # Input_dict is
+    # {'North': {'S': 'QJT5432', 'H': 'T', 'D': '6', 'C': 'QJ82'}
+    # , 'East': {'S': '', 'H': 'J97543', 'D': 'K7532', 'C': '94'}
+    # , 'South': {'S': '87', 'H': 'A62', 'D': 'QJT4', 'C': 'AT75'}
+    # , 'West': {'S': 'AK96', 'H': 'KQ8', 'D': 'A98', 'C': 'K63'}}
+
+    # Output
+    # N:QJT5432.T.6.QJ82 E:.J97543.K7532.94 S:87.A62.QJT4.AT75 W:AK96.KQ8.A98.K6
+    text = ""
+        
+    for i in ["North" ,"East" ,"South" ,"West"]:
+
+        text = text + i[0] + ":"
+
+        for j in ["S" ,"H" ,"D" ,"C"]:
+            text = text + input_dict[i][j]
+
+            if j != "C":
+                text = text + "."
+            if j == "C" and i != "West":
+                text = text + " "
+
+    return text
+
 def text_to_pbn_check(input_text):
     """
     

@@ -1,0 +1,20 @@
+###################### Example
+2023-01-10  Philip Herron  <herron.philip@googlemail.com>
+
+	* MAINTAINERS: Add Philip Herron as Rust front-end maintainer
+
+2023-01-06  Clément Chigot  <chigot@adacore.com>
+
+	* configure.ac: Skip GMP and MPFR when --disable-gdb is
+	provided.
+	* configure: Regenerate.
+###########
+
+2023-01-12  Nawat Phongpasura  <nawatc01@gmail.com>
+
+	* Configure: Change filename and add new file
+	* Configure: Unlock Maximum Desk Number
+	* Configure: make.bat pyinstaller don't need admin permissions to run program 
+	* Fix: Program not save program to create picture with Pillow
+	* Fix: Program not freezes when Auto-generate by number
+	* Update: Update make.bat file
