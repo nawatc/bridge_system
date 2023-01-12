@@ -114,7 +114,6 @@ class Database:
 
     # Example
     #string_exe = '''SELECT * FROM bridge_board WHERE "max_score_deals" IN ("Part score","Game part") ORDER BY RANDOM() LIMIT 20
-    print('''SELECT * FROM bridge_board ''' + get_only_exe + sort_exe + limit_exe)
     string_exe = '''SELECT * FROM bridge_board ''' + get_only_exe + sort_exe + limit_exe
 
     #print(string_exe)
