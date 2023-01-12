@@ -4,7 +4,7 @@ from PyQt5 import QtWidgets ,QtGui ,QtCore
 from PyQt5.QtWidgets import QMainWindow ,QLabel ,QWidget ,QVBoxLayout \
     ,QPushButton ,QTabWidget ,QLineEdit ,QHBoxLayout ,QMessageBox ,QTextEdit \
     ,QTableWidget ,QComboBox ,QFileDialog ,QCheckBox ,QTableWidgetItem \
-    ,QTableView ,QShortcut ,QSizePolicy  #,QGridLayout 
+    ,QShortcut ,QTableView ,QSizePolicy  #,QGridLayout 
 from PyQt5.QtCore    import pyqtSlot ,QSize
 from PyQt5.QtGui     import QPixmap ,QKeySequence #,QColor 
 
@@ -78,8 +78,8 @@ class MyTabsWidget(QWidget):
         # Add Shortcut key
 
         # Ctrl + W to Exit
-        #self.shortcut = QShortcut(QKeySequence("Ctrl+W"), self)
-        #self.shortcut.activated.connect(self.exit)
+        self.shortcut = QShortcut(QKeySequence("Ctrl+W"), self)
+        self.shortcut.activated.connect(self.exit)
 
         #############################################################################################################################################################################
 
@@ -509,7 +509,7 @@ class MyTabsWidget(QWidget):
 
         self.combo_box_sort_by = QComboBox()
         self.combo_box_sort_by.setStyleSheet('font-size: 14pt;')
-        self.combo_box_sort_by.addItems(["Random","Part score to Grand Slam", "Grand Slam to Part score"])
+        self.combo_box_sort_by.addItems(["Random","Part score to Grand Slam", "Grand Slam to Part score","Latest"])
         self.tab4.layout_tab4_H1.addWidget(self.combo_box_sort_by)
 
         self.show_only = QLabel("Show : ")
@@ -993,9 +993,9 @@ class MyTabsWidget(QWidget):
         #self.get_database_as_list(self ,get_only = [] ,sort_type = "Random" ,limit = 10 )
 
         #a = [["N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75","Grand Slam"],["N:Q54.A74.AJ942.Q9 E:A2.J86.T8KT843 W:K63.KQT953.Q6.A6 S:JT987.2.K753.J75","Grand Slam"]]
-        a = self.get_database_as_list(get_only ,sort_type ,limit)
+        database_list = self.get_database_as_list(get_only ,sort_type ,limit)
         #print(self.get_database_as_list(get_only = [] ,sort_type = "Random" ,limit = 10 ))
-        for row_data in a:
+        for row_data in database_list:
             # insert new row at the end of the tableWidget
             row_number = self.TableWidget.rowCount()
             self.TableWidget.insertRow(row_number)

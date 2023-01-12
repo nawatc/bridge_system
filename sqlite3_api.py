@@ -90,19 +90,21 @@ class Database:
     if sort_type == "Random":
       sort_exe = '''ORDER BY RANDOM() '''
     elif sort_type == "Grand Slam to Part score":
-      sort_exe = '''ORDER BY CASE "max_score_deals"
+      sort_exe = '''ORDER BY CASE "max_score_deals "
       WHEN "Grand Slam" THEN 0
       WHEN "Small Slam" THEN 1
       WHEN "Game part"  THEN 2
       WHEN "Part score" THEN 3
       END '''
     elif sort_type == "Part score to Grand Slam":
-      sort_exe = '''ORDER BY CASE "max_score_deals"
+      sort_exe = '''ORDER BY CASE "max_score_deals "
       WHEN "Part score" THEN 0
       WHEN "Game part"  THEN 1
       WHEN "Small Slam" THEN 2
       WHEN "Grand Slam" THEN 3
       END '''
+    elif sort_type == "Latest":
+      sort_exe = '''ORDER BY rowid DESC '''
     else:
       sort_exe = ""
 
@@ -110,7 +112,11 @@ class Database:
     limit_exe = "LIMIT " + str(limit) + " "
 
 
+    # Example
+    #string_exe = '''SELECT * FROM bridge_board WHERE "max_score_deals" IN ("Part score","Game part") ORDER BY RANDOM() LIMIT 20
+    print('''SELECT * FROM bridge_board ''' + get_only_exe + sort_exe + limit_exe)
     string_exe = '''SELECT * FROM bridge_board ''' + get_only_exe + sort_exe + limit_exe
+
     #print(string_exe)
     self.cur.execute(string_exe)
     #print(self.cur.fetchall())

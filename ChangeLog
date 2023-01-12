@@ -9,8 +9,9 @@
 	provided.
 	* configure: Regenerate.
 ###########
-
 2023-01-12  Nawat Phongpasura  <nawatc01@gmail.com>
+
+	* Configure: Add Sort by "Latest" in "Choose by Database" Tab
 
 	* Configure: Change filename and add new file
 	* Configure: Unlock Maximum Desk Number
