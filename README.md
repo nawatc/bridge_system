@@ -10,7 +10,7 @@
   cd docs && pip_debian.sh
   
 # Run program
-  python -u gui_interface.py
+  python -u bridge-system-gui.py
 
 # Build program
   for Windows
