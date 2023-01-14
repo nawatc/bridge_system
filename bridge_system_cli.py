@@ -1,7 +1,7 @@
 import argparse
 import re
 
-from gui_interface import *
+from bridge_system_gui import *
 
 def Client_run(filename):
     # /Get code from main_function of file

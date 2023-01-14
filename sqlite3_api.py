@@ -1,21 +1,20 @@
 import sqlite3
-#import os.path
 
 class Database:
-  # class to modifiled database ( bridge_board_sample.db file ) by using sqlite3 on python3
-  # Database filename
-  DB_filename = "bridge_board_sample.db"
-  # Connect to database
-  conn = None
-  cur = None
-  
+  """Class to modifiled database ( bridge_board_sample.db file ) by using sqlite3 on python3"""
 
   def __init__(self):
+    # Database filename
+    self.DB_filename = "bridge_board_sample.db"        
+
     # Connect to database 
     self.conn = sqlite3.connect(self.DB_filename)
     # Cursor of Connection
     self.cur = self.conn.cursor()
+
     
+    # Check if Table available or not
+    # if not create one
     self.check_if_table_exist()
 
 
@@ -138,7 +137,7 @@ class Database:
     self.connect_db()
     self.cur.execute('''SELECT count(name) FROM sqlite_master WHERE type='table' AND name='bridge_board';''')
     
-    if self.cur.fetchone()[0]==1 :
+    if self.cur.fetchone()[0] == 1 :
       #print('Table exists.')
       self.disconnect_db()
     else :
