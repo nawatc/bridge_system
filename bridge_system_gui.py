@@ -50,7 +50,8 @@ class MyTabsWidget(QWidget):
         self.tabs.setStyleSheet('font-size: 14pt;')
         #self.tabs.resize(300,200)
 
-        self.choose_data = []
+        self.choose_data = []           # Use to Collect Board Info
+        self.autogen_flag = False       # Use to stop Auto-generate     # True if Click to Stop Generate      # False as a Default
 
         # Create Tab
         self.tab1 = QWidget()
@@ -100,7 +101,6 @@ class MyTabsWidget(QWidget):
                 # Autogen Line Edit
         self.line_edit_autogen = QLineEdit()
         self.line_edit_autogen.setText("0") # Set Default Text
-        self.line_edit_autogen.setStyleSheet('font-size: 14pt;')
         self.line_edit_autogen.setFixedWidth(100)
         #self.line_edit_autogen.setMaximumWidth(100)                   # Set Width
         self.tab1.layout_tab1_H1.addWidget(self.line_edit_autogen)
@@ -108,9 +108,15 @@ class MyTabsWidget(QWidget):
                 # Autogen Button
         self.button_autogen = QPushButton("Generate Desk")
         self.button_autogen.setAutoDefault(1)                             # Make button to click with Enter key
-        self.button_autogen.setStyleSheet('font-size: 14pt;')
         self.button_autogen.clicked.connect(self.autogen_num)
         self.tab1.layout_tab1_H1.addWidget(self.button_autogen)
+
+                # Stop-autogen Button
+        self.button_stop_autogen = QPushButton("Stop Generate")
+        self.button_stop_autogen.setAutoDefault(1)                             # Make button to click with Enter key
+        self.button_stop_autogen.setEnabled(False)
+        self.button_stop_autogen.clicked.connect(self.stop_autogen_flag)
+        self.tab1.layout_tab1_H1.addWidget(self.button_stop_autogen)
 
                 # Add 1st Horizon Layout into main Layout
         self.tab1.layout_tab1_V_main.addLayout(self.tab1.layout_tab1_H1)
@@ -853,6 +859,10 @@ class MyTabsWidget(QWidget):
         # Check it's integer if it is continue
         random_time = int(self.line_edit_autogen.text())
         #self.line_edit_autogen.setText("0")                # Set Text to 0
+
+
+        # Set Stop-generate Click Button
+        self.button_stop_autogen.setEnabled(True)      # Enable Stop-generate Click Button
         
         # Loop as random_time
         for i in range(0 ,random_time):
@@ -860,6 +870,12 @@ class MyTabsWidget(QWidget):
             #print(i) # i is    0 to n-1
                 # Get new desk from number
             seed = int(get_num_from_txt(filename_seed))        # get seed
+
+            if True:
+                """ Check if this board already in Database """
+                # Still not Used
+                pass
+
 
             if seed == org_seed :
                 # if seed = ori_seed than full cycle is complete than exit
@@ -879,6 +895,13 @@ class MyTabsWidget(QWidget):
             # to make the Qt's event loop proceed the incoming event (from keyboard or mouse).
             # ref. https://stackoverflow.com/questions/24738333/pyqt-gui-freezes-while-in-loop
             QtCore.QCoreApplication.processEvents()
+
+
+            if (self.autogen_flag == True):
+                """ Stop Generate had Already Clicked """
+                self.autogen_flag = False                       # Set Flag back to Default
+                self.button_stop_autogen.setEnabled(False)      # Disable Stop-generate Click Button
+                break       # Exit loop
 
 
 
@@ -1187,7 +1210,7 @@ class MyTabsWidget(QWidget):
 
 
         # Set Info
-        #title = 'Open Pairs - Mon.5.10.20'
+        #title = 'Open Pairs - Mon.5.10.20'     # Old name as Legacy
         title = Fname
         author = 'Project-Bridge-system'
         #output_filename = title + ".pdf"
@@ -1206,6 +1229,13 @@ class MyTabsWidget(QWidget):
         # Save to a local file
         pdf.output(output_filename, 'F')    
 
+
+    def stop_autogen_flag(self):
+        """ This Function active When 
+            1) Button Stop was Clicked.
+        """
+        self.autogen_flag = True                        # Set Flag as Button had Already clicked.
+        #self.button_stop_autogen.setEnabled(False)      # Disable Stop-generate Click Button
 
 
 
