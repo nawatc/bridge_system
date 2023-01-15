@@ -1,18 +1,19 @@
 # Bridge_system
 
-# Install requirement
-  for Windows
-  
-  cd docs && pip_windows.bat
-  
-  for Debian
-  
-  cd docs && pip_debian.sh
-  
-# Run program
-  python -u bridge-system-gui.py
+open source program to calculate solution for Bridge sport. That's Written in Python.
 
-# Build program
-  for Windows
+## Install Pip requirement
+  #### for Windows
+    
+  <code>cd docs && pip_windows.bat</code>
   
-  cd docs && make.bat
+  #### for Debian
+  
+  <code>cd docs && pip_debian.sh</code>
+  
+## Run program
+  <code>python -u bridge-system-gui.py</code>
+
+## Build program
+  #### for Windows
+  <code>cd docs && make.bat</code>
