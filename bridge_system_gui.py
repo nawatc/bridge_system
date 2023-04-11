@@ -1003,12 +1003,11 @@ class MyTabsWidget(QWidget):
         #print(B_DB.get_select_board(get_only = ["Part score","Game part","Small Slam","Grand Slam"] ,sort_type = "Random" ,limit = 10))
 
         #output_list = []
-
+        
         return B_DB.get_select_board(get_only = get_only ,sort_type = sort_type ,limit = limit)
 
 
     def plot_table(self ,get_only = ["Part score","Game part","Small Slam","Grand Slam"] ,sort_type = "Random" ,limit = 20 ):
-        
         # Example Input
         # get_only = ["Part score","Game part","Small Slam","Grand Slam"]
         # sort = "Random" , "Grand Slam to Part score" ,"Part score to Grand Slam"

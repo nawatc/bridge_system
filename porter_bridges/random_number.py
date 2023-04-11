@@ -58,10 +58,10 @@ def cgen(i ,n ,k):
         as   [2, 4, 5, 13, 16, 17, 18, 19, 20, 32, 46, 50, 52]
 
     List of initials name
-    c list of collection index
-    r range
-    j
-    cs
+    c     list of collection index
+    r     range
+    j     index
+    cs    current state
     i index     n total size    k numbers chosen
     """
 
@@ -237,12 +237,14 @@ print(key_to_comb(seed))
 ############### Generate Muti Desk ###############
 """
 Seed = 26822368884744395102037213184
-for i in range(1,200):
+Seed = 26222368884724395102237213184
+for i in range(1,2):
     #print(cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 231613336760896829))
     Seed = cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 31114111519121615131518191719)
-    print(key_to_comb(Seed))
-"""
+    #Seed = cycle_one_step(seed = Seed, sample_size = 53644737765488792839237440000, increment = 23)
+    #print(key_to_comb(Seed))
 
+"""
 
 
 
@@ -279,8 +281,8 @@ def FC_random_number():
     # Full cycle PRNG
     # https://en.wikipedia.org/wiki/Full_cycle
     # Example values
-    seed = 17           #seed_input
-    sample_size = 7 #10    #53644737765488792839237440000      # 53 644 , 737 765 , 488 792 , 839 237 , 440 000
+    seed = 0           #seed_input
+    sample_size = 10 #10    #53644737765488792839237440000      # 53 644 , 737 765 , 488 792 , 839 237 , 440 000
     increment = 3 #13      #
 
     # Print all the numbers

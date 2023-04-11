@@ -96,7 +96,7 @@ class Database:
       WHEN "Part score" THEN 3
       END '''
     elif sort_type == "Part score to Grand Slam":
-      sort_exe = '''ORDER BY CASE "max_score_deals "
+      sort_exe = '''ORDER BY CASE "max_score_deals"
       WHEN "Part score" THEN 0
       WHEN "Game part"  THEN 1
       WHEN "Small Slam" THEN 2
@@ -275,8 +275,6 @@ class Database:
 #a.del_all_from_table()
 #a.print_select_board()
 """
-
-
 
 
 

@@ -186,6 +186,15 @@ class PDF(FPDF):
             if i == 'West':
                 x_dir ,y_dir =  22   , 19
 
+                # Standard Middle point for West
+                x_dir = 36
+                
+                # Find Middle Point of West's y_dir
+                for k in ['S', 'H', 'D', 'C']:
+                    if ( int(self.get_string_width(desk_dict['West'][k])) + x_dir ) > 50 :
+                        x_dir = 50 - int(self.get_string_width(desk_dict['West'][k]))
+                    
+
             elif i == 'North':
                 x_dir ,y_dir =  53.5 , 3
 
@@ -194,7 +203,6 @@ class PDF(FPDF):
 
             elif i == 'East':
                 x_dir ,y_dir =  68   , 19
-
 
             for j in ['S', 'H', 'D', 'C']:
             # Draw Text By Suit
@@ -478,6 +486,8 @@ def Example():
         , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']
         , ['N:J72.QT.JT4.T9843 E:Q983.J872.A7.AK7 W:6.9643.Q98.QJ652 S:AKT54.AK5.K6532.', 'Grand Slam']]  # #33
 
+        
+
         # Create Board from Desk
     for Board_num in range(1 ,len(desk) + 1):
         pdf.print_board(Board_num, get_dealer_from_board_number(Board_num) ,get_vul_from_board_number(Board_num) ,desk[Board_num - 1])
@@ -490,7 +500,7 @@ def Example():
         # Save file
     pdf.output(output_filename, 'F')    # Save to a local file
 
-#Example()
+Example()
 
 
 
