@@ -65,6 +65,21 @@ class Database:
 
     self.disconnect_db()
 
+  def get_select_board_by_pbn(self ,pbn):
+    self.connect_db()
+    string_exe = '''SELECT * FROM bridge_board WHERE pbn_desk = "''' + str(pbn) + '''"'''
+
+    #print(string_exe)
+    self.cur.execute(string_exe)
+    #print(self.cur.fetchall())
+    output = self.cur.fetchall()
+
+    self.disconnect_db()
+    #print(output)
+    return output
+
+
+
   def get_select_board(self ,get_only = ["Part score","Game part","Small Slam","Grand Slam"] ,sort_type = "Random" ,limit = 20 ):
     # Example Input
     # sort = "Random" , "Grand Slam to Part score" ,"Part score to Grand Slam"

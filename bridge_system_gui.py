@@ -595,7 +595,7 @@ class MyTabsWidget(QWidget):
 
         self.search_desk_button = QPushButton("Search Deck")
         self.search_desk_button.setStyleSheet('font-size: 14pt;')
-        #self.search_desk_button.clicked.connect(self.clicked_search_desk_button)
+        self.search_desk_button.clicked.connect(self.clicked_search_desk_button)
         self.tab4.layout_tab4_H2.addWidget(self.search_desk_button)
 
 
@@ -1185,6 +1185,32 @@ class MyTabsWidget(QWidget):
 
             # plot latest data on choose table
             self.clear_and_plot_choose_table()
+
+
+    def clicked_search_desk_button(self):
+
+        pbn = self.lineedit_search.text()
+
+        B_DB = Database()
+
+        if B_DB.check_if_row_exist(pbn):
+
+            # Clear Table
+            self.TableWidget.setRowCount(0) 
+
+            for row_data in [[B_DB.get_select_board_by_pbn(pbn)[0][0] ,B_DB.get_select_board_by_pbn(pbn)[0][1]]]:
+            # insert new row at the end of the tableWidget
+                row_number = self.TableWidget.rowCount()
+                self.TableWidget.insertRow(row_number)
+
+                for column_number, data in enumerate(row_data):
+                    self.TableWidget.setItem(
+                        row_number, column_number, QTableWidgetItem(str(data)))
+                    
+        else:
+            pass
+
+    
 
     def get_random_cell_value(self):
 
