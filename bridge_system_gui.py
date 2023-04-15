@@ -23,7 +23,7 @@ from porter_bridges.porter_bridges import pbn_to_dict ,text_to_pbn_check ,text_t
 
 from time import gmtime, strftime
 
-
+import random
     
 class BridgeWindow(QMainWindow):
     def __init__(self):
@@ -573,10 +573,37 @@ class MyTabsWidget(QWidget):
         self.tab4.layout_tab4_H1.addWidget(self.export_pdf_button)
 
 
-
         self.tab4.layout_tab4_H1.addStretch()
         # self.export_pdf_button (13th item) will be right side of layout
         self.tab4.layout_tab4_H1.setStretch(12, 4)
+
+
+
+
+        # Add H2 Layout 
+        self.tab4.layout_tab4_H2 = QHBoxLayout(self)
+        self.tab4.layout_tab4_V_main.addLayout(self.tab4.layout_tab4_H2)
+
+        self.search_label = QLabel("Search Desk :")
+        self.tab4.layout_tab4_H2.addWidget(self.search_label)
+
+        self.lineedit_search = QLineEdit()
+        self.lineedit_search.setStyleSheet('font-size: 14pt;')
+        self.lineedit_search.setText("N:... E:... W:... S:...")
+        self.lineedit_search.setMaximumWidth(730)               # Set Width
+        self.tab4.layout_tab4_H2.addWidget(self.lineedit_search)
+
+        self.search_desk_button = QPushButton("Search Deck")
+        self.search_desk_button.setStyleSheet('font-size: 14pt;')
+        #self.search_desk_button.clicked.connect(self.clicked_search_desk_button)
+        self.tab4.layout_tab4_H2.addWidget(self.search_desk_button)
+
+
+        self.tab4.layout_tab4_H2.addStretch()
+
+
+
+
 
 
 
@@ -602,6 +629,12 @@ class MyTabsWidget(QWidget):
         self.choose_button.setStyleSheet('font-size: 14pt;')
         self.choose_button.clicked.connect(self.clicked_add_from_table)
         self.tab4.layout_tab4_V_in_H2.addWidget(self.choose_button)
+
+        # Add Random Add Button
+        self.choose_random_button = QPushButton(" >> RANDOM >> ")
+        self.choose_random_button.setStyleSheet('font-size: 14pt;')
+        self.choose_random_button.clicked.connect(self.clicked_random_add_from_table)
+        self.tab4.layout_tab4_V_in_H2.addWidget(self.choose_random_button)
 
         # Add Choose Del Button
         self.choose_del_button = QPushButton(" << ")
@@ -1153,7 +1186,62 @@ class MyTabsWidget(QWidget):
             # plot latest data on choose table
             self.clear_and_plot_choose_table()
 
+    def get_random_cell_value(self):
+
+        count = self.TableWidget.rowCount()
+
+        # Normal Random
+        """
+        select_row = random.randint(0, count-1)
+        """
+
+        # Random except in list
+        """ """
+        
+        except_list = []
+        data_list = []
+
+
+        if self.TableWidget_choose.rowCount() <= 0:
+            return [self.TableWidget.item(0 ,0).text() ,self.TableWidget.item(0 ,1).text() ]
+
+        else:
+
+            for i in range(0 ,self.TableWidget_choose.rowCount()):
+
+                except_list.append(self.TableWidget_choose.item(i ,0).text())
             
+            for i in range(0 ,self.TableWidget.rowCount()):
+                
+                data_list.append(self.TableWidget.item(i ,0).text())
+                
+            for i in range(0 ,len(data_list)):
+
+                if data_list[i] not in except_list:
+                    return [data_list[i] ,self.TableWidget.item(i ,1).text()]
+            
+            return []
+
+
+
+    def clicked_random_add_from_table(self):
+        # Random Add deck to plot table
+
+        # Get Data
+        #add_row = []
+        #add_row = [self.get_selected_cell_value(),self.get_selected_cell_value_gametype()]
+
+        add_row = self.get_random_cell_value()
+        if add_row == []:
+            pass
+        else:
+            # Collect Data
+            self.choose_data.append(add_row)
+        
+        
+            # plot latest data on choose table
+            self.clear_and_plot_choose_table()
+
     def clicked_clear_choose_table(self):
         
 

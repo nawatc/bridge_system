@@ -500,7 +500,7 @@ def Example():
         # Save file
     pdf.output(output_filename, 'F')    # Save to a local file
 
-Example()
+#Example()
 
 
 
