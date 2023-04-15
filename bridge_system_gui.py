@@ -435,6 +435,7 @@ class MyTabsWidget(QWidget):
 
 
         # Create Button to # 1nd H Sub Layout of # V_Main
+        """
             # Create Button
         self.tab3_button_H_1_1 = QPushButton("  <<<  ")
         self.tab3_button_H_1_2 = QPushButton("  >>>  ")
@@ -446,7 +447,7 @@ class MyTabsWidget(QWidget):
             # Add Button to Layout
         self.tab3.layout_tab3_H_1.addWidget(self.tab3_button_H_1_1, alignment=QtCore.Qt.AlignLeft)
         self.tab3.layout_tab3_H_1.addWidget(self.tab3_button_H_1_2, alignment=QtCore.Qt.AlignRight)
-
+        """
 
 
         # Create Label to # 2nd H Sub Layout of # V_Main
