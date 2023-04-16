@@ -73,7 +73,7 @@ Section "Start Menu Shortcuts"
   CreateDirectory "$SMPROGRAMS\bridge_system"
   CreateShortcut "$SMPROGRAMS\bridge_system\Uninstall.lnk" "$INSTDIR\uninstall.exe"
   CreateShortcut "$SMPROGRAMS\bridge_system\bridge_system.lnk" "$INSTDIR\bridge_system.exe"
-  CreateShortcut "$DESKTOP\Bridge_system.lnk" "$INSTDIR\bridge_system.exe"
+  CreateShortcut "$DESKTOP\Bridge_system.lnk" "$INSTDIR\bridge_system.exe" "echo ad"
 
 SectionEnd
 

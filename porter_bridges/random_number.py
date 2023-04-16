@@ -97,13 +97,15 @@ def key_to_comb(key_number :int):
     h1 = num % 635013559600        # Combination for h1 
     num = int(num / 635013559600)  # comb(52,13)
 
-    h2 = num %   8122425444        # Combination for h2
+    h2 = num % 8122425444          # Combination for h2
     num = int(num / 8122425444)    # comb(39,13)
 
     h3 = num % 10400600            # Combination for h3
     num = int(num / 10400600)      # comb(26,13)
 
     #h4 = num
+
+
     num = 0
 
     h1_list = cgen(h1,52,13)
